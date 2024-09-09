@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "dirent.C": "cpp",
+        "string": "c"
+    }
+}
