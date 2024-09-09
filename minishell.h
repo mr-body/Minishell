@@ -6,6 +6,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
+# include <signal.h>
 
 typedef struct s_minishell
 {
@@ -26,5 +27,8 @@ void	header(void);
 void	command(void);
 
 # define CONCAT_STRINGS(a, b) a##b
+
+
+char	**ft_split(char *str);
 
 #endif
