@@ -3,7 +3,6 @@
 void header(void)
 {
     ft_putstr(CLEAR);
-    ft_putstr("");
     ft_putstr( VERDE ".88b  d88. d888888b d8b   db d888888b .d8888. db   db d88888b db      db      \n" RESET);
     ft_putstr( VERDE "88'YbdP`88   `88'   888o  88   `88'   88'  YP 88   88 88'     88      88      \n" RESET);
     ft_putstr( VERDE "88  88  88    88    88V8o 88    88    `8bo.   88ooo88 88ooooo 88      88      \n" RESET);
@@ -17,7 +16,19 @@ void header(void)
 void ft_putstr(char *s)
 {
     while(*s)
+	{
         write(1, s++, 1);
+	}
+}
+
+int ft_strcmp(char *s1, char *s2)
+{
+	int i;
+
+	i = 0;
+	while(s1[i] && s2[i] && (s1[i] == s2[i]))
+		i++;
+	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 }
 
 static char *ft_strncpy(char *s1, char *s2, int n)
@@ -30,7 +41,7 @@ static char *ft_strncpy(char *s1, char *s2, int n)
 	return (s1);
 }
 
-char	**ft_split(char *str)
+char	**ft_split(char *str, char chr)
 {
 	int i = 0;
 	int j = 0;
@@ -39,11 +50,11 @@ char	**ft_split(char *str)
 	
 	while (str[i])
 	{
-		while (str[i] && (str[i] == ' ' || str[i] == '\t' || str[i] == '\n'))
+		while (str[i] && (str[i] == chr))
 			i++;
 		if (str[i])
 			wc++;
-		while (str[i] && (str[i] != ' ' && str[i] != '\t' && str[i] != '\n'))
+		while (str[i] && (str[i] != chr))
 			i++;
 	}
 	
@@ -52,10 +63,10 @@ char	**ft_split(char *str)
 	
 	while (str[i])
 	{
-		while (str[i] && (str[i] == ' ' || str[i] == '\t' || str[i] == '\n'))
+		while (str[i] && (str[i] == chr))
 			i++;
 		j = i;
-		while (str[i] && (str[i] != ' ' && str[i] != '\t' && str[i] != '\n'))
+		while (str[i] && (str[i] != chr))
 			i++;
 		if (i > j)
 		{

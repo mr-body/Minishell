@@ -1,68 +1,127 @@
 #include "minishell.h"
 
-
-void execute(char *command)
+int ft_strlen(char *s)
 {
-    char **args = ft_split(command);
+    int i = 0;
+    while(s[i])
+        i++;
+    return i;
+}
 
-    if (args[0] == NULL) // Se o comando estiver vazio
+char *ft_strcat(char *s1, char *s2)
+{
+    int i;
+    int j;
+    char *new;
+
+    i = 0;
+    j = 0;
+    new = malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
+    while (s1[i])
     {
-        free(args);
-        return;
+        new[i] = s1[i];
+        i++;
+    }  
+    new[i++] = '/';
+    while(s2[j])
+    {
+        new[i] = s2[j];
+        i++;
+        j++;
     }
+    new[i] = '\0';
 
-    pid_t pid = fork();
-    if (pid == 0) // Processo filho
+    return new;
+    
+}
+
+void execute(char *cmd, t_minishell *minishell)
+{
+    char **argv = ft_split(cmd, ' ');
+    char **routes = ft_split(getenv("PATH"), ':');
+    char    *bin;
+    extern char **environ;
+    int i = 0;
+
+    if (access(argv[0], X_OK) == 0)
     {
-        if (execvp(args[0], args) == -1) // Executa o comando
+        bin = strdup(argv[0]); // Use strdup para evitar problemas de alocação
+        if (!bin)
         {
-            perror("Erro ao executar o comando");
-            exit(EXIT_FAILURE);
+            perror("error");
+            free(argv);
+            return;
         }
-    }
-    else if (pid > 0) // Processo pai
-    {
-        waitpid(pid, NULL, 0); // Espera o filho terminar
     }
     else
     {
-        perror("Erro ao criar o processo filho");
+        while(routes[i])
+        {
+            if (access(ft_strcat(routes[i], argv[0]), X_OK) == 0)
+            {
+                bin = ft_strcat(routes[i], argv[0]);
+                break; 
+            }
+            i++;
+        }
     }
+    
+    if(!ft_strcmp(argv[0], "cd"))
+    {
+        if(argv[1])
+        {
+            if(chdir(argv[1]) != 0)
+                perror("error");
+        }
+        else
+        {
+            if(chdir(getenv("HOME")) != 0)
+                perror("erro&&r");
+        }
+        minishell->dir = getcwd(NULL, 0);
+        return;
+    }
+    else if(!ft_strcmp(argv[0], "exit"))
+        exit(0);
 
-    free(args);
+    pid_t pid = fork();
+    if(pid == 0)
+    {
+        if(execve(bin, argv, environ) == -1)
+        {
+            perror("error");
+            exit(1);
+        }
+    }
+    else if(pid > 0)
+        waitpid(pid, NULL, 0);
+    else
+        perror("error");
+    free(argv);
 }
 
-void command(void)
+void command(t_minishell *minishell)
 {
-    String command;
-    String pwd = getcwd(NULL, 0);
+    
+    char *command;
 
-    while (1)
+    while(1)
     {
         ft_putstr(VERDE "\n┌──" RESET);
-        ft_putstr(AZUL "(Minishell)" RESET);
+        ft_putstr(AZUL "(Minishell)" RESET); 
         ft_putstr(VERDE "-[" RESET);
-        ft_putstr(pwd);
-        ft_putstr(VERDE "]\n└─" RESET);
-
-        // Ajuste o prompt, removendo o '#' se não for necessário
-        command = readline(AZUL "$ " RESET); // Altere o prompt para '>' ou outro símbolo de sua escolha
-        if (!command)
+        ft_putstr(minishell->dir);
+        ft_putstr(VERDE "]");
+        command = readline(VERDE  "\n└─" RESET AZUL "# " RESET);
+        if(!command)
             break;
 
-        if (command)
+        if(command)
             add_history(command);
 
-        if (!strcmp(command, "clear"))
-        {
-            clear_history();
-            ft_putstr(CLEAR);
-        }
-        execute(command);
-        
+        execute(command, minishell);
 
         rl_on_new_line();
-
         free(command);
     }
 }
