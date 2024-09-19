@@ -4,11 +4,11 @@ t_minishell g_minishell;
 
 static void ctrlC(int signal)
 {
-    ft_putstr(VERDE "\n┌──" RESET);
-    ft_putstr(AZUL "(Minishell)" RESET); 
-    ft_putstr(VERDE "-[" RESET);
-    ft_putstr(g_minishell.dir);
-    ft_putstr(VERDE "]\n");
+    ft_putstr_fd(VERDE "\n┌──" RESET, 1);
+    ft_putstr_fd(AZUL "(Minishell)" RESET, 1); 
+    ft_putstr_fd(VERDE "-[" RESET, 1);
+    ft_putstr_fd(g_minishell.dir, 1);
+    ft_putstr_fd(VERDE "]\n", 1);
     rl_on_new_line();
     rl_replace_line("", 0);
     rl_redisplay();

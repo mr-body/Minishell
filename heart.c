@@ -1,13 +1,5 @@
 #include "minishell.h"
 
-int ft_strlen(char *s)
-{
-    int i = 0;
-    while(s[i])
-        i++;
-    return i;
-}
-
 char *ft_strcat(char *s1, char *s2)
 {
     int i;
@@ -66,7 +58,7 @@ void execute(char *cmd, t_minishell *minishell)
         }
     }
     
-    if(!ft_strcmp(argv[0], "cd"))
+    if(!ft_strncmp(argv[0], "cd", sizeof(argv[0])))
     {
         if(argv[1])
         {
@@ -81,7 +73,7 @@ void execute(char *cmd, t_minishell *minishell)
         minishell->dir = getcwd(NULL, 0);
         return;
     }
-    else if(!ft_strcmp(argv[0], "exit"))
+    else if(!ft_strncmp(argv[0], "exit", sizeof(argv[0])))
         exit(0);
 
     pid_t pid = fork();
@@ -107,11 +99,11 @@ void command(t_minishell *minishell)
 
     while(1)
     {
-        ft_putstr(VERDE "\n┌──" RESET);
-        ft_putstr(AZUL "(Minishell)" RESET); 
-        ft_putstr(VERDE "-[" RESET);
-        ft_putstr(minishell->dir);
-        ft_putstr(VERDE "]");
+        ft_putstr_fd(VERDE "\n┌──" RESET, 1);
+        ft_putstr_fd(AZUL "(Minishell)" RESET, 1); 
+        ft_putstr_fd(VERDE "-[" RESET, 1);
+        ft_putstr_fd(minishell->dir, 1);
+        ft_putstr_fd(VERDE "]", 1);
         command = readline(VERDE  "\n└─" RESET AZUL "# " RESET);
         if(!command)
             break;

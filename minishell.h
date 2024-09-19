@@ -8,6 +8,7 @@
 # include <unistd.h>
 # include <signal.h>
 # include <wait.h>
+# include "libft/libft.h"
 
 typedef struct s_minishell
 {
@@ -26,7 +27,6 @@ typedef struct s_minishell
 void	ft_putstr(char *s);
 void	header(void);
 void	command(t_minishell *minishell);
-char	**ft_split(char *str, char chr);
 int ft_strcmp(char *s1, char *s2);
 
 # define CONCAT_STRINGS(a, b) a##b
