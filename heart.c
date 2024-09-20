@@ -22,7 +22,6 @@ char *ft_strcat(char *s1, char *s2)
         j++;
     }
     new[i] = '\0';
-
     return new;
     
 }
