@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "signal.h": "c",
+        "readline.h": "c",
+        "stdio.h": "c"
+    }
+}
