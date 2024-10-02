@@ -24,10 +24,8 @@ typedef struct s_minishell
 # define RESET "\033[0m"
 # define CLEAR "\033[H\033[2J"
 
-void	ft_putstr(char *s);
 void	header(void);
 void	command(t_minishell *minishell);
-int ft_strcmp(char *s1, char *s2);
 
 # define CONCAT_STRINGS(a, b) a##b
 
