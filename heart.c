@@ -80,13 +80,14 @@ if (!ft_strncmp(argv[0], "cd", ft_strlen(argv[0])))
 {
     if (argv[2])
     {
-        int i = 1;
         char *temp;
         char *place = strdup("");
 
         place = get_path(cmd);
         temp = ft_strtrim(place, "\"");
-        if (chdir(temp) != 0)
+        free(place);
+        place = ft_strtrim(temp, "/");
+        if (chdir(place) != 0)
             perror("error");
     }
     else if (argv[1])
