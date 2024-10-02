@@ -107,7 +107,7 @@ if (!ft_strncmp(argv[0], "cd", ft_strlen(argv[0])))
     }
     else if (argv[1])
     {
-        if (chdir(argv[1]) != 0)
+        if (chdir(hide_parametre(argv[1], '\\')) != 0)
             perror("error");
     }
     else
