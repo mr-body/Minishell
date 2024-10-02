@@ -17,7 +17,7 @@ static void ctrlC(int signal)
 int main(int ac, char **av)
 {   
     g_minishell.dir = getcwd(NULL, 0);
-
+    //printf("%s\n", g_minishell.dir);
     header();
     signal(SIGINT, &ctrlC);
     command(&g_minishell);

@@ -26,9 +26,30 @@ char *ft_strcat(char *s1, char *s2)
     
 }
 
+char    **get_path(char const *str)
+{
+    int     len_cd;
+    int     len_str;
+    char    **mat;
+    char    *cd;
+    char    *path;
+    char    *path_trimmed;
+
+    len_str = ft_strlen(str);
+    len_cd = ft_strlen("cd");
+    mat = malloc(2 * sizeof(char *));
+    if (!mat)
+        return NULL;
+    mat[0] = ft_substr(str, 0, len_cd);
+    mat[1] = ft_substr(str, len_cd + 1, (len_str - len_cd)); 
+    return mat;
+}
+
+
 void execute(char *cmd, t_minishell *minishell)
 {
-    char **argv = ft_split(cmd, ' ');
+    // char **argv = ft_split(cmd, ' ');
+    char    **argv = get_path(cmd);
     char **routes = ft_split(getenv("PATH"), ':');
     char    *bin;
     extern char **environ;
@@ -36,7 +57,7 @@ void execute(char *cmd, t_minishell *minishell)
 
     if (access(argv[0], X_OK) == 0)
     {
-        bin = strdup(argv[0]); // Use strdup para evitar problemas de alocação
+        bin = strdup(argv[0]);
         if (!bin)
         {
             perror("error");
@@ -56,7 +77,6 @@ void execute(char *cmd, t_minishell *minishell)
             i++;
         }
     }
-    
     if(!ft_strncmp(argv[0], "cd", sizeof(argv[0])))
     {
         if(argv[1])
