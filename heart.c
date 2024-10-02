@@ -45,6 +45,19 @@ char    *get_path(char const *str)
     return mat[1];
 }
 
+char *hide_parametre(const char *str, char set) {
+    int i = 0;
+    int j = 0;
+    char *new = malloc(ft_strlen(str) + 1);
+    while (str[i]) {
+        if (str[i] == set && str[i + 1] == ' ')
+            i++;
+        new[j++] = str[i++];
+    }
+    new[j] = '\0';
+    return new;
+}
+
 void execute(char *cmd, t_minishell *minishell)
 {
     char **argv = ft_split(cmd, ' ');
@@ -80,14 +93,16 @@ if (!ft_strncmp(argv[0], "cd", ft_strlen(argv[0])))
 {
     if (argv[2])
     {
-        char *temp;
+        char *temp = strdup("");;
         char *place = strdup("");
 
         place = get_path(cmd);
         temp = ft_strtrim(place, "\"");
         free(place);
         place = ft_strtrim(temp, "/");
-        if (chdir(place) != 0)
+        free(temp);
+        temp = hide_parametre(place, '\\');
+        if (chdir(temp) != 0)
             perror("error");
     }
     else if (argv[1])
