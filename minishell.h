@@ -27,6 +27,15 @@ typedef struct s_minishell
 void	header(void);
 void	command(t_minishell *minishell);
 
+
+int	command_cd(char **argv, char *cmd, t_minishell *minishell);
+int	command_echo(char **argv, char *cmd, char    *bin);
+
+
+char *hide_parametre(const char *str, char set);
+char *ft_strcat(char *s1, char *s2, int c);
+
+
 # define CONCAT_STRINGS(a, b) a##b
 
 #endif
