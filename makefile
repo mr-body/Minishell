@@ -5,7 +5,7 @@ all: ${NAME}
 
 ${NAME}:
 	make -C ${LIBFT}
-	cc *.c -lreadline -o ${NAME} ${LIBFT}/libft.a
+	cc *.c commands/*.c -lreadline -o ${NAME} ${LIBFT}/libft.a
 
 clean:
 	make clean -C ${LIBFT}

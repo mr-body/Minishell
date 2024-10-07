@@ -12,3 +12,42 @@ void header(void)
     ft_putstr_fd("", 1);
                                                                                                                                                          
 }
+
+char *hide_parametre(const char *str, char set) {
+    int i = 0;
+    int j = 0;
+    char *new = malloc(ft_strlen(str) + 1);
+    while (str[i]) {
+        if (str[i] == set && str[i + 1] == ' ')
+            i++;
+        new[j++] = str[i++];
+    }
+    new[j] = '\0';
+    return new;
+}
+
+char *ft_strcat(char *s1, char *s2, int c)
+{
+    int i;
+    int j;
+    char *new;
+
+    i = 0;
+    j = 0;
+    new = malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
+    while (s1[i])
+    {
+        new[i] = s1[i];
+        i++;
+    }  
+    new[i++] = c;
+    while(s2[j])
+    {
+        new[i] = s2[j];
+        i++;
+        j++;
+    }
+    new[i] = '\0';
+    return new;
+    
+}
