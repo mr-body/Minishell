@@ -10,37 +10,51 @@ int	count_line(char **argv)
 int	command_echo(char **argv, char *cmd, char *bin)
 {
 	extern char **environ;
-	char *tmp = ft_strdup("");
-	int i = 0;
-    int start = 0;
-    int end = -1;
+	char 	*tmp = ft_strdup("");
+	int 	i;
+	char *arg;
+	char *env_var_name;
+	char *env_var_value;
+	int j;
+	int	k;
 
+	i = 0;
 	while (argv[++i])
 	{
-        if (ft_strchr(argv[i], '$'))
-        {
-            while(argv[i][++end] != '$')
-                ;
-            tmp = ft_strjoin(tmp, ft_substr(argv[i], start, end));
-            if (ft_strchr(argv[i], '$'))
-            {
-                if (getenv((ft_strchr(argv[i], '$') + 1)) != NULL)
-                    tmp = ft_strjoin(tmp, getenv((ft_strchr(argv[i], '$') + 1)));
-            }
-        }
-        else{
-            tmp = ft_strjoin(tmp, argv[i]);
-        }
-        tmp = ft_strjoin(tmp, " ");
+		arg = argv[i];
+		j = 0;
+		while (arg[j])
+		{
+			if (arg[j] == '$')
+			{
+				j++;
+				k = j;
+				while (arg[k] && (ft_isalnum(arg[k]) || arg[k] == '_')) 
+					k++;
+				printf("j ->> %d || k ->>> %d\n", j, k);
+				env_var_name = ft_substr(arg, j, k - j);
+				env_var_value = getenv(env_var_name);
+				
+				if (env_var_value)
+				{
+					tmp = ft_strjoin(tmp, env_var_value);
+				}
+				free(env_var_name);
+				j = k;
+			}
+			else
+			{
+				char single_char[2] = {arg[j], '\0'};
+				tmp = ft_strjoin(tmp, single_char);
+				j++;
+			}
+		}
+		tmp = ft_strjoin(tmp, " ");
 	}
-
-    //teste$HOME$PATH
-    //0123456789
-
 	pid_t pid = fork();
 	if (pid == 0)
 	{
-        char *args[] = {bin, tmp, NULL};
+		char *args[] = {bin, tmp, NULL};
 		if (execve(bin, args, environ) == -1)
 		{
 			perror("error");
@@ -56,6 +70,6 @@ int	command_echo(char **argv, char *cmd, char *bin)
 		perror("error");
 		exit(1);
 	}
-
+	free(tmp);
 	return (0);
 }
