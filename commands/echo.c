@@ -48,10 +48,15 @@ int		command_echo(char **argv, char *cmd, char *bin)
 				env_var_name = ft_substr(arg, j, k - j);
 				env_var_value = getenv(env_var_name);
 				if (env_var_value)
+				{
+					char *tmp2 = ft_strtrim(env_var_name, "\" ");
 					tmp = ft_strjoin(tmp, env_var_value);
+				}
 				free(env_var_name);
 				j = k;
 			}
+			else if (arg[j] == '"')
+				j++;
 			else
 			{
 				single_char[0] = arg[j];
@@ -68,6 +73,7 @@ int		command_echo(char **argv, char *cmd, char *bin)
 		char *args[] = {bin, tmp, NULL};
 		if (execve(bin, args, environ) == -1)
 		{
+			free(tmp);
 			perror("error");
 			exit(1);
 		}
