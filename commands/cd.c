@@ -19,39 +19,99 @@ char	*get_path(char const *str)
 	return (mat[1]);
 }
 
-// implementacao do commando cd
 int	command_cd(char **argv, char *cmd, t_minishell *minishell)
 {
-	if (argv[2])
-	{
-		char *temp = ft_strdup("");
-		char *place = ft_strdup("");
+	char *target_dir = NULL;
+	char *place = NULL;
 
-		place = get_path(cmd);
-		temp = ft_strtrim(place, "\"");
-		free(place);
-		place = ft_strtrim(temp, "/");
-		free(temp);
-		temp = hide_parametre(place, '\\');
-		if (chdir(temp) != 0)
-			return (perror("error"), 1);
-	}
-	else if (argv[1])
+	if (argv[1])
 	{
-		if (chdir(hide_parametre(argv[1], '\\')) != 0)
-			return (perror("error"), 1);
+		if (ft_strncmp(argv[1], "--", ft_strlen(argv[1])) == 0
+			&& ft_strlen(argv[1]) == 2)
+		{
+			target_dir = getenv("HOME");
+		}
+		else if (ft_strncmp(argv[1], "-", ft_strlen(argv[1])) == 0
+			&& ft_strlen(argv[1]) == 1)
+		{
+			char *current_dir = getcwd(NULL, 0);
+			char *home = getenv("HOME");
+
+			if (ft_strncmp(current_dir, home, ft_strlen(home)) == 0)
+				target_dir = home;
+			else
+			{
+				char *parent_dir = current_dir;
+				int i = ft_strlen(current_dir);
+				while (i > 0 && current_dir[i - 1] != '/')
+					i--;
+				target_dir = ft_substr(parent_dir, 0, i);
+			}
+			free(current_dir); 
+		}
+
+		else
+		{
+			if ((argv[1][0] == '\"' || argv[1][0] == '\'')
+					|| argv[1][strlen(argv[1]) - 1] == '\\')
+			{
+				place = get_path(cmd);
+				if (place)
+				{
+					place = ft_strtrim(place, "\"'");
+					target_dir = hide_parametre(place, '\\');
+					free(place);
+				}
+			}
+			else
+			{
+				target_dir = hide_parametre(argv[1], '\\');
+			}
+
+			// Handle tilde expansion
+			if (target_dir && target_dir[0] == '~')
+			{
+				char *home = getenv("HOME");
+				if (home)
+				{
+					char *new_target = ft_strjoin(home, target_dir + 1);
+					free(target_dir); // free previous allocation
+					target_dir = new_target;
+				}
+			}
+		}
+
+		if (target_dir)
+		{
+			if (chdir(target_dir) != 0)
+			{
+				return (1);
+			}
+			// Free only if target_dir was dynamically allocated
+			if (target_dir && target_dir != getenv("HOME")
+				&& target_dir != NULL)
+			{
+				free(target_dir);
+			}
+		}
 	}
 	else
 	{
-		if (chdir(getenv("HOME")) != 0)
-			return (perror("error"), 1);
+		target_dir = getenv("HOME");
+		if (target_dir && chdir(target_dir) != 0)
+		{
+			return (1);
+		}
 	}
 
+	// Update the current directory in the minishell struct
 	free(minishell->dir);
 	minishell->dir = getcwd(NULL, 0);
 	if (!minishell->dir)
 	{
-		return (perror("getcwd error"), 1);
+		perror("getcwd error");
+		return (1);
 	}
+
 	return (0);
 }

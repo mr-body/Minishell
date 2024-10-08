@@ -54,7 +54,7 @@ int	command_echo(char **argv, char *cmd, char *bin)
 	pid_t pid = fork();
 	if (pid == 0)
 	{
-		char *args[] = {bin, tmp, NULL};
+		char *args[] = {bin, tmp, "-c"};
 		if (execve(bin, args, environ) == -1)
 		{
 			perror("error");
