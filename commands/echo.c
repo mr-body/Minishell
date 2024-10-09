@@ -29,9 +29,11 @@ int		command_echo(char **argv, char *cmd, char *bin)
 	int			i;
 	int			j;
 	int			k;
+	int			c;
 
 	tmp = ft_strdup("");
 	i = 0;
+	c = 0;
 	while (argv[++i])
 	{
 		arg = argv[i];
@@ -44,7 +46,6 @@ int		command_echo(char **argv, char *cmd, char *bin)
 				k = j;
 				while (arg[k] && (ft_isalnum(arg[k]) || arg[k] == '_'))
 					k++;
-				//printf("j ->> %d || k ->>> %d\n", j, k);
 				env_var_name = ft_substr(arg, j, k - j);
 				env_var_value = getenv(env_var_name);
 				if (env_var_value)
@@ -56,7 +57,10 @@ int		command_echo(char **argv, char *cmd, char *bin)
 				j = k;
 			}
 			else if (arg[j] == '"')
+			{
+				c++;
 				j++;
+			}
 			else
 			{
 				single_char[0] = arg[j];

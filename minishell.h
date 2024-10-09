@@ -7,6 +7,7 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <signal.h>
+# include <stdbool.h>
 # include <wait.h>
 # include "libft/libft.h"
 

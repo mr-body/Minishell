@@ -73,6 +73,13 @@ void	execute(char *cmd, t_minishell *minishell)
 	free(argv);
 }
 
+bool	verify(char *str)
+{
+	if (str[0] == '#')
+		return true;
+	return false;
+}
+
 void	command(t_minishell *minishell)
 {
 	char	*command;
@@ -92,7 +99,8 @@ void	command(t_minishell *minishell)
 		if (command)
 			add_history(command);
 		// executa os comandos
-		execute(command, minishell);
+		if (verify(command) == false)
+			execute(command, minishell);
 		// preparar para rendereizar uma nova linha
 		rl_on_new_line();
 		free(command);
