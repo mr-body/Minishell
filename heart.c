@@ -1,108 +1,84 @@
-
 #include "minishell.h"
 
-void	execute(char *cmd, t_minishell *minishell)
+int sheel(char **prompt)
 {
-	char		**argv;
-	char		**routes;
-	char		*bin;
-	extern char	**environ;
-	int			i;
-	pid_t		pid;
-
-	argv = ft_split(cmd, ' ');
-	routes = ft_split(getenv("PATH"), ':');
-	i = 0;
-	// 1- passo : verifica se o executavel este neste directorio (./exempli)
-	if (access(argv[0], X_OK) == 0)
-	{
-		bin = ft_strdup(argv[0]);
-		if (!bin)
-		{
-			perror("error");
-			free(argv);
-			return ;
-		}
-	}
-	// 2- passo : busca o exceutavel nas pastas das variaves e ambiente $PATH
-	else
-	{
-		while (routes[i])
-		{
-			if (access(ft_strcat(routes[i], argv[0], '/'), X_OK) == 0)
-			{
-				bin = ft_strcat(routes[i], argv[0], '/');
-				break ;
-			}
-			i++;
-		}
-	}
-	// implementacao do comando [cd]
-	if (!ft_strncmp(argv[0], "cd", ft_strlen(argv[0])))
-	{
-		if (!command_cd(argv, cmd, minishell))
-			return ;
-		else
-			return (perror("error"));
-	}
-	// implementacao do comando [echo]
-	else if (!ft_strncmp(argv[0], "echo", ft_strlen(argv[0])))
-	{
-		if (!command_echo(argv, cmd, bin))
-			return ;
-		else
-			return (perror("error"));
-	}
-	// implementacao do comando [exit]
-	else if (!ft_strncmp(argv[0], "exit", sizeof(argv[0])))
-		exit(0);
-	// inicar processo filho para execuar um commando em segundo plano
-	pid = fork();
-	if (pid == 0)
-	{
-		if (execve(bin, argv, environ) == -1)
-		{
-			perror("error");
-			exit(1);
-		}
-	}
-	else if (pid > 0)
-		waitpid(pid, NULL, 0);
-	else
-		perror("error");
-	free(argv);
+    extern char **environ;
+    char **routes;
+    char *command;
+    int i;
+    
+    i = -1;
+    routes = ft_split(getenv("PATH"), ':');
+    if(access(prompt[0], X_OK) == 0)
+        command = prompt[0];
+    else
+    {
+        while(routes[++i])
+        {
+            if(access(ft_strcat(routes[i], prompt[0], '/'), X_OK) == 0)
+            {
+                command = ft_strcat(routes[i], prompt[0], '/');
+                break;
+            }
+        }
+    }
+    if(ft_strncmp(prompt[0], "exit", 4) == 0)
+        command_exit(prompt);
+    else if(ft_strncmp(prompt[0], "env", 3) == 0)
+        command_env(prompt, environ);
+    else if(ft_strncmp(prompt[0], "cd", 2) == 0)
+        command_cd(prompt);
+    else if(ft_strncmp(prompt[0], "echo", 4) == 0)
+        command_echo(prompt);
+    else if(ft_strncmp(prompt[0], "pwd", 3) == 0)
+        command_pwd(prompt);
+    else
+    {
+        execve(command, prompt, environ);
+        return (-1);
+    }
+    return (0);
 }
 
-bool	verify(char *str)
+void execute_command(char *prompt)
 {
-	if (str[0] == '#')
-		return true;
-	return false;
-}
+    char **raw_args;
+    char **args;
+    int num_commands;
+    int *pipe_fds;
+    int i;
+    int j;
 
-void	command(t_minishell *minishell)
-{
-	char	*command;
-
-	while (1)
-	{
-		ft_putstr_fd(VERDE "\n┌──" RESET, 1);
-		ft_putstr_fd(AZUL "(Minishell)" RESET, 1);
-		ft_putstr_fd(VERDE "-[" RESET, 1);
-		ft_putstr_fd(minishell->dir, 1);
-		ft_putstr_fd(VERDE "]", 1);
-		command = readline(VERDE "\n└─" RESET AZUL "# " RESET);
-		// Ctrl + D
-		if (!command)
-			break ;
-		// adiciona o camando nos historico de comandos
-		if (command)
-			add_history(command);
-		// executa os comandos
-		if (verify(command) == false)
-			execute(command, minishell);
-		// preparar para rendereizar uma nova linha
-		rl_on_new_line();
-		free(command);
-	}
+    i = -1;
+    raw_args = ft_split(prompt, '|');
+    num_commands = ft_matriz_len(raw_args);
+    pipe_fds = (int *)malloc(sizeof(int) * 2 * (num_commands - 1));
+    while(++i < num_commands - 1)
+        if(pipe(pipe_fds + i * 2) < 0)
+            perror("pipe error");
+    i = -1;
+    while(++i < num_commands)
+    {
+        args = net_args(raw_args[i]);
+        pid_t pid = fork();
+        if(pid == 0)
+        {
+            if(i < num_commands - 1)
+                dup2(pipe_fds[i * 2 + 1], STDOUT_FILENO);
+            if(i > 0)
+                dup2(pipe_fds[(i - 1) * 2], STDIN_FILENO);
+            
+            j = -1;
+            while(++j < 2 * (num_commands - 1))
+                close(pipe_fds[j]);
+            if(sheel(args) == -1)
+                perror("error: ");
+        }
+        else if(pid < 0)
+            perror("fork error");
+    }
+    i = -1;
+    while(++i < 2 * (num_commands - 1))
+        close(pipe_fds[i]);
+    free(pipe_fds);
 }

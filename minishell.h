@@ -11,13 +11,6 @@
 # include <wait.h>
 # include "libft/libft.h"
 
-typedef struct s_minishell
-{
-	char *dir;
-}		t_minishell;
-
-# define String char *
-
 # define VERDE "\033[0;32m"
 # define AMARELO "\033[0;33m"
 # define VERMELHO "\033[0;31m"
@@ -26,17 +19,21 @@ typedef struct s_minishell
 # define CLEAR "\033[H\033[2J"
 
 void	header(void);
-void	command(t_minishell *minishell);
 
+char **ft_extended(char **data);
+char **net_args(char *str);
+char **ft_adjust_data(char **data);
 
-int	command_cd(char **argv, char *cmd, t_minishell *minishell);
-int	command_echo(char **argv, char *cmd, char    *bin);
+int sheel(char **prompt);
+void execute_command(char *prompt);
 
+int command_cd(char **prompt);
+int command_exit(char **prompt);
+int command_echo(char **prompt);
+int command_env(char **prompt, char **environ);
+int command_pwd(char **prompt);
+int command_unset(char **prompt);
 
-char *hide_parametre(const char *str, char set);
 char *ft_strcat(char *s1, char *s2, int c);
-
-
-# define CONCAT_STRINGS(a, b) a##b
 
 #endif
