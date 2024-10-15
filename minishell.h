@@ -7,6 +7,7 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <signal.h>
+# include <stdbool.h>
 # include <wait.h>
 # include "libft/libft.h"
 
@@ -23,14 +24,14 @@ char **ft_extended(char **data);
 char **net_args(char *str);
 char **ft_adjust_data(char **data);
 
-int sheel(char **prompt);
+int sheel(char **prompt, int pipe);
 void execute_command(char *prompt);
 
 int command_cd(char **prompt);
 int command_exit(char **prompt);
-int command_echo(char **prompt);
+int command_echo(char **prompt,int pipe);
 int command_env(char **prompt, char **environ);
-int command_pwd(char **prompt);
+int command_pwd(char **prompt, int pipe);
 int command_unset(char **prompt);
 
 char *ft_strcat(char *s1, char *s2, int c);
