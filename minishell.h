@@ -21,7 +21,7 @@
 void	header(void);
 
 char **ft_extended(char **data);
-char **net_args(char *str);
+char **net_args(char *prompt);
 char **ft_adjust_data(char **data);
 
 int sheel(char **prompt, int pipe);
@@ -34,6 +34,6 @@ int command_env(char **prompt, char **environ);
 int command_pwd(char **prompt, int pipe);
 int command_unset(char **prompt);
 
-char *ft_strcat(char *s1, char *s2, int c);
+char *ft_strcat(char *s1, const char *s2, int c);
 
 #endif
