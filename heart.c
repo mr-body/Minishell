@@ -69,64 +69,64 @@ int	is_builtin(char *cmd)
 	return (0);
 }
 
-void	execute_command(char *prompt)
+void	execute_command(t_minishell	*minishell)
 {
-	char **raw_args;
-	char **args;
 	int num_commands;
-	int *pipe_fds;
 	int exit_status;
 	int i;
 	int j;
 
 	i = -1;
-	if (ft_strchr(prompt, '|'))
+	if (ft_strchr(minishell->readline, '|'))
 	{
-		raw_args = ft_split(prompt, '|');
-		num_commands = ft_matriz_len(raw_args);
-		pipe_fds = (int *)malloc(sizeof(int) * (2 * num_commands - 1));
+		minishell->raw_args = ft_split(minishell->readline, '|');
+		num_commands = ft_matriz_len(minishell->raw_args);
+		minishell->pipe_fds = (int *)malloc(sizeof(int) * (2 * num_commands - 1));
 		while (++i < num_commands - 1)
-			if (pipe(pipe_fds + i * 2) < 0)
+			if (pipe(minishell->pipe_fds + i * 2) < 0)
 				perror("pipe error");
 		i = -1;
 		while (++i < num_commands)
 		{
-			args = net_args(raw_args[i]);
+			minishell->args = net_args(minishell->raw_args[i]);
 			pid_t pid = fork();
 			if (pid == 0)
 			{
 				if (i < num_commands - 1)
-					dup2(pipe_fds[i * 2 + 1], STDOUT_FILENO);
+					dup2(minishell->pipe_fds[i * 2 + 1], STDOUT_FILENO);
 				if (i > 0)
-					dup2(pipe_fds[(i - 1) * 2], STDIN_FILENO);
+					dup2(minishell->pipe_fds[(i - 1) * 2], STDIN_FILENO);
 
 				j = -1;
 				while (++j < 2 * (num_commands - 1))
-					close(pipe_fds[j]);
-				if (sheel(args, 1) == -1)
+					close(minishell->pipe_fds[j]);
+				if (sheel(minishell->args, 1) == -1)
 					perror("error: ");
-				ft_free_matriz(args);
 			}
 			else if (pid < 0)
 				perror("fork error: ");
+			ft_free_matriz(minishell->args);
 		}
-		i = -1;
-		while (++i < 2 * (num_commands - 1))
-			close(pipe_fds[i]);
-		ft_free_matriz(raw_args);
-		free(pipe_fds);
+		i = 0;
+		while (i < 2 * (num_commands - 1))
+		{
+			close(minishell->pipe_fds[i]);
+			i++;
+		}
+		minishell->pipe_fds = (int *)free_ptr((char *)minishell->pipe_fds);
+		ft_free_matriz(minishell->raw_args);
 	}
 	else
 	{
-		args = net_args(prompt);
-		if (!is_builtin(args[0]))
+		minishell->args = net_args(minishell->readline);
+		if (!is_builtin(minishell->args[0]))
 		{
 			pid_t pid = fork();
 			if (pid < 0)
 				perror("fork error: ");
 			else if (pid == 0)
 			{
-				if (sheel(args, 0) == -1)
+				if (sheel(minishell->args, 0) == -1)
 				{
 					perror("exec error: ");
 					exit(EXIT_FAILURE);
@@ -142,9 +142,9 @@ void	execute_command(char *prompt)
 		}
 		else
 		{
-			if (sheel(args, 0) == -1)
+			if (sheel(minishell->args, 0) == -1)
 				perror("error: ");
 		}
-		ft_free_matriz(args);
+		ft_free_matriz(minishell->args);
 	}
 }

@@ -12,12 +12,21 @@
 
 #include "libft.h"
 
-void	ft_free_matriz(char **arr)
+char	*free_ptr(char *ptr)
 {
-	int	i;
+	free(ptr);
+	ptr = NULL;
+	return (NULL);
+}
+
+char	**ft_free_matriz(char **mat)
+{
+	size_t	i;
 
 	i = -1;
-	while (arr[++i])
-		free(arr[i]);
-	free(arr);
+	while (mat && mat[++i])
+		mat[i] = free_ptr(mat[i]);
+	free (mat);
+	mat = NULL;
+	return (NULL);
 }

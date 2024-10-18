@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gkomba <<marvin@42.fr> >                   +#+  +:+       +#+        */
+/*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 10:04:29 by gkomba            #+#    #+#             */
-/*   Updated: 2024/08/13 08:29:23 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/10/18 10:15:01 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <stdlib.h>
 # include <unistd.h>
 
+char	*free_ptr(char *ptr);
 int		ft_isalpha(int c);
 int		ft_isdigit(int c);
 int		ft_isalnum(int c);
@@ -54,6 +55,6 @@ char	*ft_strnstr(const char *big, const char *little, size_t n);
 char	*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 char	*ft_strrchr(const char *s, int c);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
-void	ft_free_matriz(char **arr);
+char    **ft_free_matriz(char **mat);
 int		ft_matriz_len(char **matriz);
 #endif
