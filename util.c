@@ -83,7 +83,7 @@ char **ft_extended(char **data)
     return (new_data);
 }
 
-char **ft_Adjust_data(char **data)
+char **ft_adjust_data(char **data)
 {
     int		i;
 	int		j;
@@ -96,8 +96,7 @@ char **ft_Adjust_data(char **data)
 	ft_memset(new_data, 0, sizeof(char *) * (ft_matriz_len(data) + 1));
 	while (data[++i])
 	{
-		if (data[i][0] == '\"' && data[i][ft_strlen(data[i]) - 1] == '\"'
-			&& ft_strlen(data[i]) > 1)
+		if (data[i][0] == '\"' && data[i][ft_strlen(data[i]) - 1] == '\"' && ft_strlen(data[i]) > 1)
 		{
 			new_data[j++] = ft_strdup(data[i]);
 		}
@@ -150,7 +149,7 @@ char **net_args(char *prompt)
     char **data;
 
     raw_data = ft_split(prompt , ' ');
-    net_data = ft_Adjust_data(raw_data);
+    net_data = ft_adjust_data(raw_data);
     if (!net_data)
 	{
 		write(1, "minishell: syntax error: quote\n", 31);
