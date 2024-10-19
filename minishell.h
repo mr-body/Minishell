@@ -39,7 +39,7 @@ void		execute_command(t_minishell *minishell);
 int			command_cd(char **prompt);
 int			command_exit(char **prompt);
 int			command_echo(char **prompt, int pipe);
-int			command_env(char **prompt, char **environ);
+int			command_env(char **prompt, char **environ, int pipe);
 int			command_pwd(char **prompt, int pipe);
 int			command_unset(char **prompt);
 int			command_export(char **prompt,int pipe);

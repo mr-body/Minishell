@@ -1,0 +1,9 @@
+{
+    "files.associations": {
+<<<<<<< HEAD
+        "stdio.h": "c"
+=======
+        "minishell.h": "c"
+>>>>>>> main
+    }
+}
