@@ -1,79 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   heart.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/19 16:19:40 by gkomba            #+#    #+#             */
+/*   Updated: 2024/10/19 16:39:23 by gkomba           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-int	sheel(char **prompt, int pipe)
-{
-	extern char	**environ;
-	char		**routes;
-	char		*command;
-	int			i;
-	int			exit_status;
-
-	command = NULL;
-	i = -1;
-	routes = ft_split(getenv("PATH"), ':');
-	if (access(prompt[0], X_OK) == 0)
-	{
-		command = prompt[0];
-	}
-	else
-	{
-		while (routes[++i])
-		{
-			command = ft_strcat(routes[i], prompt[0], '/');
-			if (access(command, X_OK) == 0)
-				break ;
-			command = free_ptr(command);
-		}
-	}
-	if (ft_strncmp(prompt[0], "exit", 4) == 0)
-	{
-		routes = ft_free_matriz(routes);
-		prompt = ft_free_matriz(prompt);
-		exit(0);
-	}
-	else if (ft_strncmp(prompt[0], "env", 3) == 0)
-		exit_status = command_env(prompt, environ, pipe);
-	else if (ft_strncmp(prompt[0], "cd", 2) == 0)
-		exit_status = command_cd(prompt);
-	else if (ft_strncmp(prompt[0], "echo", 4) == 0)
-		exit_status = command_echo(prompt, pipe);
-	else if (ft_strncmp(prompt[0], "pwd", 3) == 0)
-		exit_status = command_pwd(prompt, pipe);
-	else if (ft_strncmp(prompt[0], "export", 6) == 0)
-		exit_status = command_export(prompt, pipe);
-	else
-	{
-		if (command == NULL)
-		{
-			routes = ft_free_matriz(routes);
-			return (-1);
-		}
-		execve(command, prompt, environ);
-		command = free_ptr(command);
-		routes = ft_free_matriz(routes);
-		return (-1);
-	}
-	routes = ft_free_matriz(routes);
-	return (exit_status);
-}
-
-int	is_builtin(char *cmd)
-{
-	if (ft_strncmp(cmd, "exit", 4) == 0)
-		return (1);
-	else if (ft_strncmp(cmd, "env", 3) == 0)
-		return (1);
-	else if (ft_strncmp(cmd, "cd", 2) == 0)
-		return (1);
-	else if (ft_strncmp(cmd, "echo", 4) == 0)
-		return (1);
-	else if (ft_strncmp(cmd, "pwd", 3) == 0)
-		return (1);
-	else if (ft_strncmp(cmd, "export", 6) == 0)
-		return (1);
-	return (0);
-}
-
+/*funcao que executa os comandos simples*/
 void	exec_command(t_minishell *minishell)
 {
 	int		exit_status;
@@ -87,9 +26,9 @@ void	exec_command(t_minishell *minishell)
 			perror("fork error: ");
 		else if (pid == 0)
 		{
-			if (sheel(minishell->args, 0) == -1)
+			if (shell(minishell->args, 0) == -1)
 			{
-				perror("exec error: ");
+				ft_print_command_error(minishell->args[0]);
 				exit(EXIT_FAILURE);
 			}
 		}
@@ -98,12 +37,13 @@ void	exec_command(t_minishell *minishell)
 	}
 	else
 	{
-		if (sheel(minishell->args, 0) == -1)
+		if (shell(minishell->args, 0) == -1)
 			perror("error: ");
 	}
 	ft_free_matriz(minishell->args);
 }
 
+/*funcao que executa os comandos quando tem pipes*/
 void	exec_command_pipe(t_minishell *minishell)
 {
 	int		num_commands;
@@ -126,8 +66,11 @@ void	exec_command_pipe(t_minishell *minishell)
 			if (i > 0)
 				dup2(minishell->pipe_fds[(i - 1) * 2], STDIN_FILENO);
 			close_fds(minishell, num_commands);
-			if (sheel(minishell->args, 1) == -1)
+			if (shell(minishell->args, 1) == -1)
+			{
 				perror("error: ");
+				exit(1);
+			}
 		}
 		else if (pid < 0)
 			perror("fork error: ");
@@ -136,6 +79,7 @@ void	exec_command_pipe(t_minishell *minishell)
 	ft_exit_process(minishell, num_commands);
 }
 
+/*funcao que chama as funcao que vao exeutar os comandos*/
 void	execute_command(t_minishell *minishell)
 {
 	if (strchr(minishell->readline, '|'))
