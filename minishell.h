@@ -33,8 +33,8 @@ char		**ft_extended(char **data);
 char		**net_args(char *str);
 char		**ft_adjust_data(char **data);
 
-int			sheel(char **prompt, int pipe);
-void	execute_command(t_minishell	*minishell);
+int			shell(char **prompt, int pipe);
+void		execute_command(t_minishell *minishell);
 
 int			command_cd(char **prompt);
 int			command_exit(char **prompt);
@@ -45,10 +45,13 @@ int			command_unset(char **prompt);
 
 char		*ft_strcat(char *s1, char *s2, int c);
 
-
 /*new funtions*/
-void	ft_exit_process(t_minishell *minishell, int nbr_cmds);
-void	close_fds(t_minishell *minishell, int nbr_cmds);
-void	open_fds(t_minishell *minishell, int nbr_cmds);
+void		ft_exit_process(t_minishell *minishell, int nbr_cmds);
+void		close_fds(t_minishell *minishell, int nbr_cmds);
+void		open_fds(t_minishell *minishell, int nbr_cmds);
+void		ft_print_command_error(char *cmd);
+int			is_builtin(char *cmd);
+char		*shell_binary(char **prompt, char **environ);
+int			shell_builtin(char **prompt, char **environ, int pipe);
 
 #endif
