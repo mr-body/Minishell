@@ -39,6 +39,8 @@ int	sheel(char **prompt, int pipe)
 		exit_status = command_echo(prompt, pipe);
 	else if (ft_strncmp(prompt[0], "pwd", 3) == 0)
 		exit_status = command_pwd(prompt, pipe);
+	else if (ft_strncmp(prompt[0], "export", 6) == 0)
+		exit_status = command_export(prompt, pipe);
 	else
 	{
 		if (command == NULL)
@@ -66,6 +68,8 @@ int	is_builtin(char *cmd)
 	else if (ft_strncmp(cmd, "echo", 4) == 0)
 		return (1);
 	else if (ft_strncmp(cmd, "pwd", 3) == 0)
+		return (1);
+	else if (ft_strncmp(cmd, "export", 6) == 0)
 		return (1);
 	return (0);
 }
