@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 16:23:19 by gkomba            #+#    #+#             */
-/*   Updated: 2024/10/19 16:24:21 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/10/19 16:38:09 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ int	shell_builtin(char **prompt, char **environ, int pipe)
 		exit_status = command_echo(prompt, pipe);
 	else if (ft_strncmp(prompt[0], "pwd", 3) == 0)
 		exit_status = command_pwd(prompt, pipe);
+    else if (ft_strncmp(prompt[0], "export", 6) == 0)
+		exit_status = command_export(prompt, pipe);
 	return (exit_status);
 }
 
@@ -95,6 +97,8 @@ int	is_builtin(char *cmd)
 	else if (ft_strncmp(cmd, "echo", 4) == 0)
 		return (1);
 	else if (ft_strncmp(cmd, "pwd", 3) == 0)
+		return (1);
+    else if (ft_strncmp(cmd, "export", 6) == 0)
 		return (1);
 	return (0);
 }
