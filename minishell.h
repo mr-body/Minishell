@@ -24,6 +24,7 @@ typedef struct s_minishell
 	char	**raw_args;
 	char	**args;
 	int		*pipe_fds;
+	int		exit_status;
 }			t_minishell;
 
 void		header(void);
@@ -43,5 +44,11 @@ int			command_pwd(char **prompt, int pipe);
 int			command_unset(char **prompt);
 
 char		*ft_strcat(char *s1, char *s2, int c);
+
+
+/*new funtions*/
+void	ft_exit_process(t_minishell *minishell, int nbr_cmds);
+void	close_fds(t_minishell *minishell, int nbr_cmds);
+void	open_fds(t_minishell *minishell, int nbr_cmds);
 
 #endif
