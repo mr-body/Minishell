@@ -55,3 +55,4 @@ char		*shell_binary(char **prompt, char **environ);
 int			shell_builtin(char **prompt, char **environ, int pipe);
 
 #endif
+
