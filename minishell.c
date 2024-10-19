@@ -19,7 +19,7 @@ void	handle_SIGINT(int signal)
 
 int	main(int ac, char **av)
 {
-	char	*prompt;
+	t_minishell	minishell;
 	int		status;
     char    *cwd;
 
@@ -33,26 +33,26 @@ int	main(int ac, char **av)
 		cwd = getcwd(NULL, 0);
         ft_putstr_fd(cwd, 1);
 		ft_putstr_fd(VERDE "]", 1);
-		prompt = readline(VERDE "\n└─" RESET AZUL "# " RESET);
-		if (!prompt)
+		minishell.readline = readline(VERDE "\n└─" RESET AZUL "# " RESET);
+		if (!minishell.readline)
         {
             free(cwd);
-            free(prompt);
+            free(minishell.readline);
 			exit (0);
         }
-		if (*prompt)
-			add_history(prompt);
-		if (ft_strncmp(prompt, "exit", 4) == 0)
+		if (minishell.readline)
+			add_history(minishell.readline);
+		if (ft_strncmp(minishell.readline, "exit", 4) == 0)
 		{
-			free(prompt);
+			free(minishell.readline);
             free(cwd);
 			exit(0);
 		}
 		else
-			execute_command(prompt);
+			execute_command(&minishell);
 		while (waitpid(-1, &status, 0) > 0)
 			;
-		free(prompt);
+		free(minishell.readline);
         free(cwd);
 	}
 	return (0);

@@ -1,10 +1,6 @@
 #include "minishell.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
 
-char	*ft_strcat(char *s1, const char *s2, int c)
+char	*ft_strcat(char *s1, char *s2, int c)
 {
 	size_t	len1;
 	size_t	len2;
@@ -87,9 +83,6 @@ char **ft_extended(char **data)
     return (new_data);
 }
 
-
-
-
 char **ft_Adjust_data(char **data)
 {
     int		i;
@@ -100,6 +93,7 @@ char **ft_Adjust_data(char **data)
 	i = -1;
 	j = 0;
 	new_data = malloc(sizeof(char *) * (ft_matriz_len(data) + 1));
+	ft_memset(new_data, 0, sizeof(char *) * (ft_matriz_len(data) + 1));
 	while (data[++i])
 	{
 		if (data[i][0] == '\"' && data[i][ft_strlen(data[i]) - 1] == '\"'
@@ -129,14 +123,14 @@ char **ft_Adjust_data(char **data)
 				new_data[j] = temp;
 				if (!new_data[j])
 				{
-					ft_free_matriz(new_data);
+					new_data = ft_free_matriz(new_data);
 					return (NULL);
 				}
 			}
 			if (new_data[j][ft_strlen(new_data[j]) - 1] != '\"')
 			{
-                ft_free_matriz(new_data);
-                return NULL;
+                		new_data = ft_free_matriz(new_data);
+                		return NULL;
 			}
 			j++;
 		}
@@ -160,11 +154,10 @@ char **net_args(char *prompt)
     if (!net_data)
 	{
 		write(1, "minishell: syntax error: quote\n", 31);
-        ft_free_matriz(raw_data);
+        	ft_free_matriz(raw_data);
 		exit(1);
 	}
     data = ft_extended(net_data);
-
     ft_free_matriz(raw_data);
     ft_free_matriz(net_data);
     return(data);
