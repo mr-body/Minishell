@@ -41,8 +41,8 @@ int			command_exit(char **prompt);
 int			command_echo(char **prompt, int pipe);
 int			command_env(char **prompt, char **environ, int pipe);
 int			command_pwd(char **prompt, int pipe);
-int			command_unset(char **prompt);
-int			command_export(char **prompt,int pipe);
+int			command_unset(char **prompt, int pipe);
+int			command_export(char **prompt, int pipe);
 
 char		*ft_strcat(char *s1, char *s2, int c);
 
@@ -56,4 +56,3 @@ char		*shell_binary(char **prompt, char **environ);
 int			shell_builtin(char **prompt, char **environ, int pipe);
 
 #endif
-

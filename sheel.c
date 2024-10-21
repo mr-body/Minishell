@@ -33,6 +33,8 @@ int	shell_builtin(char **prompt, char **environ, int pipe)
 		exit_status = command_pwd(prompt, pipe);
     else if (ft_strncmp(prompt[0], "export", 6) == 0)
 		exit_status = command_export(prompt, pipe);
+    else if (ft_strncmp(prompt[0], "unset", 6) == 0)
+		exit_status = command_unset(prompt, pipe);
 	return (exit_status);
 }
 
@@ -99,6 +101,8 @@ int	is_builtin(char *cmd)
 	else if (ft_strncmp(cmd, "pwd", 3) == 0)
 		return (1);
     else if (ft_strncmp(cmd, "export", 6) == 0)
+		return (1);
+    else if (ft_strncmp(cmd, "unset", 6) == 0)
 		return (1);
 	return (0);
 }
