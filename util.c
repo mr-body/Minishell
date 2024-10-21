@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 16:24:38 by gkomba            #+#    #+#             */
-/*   Updated: 2024/10/19 16:27:08 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/10/19 18:52:28 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,28 @@ char	*ft_strcat(char *s1, char *s2, int c)
 	ft_memcpy(new + len1 + 1, s2, len2);
 	new[len1 + len2 + 1] = '\0';
 	return (new);
+}
+
+int	check_quotes(char *str, int quotes, char quote_type)
+{
+	int	i;
+	int	quotes_s;
+	int	quotes_d;
+
+	i = 0;
+	quotes_d = 0;
+	quotes_s = 0;
+	while (str[i])
+	{
+		if (str[i] == '\"' && quote_type == '\"')
+			quotes_d++;
+		else if (str[i] == '\'' && quote_type == '\'')
+			quotes_s++;
+		i++;
+	}
+	if (quote_type == '\'')
+		return(quotes_s);
+	return (quotes_d);
 }
 
 char	**ft_extended(char **data)
@@ -56,9 +78,7 @@ char	**ft_extended(char **data)
 			return (NULL);
 		}
 		while (trimmed[j] && trimmed[j] != '$')
-		{
 			j++;
-		}
 		if (trimmed[j] == '$')
 		{
 			var_name = ft_substr(trimmed, j + 1, ft_strlen(trimmed) - j - 1);
@@ -80,9 +100,7 @@ char	**ft_extended(char **data)
 				}
 			}
 			else
-			{
 				tmp = ft_strdup(trimmed);
-			}
 		}
 		else
 		{
@@ -147,9 +165,7 @@ char	**ft_adjust_data(char **data)
 			j++;
 		}
 		else
-		{
 			new_data[j++] = ft_strdup(data[i]);
-		}
 	}
 	new_data[j] = NULL;
 	return (new_data);

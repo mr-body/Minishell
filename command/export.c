@@ -26,57 +26,31 @@ char	**sort_env(char **environ)
 	}
 	return (environ);
 }
-void set_to_env(const char *name, const char *value, char **environ) {
-    int i = 0;
-    char *new_var;
-    size_t name_len = strlen(name);
-    
-    // Allocate memory for the new environment variable
-    new_var = malloc(name_len + strlen(value) + 2); // +2 for '=' and '\0'
-    if (!new_var) {
-        perror("Failed to allocate memory for new environment variable");
-        return;
-    }
-
-    // Create the new variable string
-    sprintf(new_var, "%s=%s", name, value);
-
-    // Look for the variable in the environment
-    while (environ[i]) {
-        if (strncmp(environ[i], name, name_len) == 0 && environ[i][name_len] == '=') {
-            // Variable found, replace it
-            free(environ[i]);
-            environ[i] = new_var;
-            return;
-        }
-        i++;
-    }
-
-    // Variable not found, add it to the end
-    environ[i] = new_var;
-    environ[i + 1] = NULL; // Ensure the last element is NULL
-}
-
-char **args(char *prompt)
+void	set_to_env(const char *name, const char *value, char **environ)
 {
-    char **raw_data;
-    char **net_data;
-    char **data;
+	int		i;
+	char	*new_var;
+	size_t	name_len;
 
-    raw_data = ft_split(prompt , '=');
-    net_data = ft_adjust_data(raw_data);
-    if (!net_data)
+	i = 0;
+	name_len = strlen(name);
+    new_var = NULL;
+	new_var = ft_strjoin(name, "=");
+	new_var = ft_strjoin(new_var, value);
+	while (environ[i])
 	{
-		write(1, "minishell: syntax error: quote\n", 31);
-        	ft_free_matriz(raw_data);
-		exit(1);
+		if (strncmp(environ[i], name, name_len) == 0
+			&& environ[i][name_len] == '=')
+		{
+			free(environ[i]);
+			environ[i] = new_var;
+			return ;
+		}
+		i++;
 	}
-    data = ft_extended(net_data);
-    ft_free_matriz(raw_data);
-    ft_free_matriz(net_data);
-    return(data);
+	environ[i] = new_var;
+	environ[i + 1] = NULL;
 }
-
 
 int	command_export(char **prompt, int pipe)
 {
@@ -99,7 +73,7 @@ int	command_export(char **prompt, int pipe)
 	else
 	{
 		i = 0;
-		while(prompt[++i])
+		while (prompt[++i])
 		{
 			pramentres = ft_split(prompt[i], '=');
 			set_to_env(pramentres[0], pramentres[1], environ);
