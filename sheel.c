@@ -24,7 +24,7 @@ int	shell_builtin(char **prompt, char **environ, int pipe)
 		exit(0);
 	}
 	else if (ft_strncmp(prompt[0], "env", 3) == 0)
-		exit_status = command_env(prompt, environ);
+		exit_status = command_env(prompt, environ, pipe);
 	else if (ft_strncmp(prompt[0], "cd", 2) == 0)
 		exit_status = command_cd(prompt);
 	else if (ft_strncmp(prompt[0], "echo", 4) == 0)
