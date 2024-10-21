@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 16:19:40 by gkomba            #+#    #+#             */
-/*   Updated: 2024/10/19 16:39:23 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/10/19 18:06:05 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	exec_command(t_minishell *minishell)
 	else
 	{
 		if (shell(minishell->args, 0) == -1)
-			perror("error: ");
+			ft_print_command_error(minishell->args[0]);
 	}
 	ft_free_matriz(minishell->args);
 }
