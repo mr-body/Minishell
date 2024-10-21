@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 10:04:29 by gkomba            #+#    #+#             */
-/*   Updated: 2024/10/18 10:15:01 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/10/21 08:39:37 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,4 +57,5 @@ char	*ft_strrchr(const char *s, int c);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 char    **ft_free_matriz(char **mat);
 int		ft_matriz_len(char **matriz);
+void    ft_print_matriz(char **matriz);
 #endif

@@ -42,7 +42,7 @@ int			command_echo(char **prompt, int pipe);
 int			command_env(char **prompt, char **environ, int pipe);
 int			command_pwd(char **prompt, int pipe);
 int			command_unset(char **prompt);
-int			command_export(char **prompt,int pipe);
+int			command_export(char **prompt, int pipe);
 
 char		*ft_strcat(char *s1, char *s2, int c);
 
@@ -54,6 +54,7 @@ void		ft_print_command_error(char *cmd);
 int			is_builtin(char *cmd);
 char		*shell_binary(char **prompt, char **environ);
 int			shell_builtin(char **prompt, char **environ, int pipe);
-
+int			check_quotes(char *str, char quote_type);
+char		*handle_quotes(char *tmp);
+void	ft_print_syntax_error(void);
 #endif
-

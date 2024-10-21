@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 16:19:40 by gkomba            #+#    #+#             */
-/*   Updated: 2024/10/19 18:06:05 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/10/21 11:05:45 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ void	exec_command(t_minishell *minishell)
 	pid_t	pid;
 
 	minishell->args = net_args(minishell->readline);
+	if (!minishell->args)
+		return ;
 	if (!is_builtin(minishell->args[0]))
 	{
 		pid = fork();
@@ -58,6 +60,8 @@ void	exec_command_pipe(t_minishell *minishell)
 	while (++i < num_commands)
 	{
 		minishell->args = net_args(minishell->raw_args[i]);
+		if (!minishell->args)
+			return ;
 		pid = fork();
 		if (pid == 0)
 		{
