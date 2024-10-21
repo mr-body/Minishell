@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 16:24:38 by gkomba            #+#    #+#             */
-/*   Updated: 2024/10/19 18:52:28 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/10/21 12:43:58 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,83 +30,94 @@ char	*ft_strcat(char *s1, char *s2, int c)
 	return (new);
 }
 
-int	check_quotes(char *str, int quotes, char quote_type)
+char	*expand_env_var(char *arg, char *tmp)
 {
-	int	i;
-	int	quotes_s;
-	int	quotes_d;
+	char	single_char[2];
+	int		j;
+	int		k;
+	char	*old_tmp;
+	char	*env_var_value;
+	char	*env_var_name;
 
-	i = 0;
-	quotes_d = 0;
-	quotes_s = 0;
-	while (str[i])
+	j = 0;
+	while (arg[j])
 	{
-		if (str[i] == '\"' && quote_type == '\"')
-			quotes_d++;
-		else if (str[i] == '\'' && quote_type == '\'')
-			quotes_s++;
-		i++;
+		if (arg[j] == '$')
+		{
+			j++;
+			k = j;
+			while (arg[k] && (ft_isalnum(arg[k]) || arg[k] == '_'))
+				k++;
+			env_var_name = ft_substr(arg, j, k - j);
+			if (!env_var_name)
+			{
+				free(tmp);
+				return (NULL);
+			}
+			env_var_value = getenv(env_var_name);
+			if (env_var_value)
+			{
+				old_tmp = tmp;
+				tmp = ft_strjoin(tmp, env_var_value);
+				free(old_tmp);
+			}
+			free(env_var_name);
+			j = k;
+		}
+		else
+		{
+			single_char[0] = arg[j];
+			single_char[1] = '\0';
+			old_tmp = tmp;
+			tmp = ft_strjoin(tmp, single_char);
+			free(old_tmp);
+			j++;
+		}
 	}
-	if (quote_type == '\'')
-		return(quotes_s);
-	return (quotes_d);
+	if ((ft_strchr(tmp, '\"')) || (ft_strchr(tmp, '\'')))
+	{
+		old_tmp = handle_quotes(tmp);
+		if (!old_tmp)
+		{
+			free(tmp);
+			return (NULL);
+		}
+		else
+		{
+			free(tmp);
+			return (old_tmp);
+		}
+	}
+	return(tmp);
 }
 
 char	**ft_extended(char **data)
 {
 	int		i;
 	char	**new_data;
+	char	*arg;
 	char	*tmp;
-	char	*env_value;
-	int		j;
-	char	*var_name;
-	char	*prefix;
-	char	*trimmed;
 
-	i = -1;
 	new_data = malloc(sizeof(char *) * (ft_matriz_len(data) + 1));
+	ft_memset(new_data, 0, sizeof(char *) * (ft_matriz_len(data) + 1));
 	if (!new_data)
 		return (NULL);
+	i = -1;
 	while (data[++i])
 	{
-		tmp = NULL;
-		j = 0;
-		trimmed = ft_strtrim(data[i], "\"");
-		if (!trimmed)
+		arg = data[i];
+		tmp = ft_strdup("");
+		if (!tmp)
+		{
+			new_data = ft_free_matriz(new_data);
+			return (NULL);
+		}
+		tmp = expand_env_var(arg, tmp);
+		if (!tmp)
 		{
 			ft_free_matriz(new_data);
 			return (NULL);
 		}
-		while (trimmed[j] && trimmed[j] != '$')
-			j++;
-		if (trimmed[j] == '$')
-		{
-			var_name = ft_substr(trimmed, j + 1, ft_strlen(trimmed) - j - 1);
-			if (!var_name)
-			{
-				free(trimmed);
-				ft_free_matriz(new_data);
-				return (NULL);
-			}
-			env_value = getenv(var_name);
-			free(var_name);
-			if (env_value)
-			{
-				prefix = ft_substr(trimmed, 0, j);
-				if (prefix)
-				{
-					tmp = ft_strjoin(prefix, env_value);
-					free(prefix);
-				}
-			}
-			else
-				tmp = ft_strdup(trimmed);
-		}
-		else
-		{
-			tmp = ft_strdup(trimmed);
-		}
-		free(trimmed);
 		new_data[i] = tmp;
 	}
 	new_data[i] = NULL;
@@ -157,11 +168,6 @@ char	**ft_adjust_data(char **data)
 					return (NULL);
 				}
 			}
-			if (new_data[j][ft_strlen(new_data[j]) - 1] != '\"')
-			{
-				new_data = ft_free_matriz(new_data);
-				return (NULL);
-			}
 			j++;
 		}
 		else
@@ -179,14 +185,14 @@ char	**net_args(char *prompt)
 
 	raw_data = ft_split(prompt, ' ');
 	net_data = ft_adjust_data(raw_data);
-	if (!net_data)
-	{
-		write(1, "minishell: syntax error: quote\n", 31);
-		ft_free_matriz(raw_data);
-		exit(1);
-	}
-	data = ft_extended(net_data);
 	ft_free_matriz(raw_data);
+	data = ft_extended(net_data);
 	ft_free_matriz(net_data);
+	if (!data)
+	{
+		ft_print_syntax_error();
+		ft_free_matriz(data);
+		return (NULL);
+	}
 	return (data);
 }

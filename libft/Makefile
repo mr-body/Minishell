@@ -37,6 +37,7 @@ SRCS = ft_strlen.c\
 	get_next_line_utils.c\
 	ft_free_matriz.c\
 	ft_matriz_len.c\
+	ft_print_matriz.c\
 
 OBJS = ${SRCS:.c=.o}
 LIBC = ar rcs
