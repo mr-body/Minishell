@@ -12,7 +12,40 @@
 
 #include "../minishell.h"
 
-int	command_unset(char **prompt)
+int	command_unset(char **prompt, int pipe)
 {
-	exit(0);
+	extern char	**environ;
+	int			i;
+	int			j;
+	int			line;
+	size_t		name_len;
+
+	if (!prompt[1])
+	{
+		ft_putstr_fd("Nome da variável não fornecido.\n", 1);
+		return (-1);
+	}
+	line = 0;
+	while (prompt[++line])
+	{
+		name_len = strlen(prompt[line]);
+		i = 0;
+		while (environ[i])
+		{
+			if (strncmp(environ[i], prompt[line], name_len) == 0
+				&& environ[i][name_len] == '=')
+			{
+				j = i;
+				while (environ[j])
+				{
+					environ[j] = environ[j + 1];
+					j++;
+				}
+			}
+			i++;
+		}
+	}
+	if (pipe)
+		exit(0);
+	return (0);
 }
