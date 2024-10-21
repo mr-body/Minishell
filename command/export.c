@@ -26,6 +26,7 @@ char	**sort_env(char **environ)
 	}
 	return (environ);
 }
+
 void set_to_env(const char *name, const char *value, char **environ) {
     int i = 0;
     char *new_var;
