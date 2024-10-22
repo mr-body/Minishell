@@ -30,6 +30,16 @@ char	*ft_strcat(char *s1, char *s2, int c)
 	return (new);
 }
 
+int ft_count_chr(char *str, char set) {
+    int i = 0;
+    while (*str) {
+        if (*str == set)
+            i++;
+        str++;
+    }
+    return i;
+}
+
 char	*expand_env_var(char *arg, char *tmp)
 {
 	char	single_char[2];
@@ -124,60 +134,46 @@ char	**ft_extended(char **data)
 	return (new_data);
 }
 
-char	**ft_adjust_data(char **data)
-{
-	int		i;
-	int		j;
-	char	**new_data;
-	char	*temp;
+char **ft_adjust_data(char **data) {
+    int i = 0, j = 0;
+    int data_len = ft_matriz_len(data); // Get the length of the input data
+    char **new_data = malloc(sizeof(char *) * (data_len + 1)); // +1 for the NULL terminator
+    char *tmp = NULL;
 
-	i = -1;
-	j = 0;
-	new_data = malloc(sizeof(char *) * (ft_matriz_len(data) + 1));
-	ft_memset(new_data, 0, sizeof(char *) * (ft_matriz_len(data) + 1));
-	while (data[++i])
-	{
-		if (data[i][0] == '\"' && data[i][ft_strlen(data[i]) - 1] == '\"'
-			&& ft_strlen(data[i]) > 1)
-		{
-			new_data[j++] = ft_strdup(data[i]);
-		}
-		else if (data[i][0] == '\"')
-		{
-			new_data[j] = ft_strdup(data[i]);
-			while (data[i + 1] && data[i + 1][ft_strlen(data[i + 1])
-				- 1] != '\"')
-			{
-				temp = ft_strcat(new_data[j], data[++i], ' ');
-				free(new_data[j]);
-				new_data[j] = temp;
-				if (!new_data[j])
-				{
-					ft_free_matriz(new_data);
-					return (NULL);
-				}
-			}
-			if (data[i + 1])
-			{
-				temp = ft_strcat(new_data[j], data[++i], ' ');
-				free(new_data[j]);
-				new_data[j] = temp;
-				if (!new_data[j])
-				{
-					new_data = ft_free_matriz(new_data);
-					return (NULL);
-				}
-			}
-			j++;
-		}
-		else
-			new_data[j++] = ft_strdup(data[i]);
-	}
-	new_data[j] = NULL;
-	return (new_data);
+    if (!new_data) return NULL; // Check if allocation was successful
+
+    while (data[i]) {
+        if (ft_count_chr(data[i], '\"') % 2 == 0) {
+            // If quotes are balanced, add the complete string
+            new_data[j++] = data[i];
+        } else {
+            // Handle unbalanced quotes
+            tmp = strdup(data[i]); // Duplicate the current string
+            i++;
+            while (data[i] && ft_count_chr(tmp, '\"') % 2 != 0) {
+                char *new_tmp = ft_strcat(tmp, data[i], ' '); // Concatenate strings
+                free(tmp); // Free the previous tmp
+                tmp = new_tmp; // Update tmp
+                i++;
+            }
+
+            if (ft_count_chr(tmp, '\"') % 2 != 0) {
+                printf("Error: unbalanced quotes in '%s'\n", tmp);
+                free(tmp); // Free tmp on error
+                ft_free_matriz(new_data); // Free new_data on error
+                return NULL;
+            }
+            new_data[j++] = tmp; // Add the concatenated result
+        }
+        i++;
+    }
+    new_data[j] = NULL; // Null-terminate the new array
+
+    return new_data;
 }
 
-char	**net_args(char *prompt)
+
+char	**net_args(const char *prompt)
 {
 	char	**raw_data;
 	char	**net_data;
@@ -185,7 +181,6 @@ char	**net_args(char *prompt)
 
 	raw_data = ft_split(prompt, ' ');
 	net_data = ft_adjust_data(raw_data);
-	ft_free_matriz(raw_data);
 	data = ft_extended(net_data);
 	ft_free_matriz(net_data);
 	if (!data)
@@ -194,5 +189,13 @@ char	**net_args(char *prompt)
 		ft_free_matriz(data);
 		return (NULL);
 	}
+
+	int i = -1;
+	while(data[++i])
+	{
+		write(1, "\n", 1);
+		ft_putstr_fd(data[i], 1);
+	}
+
 	return (data);
 }

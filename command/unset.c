@@ -38,6 +38,7 @@ int	command_unset(char **prompt, int pipe)
 				j = i;
 				while (environ[j])
 				{
+					free(environ[j]);
 					environ[j] = environ[j + 1];
 					j++;
 				}

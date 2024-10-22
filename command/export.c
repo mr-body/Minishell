@@ -73,6 +73,19 @@ char	**args(char *prompt)
 	return (data);
 }
 
+/* 
+	export nome="walter santana"
+
+	export 			[0]
+	nome="walter 	[1]
+	santana"		[2]
+
+
+	export 					[0]
+	nome="walter santana"	[2]
+*/
+
+
 int	command_export(char **prompt, int pipe)
 {
 	extern char **environ;
