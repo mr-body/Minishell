@@ -30,15 +30,6 @@ char	*ft_strcat(char *s1, char *s2, int c)
 	return (new);
 }
 
-int ft_count_chr(char *str, char set) {
-    int i = 0;
-    while (*str) {
-        if (*str == set)
-            i++;
-        str++;
-    }
-    return i;
-}
 
 char	*expand_env_var(char *arg, char *tmp)
 {
@@ -135,67 +126,60 @@ char	**ft_extended(char **data)
 }
 
 char **ft_adjust_data(char **data) {
-    int i = 0, j = 0;
-    int data_len = ft_matriz_len(data); // Get the length of the input data
-    char **new_data = malloc(sizeof(char *) * (data_len + 1)); // +1 for the NULL terminator
+    int i = -1, j = 0;
+    char **new = malloc(sizeof(char *) * (ft_matriz_len(data) + 1));
     char *tmp = NULL;
 
-    if (!new_data) return NULL; // Check if allocation was successful
+    if (!new) return NULL;
 
-    while (data[i]) {
-        if (ft_count_chr(data[i], '\"') % 2 == 0) {
-            // If quotes are balanced, add the complete string
-            new_data[j++] = data[i];
-        } else {
-            // Handle unbalanced quotes
-            tmp = strdup(data[i]); // Duplicate the current string
-            i++;
-            while (data[i] && ft_count_chr(tmp, '\"') % 2 != 0) {
-                char *new_tmp = ft_strcat(tmp, data[i], ' '); // Concatenate strings
-                free(tmp); // Free the previous tmp
-                tmp = new_tmp; // Update tmp
-                i++;
-            }
-
-            if (ft_count_chr(tmp, '\"') % 2 != 0) {
-                printf("Error: unbalanced quotes in '%s'\n", tmp);
-                free(tmp); // Free tmp on error
-                ft_free_matriz(new_data); // Free new_data on error
-                return NULL;
-            }
-            new_data[j++] = tmp; // Add the concatenated result
+    while (data[++i]) 
+	{
+        if (ft_count_chr_occurrency_str(data[i], '\"') % 2 == 0) 
+            new[j] = data[i];
+		else 
+		{
+            tmp = strdup(data[i]);
+            if (!tmp) return NULL;
+			if(data[i + 1])
+			{
+            	i++;
+				while (data[i] && ft_count_chr_occurrency_str(tmp, '\"') % 2 != 0) 
+				{
+					char *new_tmp = ft_strcat(tmp, data[i], ' ');
+					free(tmp);
+					tmp = new_tmp;
+					if(data[i + 1] && ft_count_chr_occurrency_str(tmp, '\"') % 2 != 0)
+						i++;
+					else
+						break;
+				}
+			}
+            if (ft_count_chr_occurrency_str(tmp, '\"') % 2 == 0) 
+                new[j] = tmp;
         }
-        i++;
+		j++;
     }
-    new_data[j] = NULL; // Null-terminate the new array
 
-    return new_data;
+    new[j] = NULL;
+    return new;
 }
 
 
-char	**net_args(const char *prompt)
+char	**net_args(char *prompt)
 {
 	char	**raw_data;
 	char	**net_data;
 	char	**data;
 
+	if(ft_count_chr_occurrency_str(prompt, '\"') % 2 != 0)
+	{
+		printf("Error: unbalanced quotes\n");
+		return NULL;
+	}
+
 	raw_data = ft_split(prompt, ' ');
 	net_data = ft_adjust_data(raw_data);
 	data = ft_extended(net_data);
-	ft_free_matriz(net_data);
-	if (!data)
-	{
-		ft_print_syntax_error();
-		ft_free_matriz(data);
-		return (NULL);
-	}
-
-	int i = -1;
-	while(data[++i])
-	{
-		write(1, "\n", 1);
-		ft_putstr_fd(data[i], 1);
-	}
 
 	return (data);
 }

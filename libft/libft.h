@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 10:04:29 by gkomba            #+#    #+#             */
-/*   Updated: 2024/10/21 08:39:37 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/10/22 10:22:55 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 # include <stdlib.h>
 # include <unistd.h>
 
-char	*free_ptr(char *ptr);
 int		ft_isalpha(int c);
 int		ft_isdigit(int c);
 int		ft_isalnum(int c);
@@ -29,9 +28,12 @@ int		ft_tolower(int c);
 int		ft_strncmp(const char *s1, const char *s2, size_t len);
 int		ft_memcmp(const void *s1, const void *s2, size_t n);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
+int		ft_count_chr_occurrency_matriz(char **mat, char chr);
+int		ft_count_chr_occurrency_str(char *str, char chr);
 int		ft_atoi(const char *nptr);
 int		ft_atoi_v2(const char *nptr);
 size_t	ft_strlen(const char *str);
+int		ft_matriz_len(char **matriz);
 size_t	ft_strlcpy(char *dest, const char *src, size_t size);
 size_t	ft_strlcat(char *dst, const char *src, size_t size);
 void	*ft_memchr(const void *s, int c, size_t n);
@@ -55,7 +57,10 @@ char	*ft_strnstr(const char *big, const char *little, size_t n);
 char	*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 char	*ft_strrchr(const char *s, int c);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
-char    **ft_free_matriz(char **mat);
-int		ft_matriz_len(char **matriz);
-void    ft_print_matriz(char **matriz);
+char	**ft_free_matriz(char **mat);
+char	**ft_matdup(char **mat);
+char	*ft_mattstr_copy(char **mat);
+char	*free_ptr(char *ptr);
+void	ft_print_matriz(char **matriz);
+
 #endif
