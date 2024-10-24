@@ -31,16 +31,19 @@ void	set_to_env(const char *name, const char *value, char **environ)
 {
 	int		i;
 	char	*new_var;
+	char	*old_var;
 	size_t	name_len;
 
 	i = 0;
-	name_len = strlen(name);
+	name_len = ft_strlen(name);
     new_var = NULL;
 	new_var = ft_strjoin(name, "=");
+	old_var = new_var;
 	new_var = ft_strjoin(new_var, value);
+	free(old_var);
 	while (environ[i])
 	{
-		if (strncmp(environ[i], name, name_len) == 0 && environ[i][name_len] == '=')
+		if (ft_strncmp(environ[i], name, name_len) == 0 && environ[i][name_len] == '=')
 		{
 			free(environ[i]);
 			environ[i] = new_var;
@@ -49,42 +52,40 @@ void	set_to_env(const char *name, const char *value, char **environ)
 		i++;
 	}
 	environ[i] = new_var;
-	environ[i + 1] = NULL;
+	if (new_var)
+		free(new_var);
+	//environ[i + 1] = NULL;
 }
-
-/* 
-	export nome="walter santana"
-
-	export 			[0]
-	nome="walter 	[1]
-	santana"		[2]
-
-
-	export 					[0]
-	nome="walter santana"	[2]
-*/
-
 
 int	command_export(char **prompt, int pipe)
 {
 	extern char **environ;
-	char **sorted_env = sort_env(environ);
+	char **sorted_env;
 	char **declare;
 	char *tmp;
+	char	*old_tmp;
+	char *output;
 	char **pramentres;
-	int i = 0;
+	int i;
+	sorted_env = sort_env(environ);
 	if (!prompt[1])
 	{
+		i = 0;
 		while (sorted_env[i])
 		{
 			declare = ft_split(sorted_env[i], '=');
 			tmp = ft_strjoin(declare[0], "=\"");
+			old_tmp = tmp;
 			tmp = ft_strjoin(tmp, declare[1]);
+			free(old_tmp);
+			old_tmp = tmp;
 			tmp = ft_strjoin(tmp, "\"");
-			char *output = ft_strjoin("declare -x ", tmp);
-			ft_putstr_fd(output, 1);
+			free(old_tmp);
+			output = ft_strjoin("declare -x ", tmp);
+			ft_putendl_fd(output, 1);
 			free(output);
-			write(1, "\n", 1);
+			ft_free_matriz(declare);
+			free(tmp);
 			i++;
 		}
 	}
@@ -94,7 +95,10 @@ int	command_export(char **prompt, int pipe)
 		while (prompt[++i])
 		{
 			pramentres = ft_split(prompt[i], '=');
-			set_to_env(pramentres[0], ft_strtrim(pramentres[1],  "\"" ), environ);
+			tmp = ft_strtrim(pramentres[1],  "\"" );
+			set_to_env(pramentres[0], tmp, environ);
+			ft_free_matriz(pramentres);
+			free(tmp);
 		}
 	}
 	if (pipe)

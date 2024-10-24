@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sheel.c                                            :+:      :+:    :+:   */
+/*   shell.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 16:23:19 by gkomba            #+#    #+#             */
-/*   Updated: 2024/10/19 16:38:09 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/10/21 15:27:47 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,8 @@ int	shell(char **prompt, int pipe)
 /*funcao que verifica se um comando é um builtin*/
 int	is_builtin(char *cmd)
 {
+	if (!cmd)
+		return (0);
 	if (ft_strncmp(cmd, "exit", 4) == 0)
 		return (1);
 	else if (ft_strncmp(cmd, "env", 3) == 0)
@@ -102,7 +104,7 @@ int	is_builtin(char *cmd)
 		return (1);
     else if (ft_strncmp(cmd, "export", 6) == 0)
 		return (1);
-    else if (ft_strncmp(cmd, "unset", 6) == 0)
+    else if (ft_strncmp(cmd, "unset", 5) == 0)
 		return (1);
 	return (0);
 }
