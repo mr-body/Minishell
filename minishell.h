@@ -30,7 +30,7 @@ typedef struct s_minishell
 void		header(void);
 
 char		**ft_extended(char **data);
-char		**net_args(char *str);
+char		**net_args(char *prompt);
 char		**ft_adjust_data(char **data);
 
 int			shell(char **prompt, int pipe);
@@ -56,5 +56,8 @@ char		*shell_binary(char **prompt, char **environ);
 int			shell_builtin(char **prompt, char **environ, int pipe);
 int			check_quotes(char *str, char quote_type);
 char		*handle_quotes(char *tmp);
-void	ft_print_syntax_error(void);
+void		ft_print_syntax_error(void);
+
+char		*expand_env_var(char *arg, char *tmp);
+
 #endif
