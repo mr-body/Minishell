@@ -38,6 +38,10 @@ SRCS = ft_strlen.c\
 	ft_free_matriz.c\
 	ft_matriz_len.c\
 	ft_print_matriz.c\
+	ft_matdup.c\
+	ft_matstr.c\
+	ft_count_chr_occur.c\
+
 
 OBJS = ${SRCS:.c=.o}
 LIBC = ar rcs

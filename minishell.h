@@ -25,6 +25,7 @@ typedef struct s_minishell
 	char	**args;
 	int		*pipe_fds;
 	int		exit_status;
+	char	**envr;
 }			t_minishell;
 
 void		header(void);
@@ -33,16 +34,17 @@ char		**ft_extended(char **data);
 char		**net_args(char *str);
 char		**ft_adjust_data(char **data);
 
-int			shell(char **prompt, int pipe);
+// int			shell(char **prompt, int pipe);
+int			shell(char **prompt, char **env, int pipe);
 void		execute_command(t_minishell *minishell);
 
-int			command_cd(char **prompt);
+int			command_cd(char **prompt, char **env);
 int			command_exit(char **prompt);
 int			command_echo(char **prompt, int pipe);
 int			command_env(char **prompt, char **environ, int pipe);
 int			command_pwd(char **prompt, int pipe);
-int			command_unset(char **prompt, int pipe);
-int			command_export(char **prompt, int pipe);
+int			command_unset(char **prompt, char **env, int pipe);
+int			command_export(char **prompt, char **env, int pipe);
 
 char		*ft_strcat(char *s1, char *s2, int c);
 
@@ -56,5 +58,5 @@ char		*shell_binary(char **prompt, char **environ);
 int			shell_builtin(char **prompt, char **environ, int pipe);
 int			check_quotes(char *str, char quote_type);
 char		*handle_quotes(char *tmp);
-void	ft_print_syntax_error(void);
+void		ft_print_syntax_error(void);
 #endif
