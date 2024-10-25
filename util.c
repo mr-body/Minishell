@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 16:24:38 by gkomba            #+#    #+#             */
-/*   Updated: 2024/10/21 12:43:58 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/10/25 16:09:28 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ char	*expand_env_var(char *arg, char *tmp)
 	char	*env_var_name;
 
 	j = 0;
+	if (!arg)
+		return NULL;
 	while (arg[j])
 	{
 		if (arg[j] == '$')
@@ -179,7 +181,8 @@ char	**net_args(char *prompt)
 
 	raw_data = ft_split(prompt, ' ');
 	net_data = ft_adjust_data(raw_data);
+	ft_free_matriz(raw_data);
 	data = ft_extended(net_data);
-
+	ft_free_matriz(net_data);
 	return (data);
 }

@@ -55,27 +55,6 @@ void	set_to_env(const char *name, const char *value, char **environ)
 	environ[i + 1] = NULL;
 }
 
-
-char	**args(char *prompt)
-{
-	char	**raw_data;
-	char	**net_data;
-	char	**data;
-
-	raw_data = ft_split(prompt, '=');
-	net_data = ft_adjust_data(raw_data);
-	if (!net_data)
-	{
-		write(1, "minishell: syntax error: quote\n", 31);
-		ft_free_matriz(raw_data);
-		exit(1);
-	}
-	data = ft_extended(net_data);
-	ft_free_matriz(raw_data);
-	ft_free_matriz(net_data);
-	return (data);
-}
-
 int	command_export(char **prompt, int pipe)
 {
 	extern char **environ;
