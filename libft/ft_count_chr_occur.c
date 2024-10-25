@@ -34,5 +34,7 @@ int	ft_count_chr_occurrency_str(char *str, char chr)
 		if (str[i] == chr)
 			chr_occurrency += 1;
 	}
+
 	return (chr_occurrency);
+
 }

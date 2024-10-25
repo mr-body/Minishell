@@ -6,14 +6,14 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 16:23:19 by gkomba            #+#    #+#             */
-/*   Updated: 2024/10/22 11:56:33 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/10/21 15:27:47 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /*funcao que executa os builtins*/
-int	shell_builtin(char **prompt, char **env, int pipe)
+int	shell_builtin(char **prompt, char **environ, int pipe)
 {
 	int	exit_status;
 
@@ -24,22 +24,22 @@ int	shell_builtin(char **prompt, char **env, int pipe)
 		exit(0);
 	}
 	else if (ft_strncmp(prompt[0], "env", 3) == 0)
-		exit_status = command_env(prompt, env, pipe);
+		exit_status = command_env(prompt, environ, pipe);
 	else if (ft_strncmp(prompt[0], "cd", 2) == 0)
-		exit_status = command_cd(prompt, env);
+		exit_status = command_cd(prompt);
 	else if (ft_strncmp(prompt[0], "echo", 4) == 0)
 		exit_status = command_echo(prompt, pipe);
 	else if (ft_strncmp(prompt[0], "pwd", 3) == 0)
 		exit_status = command_pwd(prompt, pipe);
     else if (ft_strncmp(prompt[0], "export", 6) == 0)
-		exit_status = command_export(prompt, env, pipe);
+		exit_status = command_export(prompt, pipe);
     else if (ft_strncmp(prompt[0], "unset", 6) == 0)
-		exit_status = command_unset(prompt, env, pipe);
+		exit_status = command_unset(prompt, pipe);
 	return (exit_status);
 }
 
 /*funcao que pega o caminho dos bainarios*/
-char	*shell_binary(char **prompt, char **env)
+char	*shell_binary(char **prompt, char **environ)
 {
 	char	*cmd_path;
 	char	**routes;
@@ -68,24 +68,21 @@ char	*shell_binary(char **prompt, char **env)
 	return (cmd_path);
 }
 
-/*funcao que chama a funcao de executar builtin e a funcao*/
+/*funcao que chama a funcao de xecutar builtin e a funcao*/
 /*de pegar o caminho do binario*/
-int	shell(char **prompt, char **env, int pipe)
+int	shell(char **prompt, int pipe)
 {
 	extern char	**environ;
 	char		*command;
 
 	command = NULL;
 	if (is_builtin(prompt[0]))
-		return (shell_builtin(prompt, env, pipe));
+		return (shell_builtin(prompt, environ, pipe));
 	else
 	{
-		command = shell_binary(prompt, env);
-		if (command)
-		{
-			execve(command, prompt, environ);
-			command = free_ptr(command);
-		}
+		command = shell_binary(prompt, environ);
+		execve(command, prompt, environ);
+		command = free_ptr(command);
 	}
 	return (-1);
 }

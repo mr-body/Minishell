@@ -27,11 +27,12 @@ char	**sort_env(char **environ)
 	return (environ);
 }
 
-void set_to_env(const char *name, const char *value, char **environ)
+void	set_to_env(const char *name, const char *value, char **environ)
 {
-    int i;
-    char *new_var;
-    size_t name_len;
+	int		i;
+	char	*new_var;
+	char	*old_var;
+	size_t	name_len;
 
 	i = 0;
 	name_len = ft_strlen(name);
@@ -75,59 +76,54 @@ char	**args(char *prompt)
 	return (data);
 }
 
-int command_export(char **prompt, char **env, int pipe)
+int	command_export(char **prompt, int pipe)
 {
-    char **sorted_env;
-    char **declare;
-    char *tmp;
-    char *old_tmp;
-    char *output;
-    char **parameters;
-    int i;
-
-    sorted_env = sort_env(env);
-    if (!sorted_env)
-        return 1; // Error handling for sort_env failure
-
-    if (!prompt[1])
-    {
-        i = 0;
-        while (sorted_env[i])
-        {
-            declare = ft_split(sorted_env[i], '=');
-            if (declare[1])  // Check if there's a value to print
-            {
-                tmp = ft_strjoin(declare[0], "=\"");
-                old_tmp = tmp;
-                tmp = ft_strjoin(tmp, declare[1]);
-                free(old_tmp);
-                old_tmp = tmp;
-                tmp = ft_strjoin(tmp, "\"");
-                free(old_tmp);
-                output = ft_strjoin("declare -x ", tmp);
-                ft_putendl_fd(output, 1);
-                free(output);
-            }
-            ft_free_matriz(declare);
-            free(tmp);
-            i++;
-        }
-    }
-    else
-    {
-        i = 0;
-        while (prompt[++i])
-        {
-            parameters = ft_split(prompt[i], '=');
-            if (parameters[1])  // Only set if there's a value
-            {
-                char *trimmed_value = ft_strtrim(parameters[1], "\"");
-                set_to_env(parameters[0], trimmed_value, env);
-                free(trimmed_value); // Free the trimmed value after usage
-            }
-            ft_free_matriz(parameters);
-        }
-    }
-
-    return 0; // Ensure the function returns an integer
+	extern char **environ;
+	char **sorted_env;
+	char **declare;
+	char *tmp;
+	char	*old_tmp;
+	char *output;
+	char **pramentres;
+	int i;
+	sorted_env = sort_env(environ);
+	if (!prompt[1])
+	{
+		i = 0;
+		while (sorted_env[i])
+		{
+			declare = ft_split(sorted_env[i], '=');
+			tmp = ft_strjoin(declare[0], "=\"");
+			old_tmp = tmp;
+			tmp = ft_strjoin(tmp, declare[1]);
+			free(old_tmp);
+			old_tmp = tmp;
+			tmp = ft_strjoin(tmp, "\"");
+			free(old_tmp);
+			output = ft_strjoin("declare -x ", tmp);
+			ft_putendl_fd(output, 1);
+			free(output);
+			ft_free_matriz(declare);
+			free(tmp);
+			i++;
+		}
+	}
+	else
+	{
+		i = 0;
+		while (prompt[++i])
+		{
+			pramentres = ft_split(prompt[i], '=');
+			tmp = ft_strtrim(pramentres[1],  "\"" );
+			set_to_env(pramentres[0], tmp, environ);
+			ft_free_matriz(pramentres);
+			free(tmp);
+		}
+	}
+	if (pipe)
+	{
+		ft_free_matriz(prompt);
+		exit(0);
+	}
+	return (0);
 }

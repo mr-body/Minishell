@@ -17,17 +17,16 @@ void	handle_SIGINT(int signal)
 	rl_redisplay();
 }
 
-int	main(int ac, char **av, char **envp)
+int	main(int ac, char **av)
 {
 	t_minishell	minishell;
 	int		status;
     char    *cwd;
 
-	minishell.envr = ft_matdup(envp);
+	signal(SIGINT, handle_SIGINT);
+	signal(SIGQUIT, SIG_IGN);
 	while (1)
 	{
-		signal(SIGINT, handle_SIGINT);
-		signal(SIGQUIT, SIG_IGN);
 		ft_putstr_fd(VERDE "\n┌──" RESET, 1);
 		ft_putstr_fd(AZUL "(Minishell)" RESET, 1);
 		ft_putstr_fd(VERDE "-[" RESET, 1);
@@ -39,7 +38,6 @@ int	main(int ac, char **av, char **envp)
         {
             free(cwd);
             free(minishell.readline);
-			ft_free_matriz(minishell.envr);
 			exit (0);
         }
 		if (minishell.readline)
@@ -48,7 +46,6 @@ int	main(int ac, char **av, char **envp)
 		{
 			free(minishell.readline);
             free(cwd);
-			ft_free_matriz(minishell.envr);
 			exit(0);
 		}
 		else
