@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 16:19:40 by gkomba            #+#    #+#             */
-/*   Updated: 2024/10/22 10:49:19 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/10/25 15:48:22 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	exec_command(t_minishell *minishell)
 			perror("fork error: ");
 		else if (pid == 0)
 		{
-			if (shell(minishell->args, minishell->envr, 0) == -1)
+			if (shell(minishell->args, 0) == -1)
 			{
 				ft_print_command_error(minishell->args[0]);
 				exit(EXIT_FAILURE);
@@ -44,7 +44,7 @@ void	exec_command(t_minishell *minishell)
 	}
 	else
 	{
-		if (shell(minishell->args, minishell->envr, 0) == -1)
+		if (shell(minishell->args, 0) == -1)
 			ft_print_command_error(minishell->args[0]);
 	}
 	ft_free_matriz(minishell->args);
@@ -80,7 +80,7 @@ void	exec_command_pipe(t_minishell *minishell)
 			if (i > 0)
 				dup2(minishell->pipe_fds[(i - 1) * 2], STDIN_FILENO);
 			close_fds(minishell, num_commands);
-			if (shell(minishell->args, minishell->envr, 1) == -1)
+			if (shell(minishell->args, 1) == -1)
 			{
 				perror("error: ");
 				exit(1);
