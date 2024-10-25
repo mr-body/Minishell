@@ -33,27 +33,46 @@ void set_to_env(const char *name, const char *value, char **environ)
     char *new_var;
     size_t name_len;
 
-    name_len = ft_strlen(name);
-    new_var = ft_strjoin(name, "=");
-    char *old_var = new_var;  // Preserve original pointer for free
+	i = 0;
+	name_len = ft_strlen(name);
+    new_var = NULL;
+	new_var = ft_strjoin(name, "=");
+	old_var = new_var;
+	new_var = ft_strjoin(new_var, value);
+	free(old_var);
+	while (environ[i])
+	{
+		if (ft_strncmp(environ[i], name, name_len) == 0 && environ[i][name_len] == '=')
+		{
+			free(environ[i]);
+			environ[i] = new_var;
+			return ;
+		}
+		i++;
+	}
+	environ[i] = new_var;
+	environ[i + 1] = NULL;
+}
 
-    new_var = ft_strjoin(new_var, value);
-    free(old_var);  // Free the initial concatenation
 
-    i = 0;
-    while (environ[i])
-    {
-        if (ft_strncmp(environ[i], name, name_len) == 0 && environ[i][name_len] == '=')
-        {
-            free(environ[i]);  // Free the old variable
-            environ[i] = new_var;  // Assign the new variable
-            return;
-        }
-        i++;
-    }
+char	**args(char *prompt)
+{
+	char	**raw_data;
+	char	**net_data;
+	char	**data;
 
-    environ[i] = new_var;  // Set the new variable in the environment
-    environ[i + 1] = NULL; // Ensure the next pointer is NULL
+	raw_data = ft_split(prompt, '=');
+	net_data = ft_adjust_data(raw_data);
+	if (!net_data)
+	{
+		write(1, "minishell: syntax error: quote\n", 31);
+		ft_free_matriz(raw_data);
+		exit(1);
+	}
+	data = ft_extended(net_data);
+	ft_free_matriz(raw_data);
+	ft_free_matriz(net_data);
+	return (data);
 }
 
 int command_export(char **prompt, char **env, int pipe)

@@ -89,7 +89,12 @@ int	command_unset(char **prompt, char **env, int pipe)
 				j = i;
 				while (temp_environ[j])
 				{
+<<<<<<< HEAD
 					temp_environ[j] = temp_environ[j + 1];
+=======
+					free(environ[j]);
+					environ[j] = environ[j + 1];
+>>>>>>> main
 					j++;
 				}
 				break;
