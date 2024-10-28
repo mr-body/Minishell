@@ -18,9 +18,9 @@
 # define RESET "\033[0m"
 # define CLEAR "\033[H\033[2J"
 
-# define R_APPEDN_O 42
+# define R_APPEND_O 42
 # define R_TRUNC_O	1337
-# define R_APPEDN_I	21
+# define R_APPEND_I	21
 # define R_TRUNC_I 19
 
 typedef struct s_minishell
@@ -64,5 +64,5 @@ char		*handle_quotes(char *tmp);
 void		ft_print_syntax_error(void);
 
 char		*expand_env_var(char *arg, char *tmp);
-int is_redir(char *str);
+int    redirect(t_minishell *minishell);
 #endif

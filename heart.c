@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 16:19:40 by gkomba            #+#    #+#             */
-/*   Updated: 2024/10/21 16:19:28 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/10/25 16:54:13 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,7 @@ void	exec_command_pipe(t_minishell *minishell)
 /*funcao que chama as funcao que vao exeutar os comandos*/
 void	execute_command(t_minishell *minishell)
 {
+	redirect(minishell);
 	if (strchr(minishell->readline, '|'))
 		exec_command_pipe(minishell);
 	else
