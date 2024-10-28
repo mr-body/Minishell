@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 16:24:38 by gkomba            #+#    #+#             */
-/*   Updated: 2024/10/25 16:09:28 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/10/25 16:53:16 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,8 +181,10 @@ char	**net_args(char *prompt)
 
 	raw_data = ft_split(prompt, ' ');
 	net_data = ft_adjust_data(raw_data);
-	ft_free_matriz(raw_data);
+	if (raw_data)
+		ft_free_matriz(raw_data);
 	data = ft_extended(net_data);
-	ft_free_matriz(net_data);
+	if (net_data)
+		ft_free_matriz(net_data);
 	return (data);
 }
