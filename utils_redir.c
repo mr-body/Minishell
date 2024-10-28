@@ -9,6 +9,6 @@ int is_redir(char *str)
     else if (ft_strchr(str, '>'))
         return (R_TRUNC_O)
     else if (ft_strchr(str, '<'))
-        return (R_TRUNC_I)
+        return (R_TRUNC_I);
     return (0);
 }
