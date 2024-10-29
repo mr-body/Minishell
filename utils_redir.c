@@ -2,40 +2,61 @@
 
 int is_redir(char *str)
 {
-    if (ft_count_chr_occurrency_str(str, '>') == 2)
+    if (ft_find_little_str(str, ">>") == 1)
         return (R_APPEND_O);
-    else if (ft_count_chr_occurrency_str(str, '<') == 2)
+    else if (ft_find_little_str(str, "<") == 1)
         return (R_APPEND_I);
-    else if (ft_count_chr_occurrency_str(str, '>') == 1)
+    else if (ft_find_little_str(str, ">") == 1)
         return (R_TRUNC_O);
-    else if (ft_count_chr_occurrency_str(str, '<') == 1)
+    else if (ft_find_little_str(str, "<") == 1)
         return (R_TRUNC_I);
     return (0);
 }
 
-int redirect_input(t_minishell *minishell, int redir_mode)
+int is_redirout(char *str)
 {
-    ft_putendl_fd("walter oppai", 1);
-    return 0;
+    char    **mat;
+    int     i;
+    mat = ft_split(str, 32);
+    i = -1;
+    while (mat[++i])
+    {
+        if (ft_strlen(mat[i]) == 1)
+        {
+            ft_free_matriz(mat);
+            return (R_TRUNC_O);
+        }
+        else if (ft_strlen(mat[i]) == 2 && ft_strncmp(mat[i], ">>", 2) == 0)
+        {
+            ft_free_matriz(mat);
+            return (R_APPEND_O);
+        }
+    }
+    ft_free_matriz(mat);
+    return (0);
 }
 
-int redirect_output(t_minishell *minishell, int redir_mode)
+int ft_find_little_str(char *str, char *little)
 {
-    ft_putendl_fd("walter oppai", 1);
-    return 0;
-}
-
-
-int    redirect(t_minishell *minishell)
-{
-    int redir;
-
-    redir = is_redir(minishell->readline);
-    if ((redir == R_APPEND_O) || (redir = R_TRUNC_O))
-        redirect_output(minishell, redir);
-    else if ((redir == R_APPEND_I) || (redir == R_TRUNC_I))
-        redirect_input(minishell, redir);
-    else
-        return 0;
-    return (redir);
+    int i;
+    int j;
+    i = 0;
+    j = 0;
+    if (!little)
+        return (0);
+    while (str[i])
+    {
+        if (str[i] == little[j])
+        {
+            while (str[i] == little[j] && little[j])
+            {
+                i++;
+                j++;
+            }
+            if (!little[j])
+                return (1);
+        }
+        i++;
+    }
+    return (0);
 }

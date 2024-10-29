@@ -12,7 +12,7 @@
 
 #include "../minishell.h"
 
-int	command_pwd(char **prompt, int pipe)
+int	command_pwd(char **prompt, int pipe, t_minishell *minishell)
 {
 	char	*cwd;
 
@@ -22,8 +22,8 @@ int	command_pwd(char **prompt, int pipe)
 		perror("getcwd error");
 		exit(1);
 	}
-	write(STDOUT_FILENO, cwd, strlen(cwd));
-	write(STDOUT_FILENO, "\n", 1);
+	write(minishell->fd, cwd, strlen(cwd));
+	write(minishell->fd, "\n", 1);
 	free(cwd);
 	if (pipe)
 	{

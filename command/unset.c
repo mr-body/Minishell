@@ -12,7 +12,7 @@
 
 #include "../minishell.h"
 
-int	command_unset(char **prompt, int pipe)
+int	command_unset(char **prompt, int pipe, t_minishell *minishell)
 {
 	extern char	**environ;
 	int			i;
