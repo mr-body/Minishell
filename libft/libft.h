@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 10:04:29 by gkomba            #+#    #+#             */
-/*   Updated: 2024/10/22 10:22:55 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/10/28 16:38:12 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ int		ft_memcmp(const void *s1, const void *s2, size_t n);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 int		ft_count_chr_occurrency_matriz(char **mat, char chr);
 int		ft_count_chr_occurrency_str(char *str, char chr);
+int		ft_find_little_str(char *str, char *little);
 int		ft_atoi(const char *nptr);
 int		ft_atoi_v2(const char *nptr);
 size_t	ft_strlen(const char *str);

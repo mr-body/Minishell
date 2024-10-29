@@ -26,77 +26,60 @@ char	**sort_env(char **environ)
 	}
 	return (environ);
 }
+void set_to_env(char *value, char **environ) {
+    int i = 0;
+    // Look for the variable in the environment
+    while (environ[i]) {
+        i++;
+    }
 
-void	set_to_env(const char *name, const char *value, char **environ)
-{
-	int		i;
-	char	*new_var;
-	char	*old_var;
-	size_t	name_len;
-
-	i = 0;
-	name_len = ft_strlen(name);
-    new_var = NULL;
-	new_var = ft_strjoin(name, "=");
-	old_var = new_var;
-	new_var = ft_strjoin(new_var, value);
-	free(old_var);
-	while (environ[i])
-	{
-		if (ft_strncmp(environ[i], name, name_len) == 0 && environ[i][name_len] == '=')
-		{
-			free(environ[i]);
-			environ[i] = new_var;
-			return ;
-		}
-		i++;
-	}
-	environ[i] = new_var;
-	environ[i + 1] = NULL;
+    // Variable not found, add it to the end
+    environ[i] = value;
+    environ[i + 1] = NULL; // Ensure the last element is NULL
 }
+
+ void	ft_delete_quotes(char *str)
+ {
+	 int i = 0;
+	 int j = 0;
+	 while (str[i])
+	 {
+		 if (str[i] != '\"')
+		 {
+			 str[j] = str[i];
+			 j++;
+		 }
+		 i++;
+	 }
+	 str[j] = '\0';
+ }
 
 int	command_export(char **prompt, int pipe)
 {
 	extern char **environ;
-	char **sorted_env;
-	char **declare;
-	char *tmp;
-	char	*old_tmp;
-	char *output;
+	char **sorted_env = sort_env(environ);
 	char **pramentres;
-	int i;
-	sorted_env = sort_env(environ);
+	int i = 0;
+
 	if (!prompt[1])
 	{
-		i = 0;
 		while (sorted_env[i])
 		{
-			declare = ft_split(sorted_env[i], '=');
-			tmp = ft_strjoin(declare[0], "=\"");
-			old_tmp = tmp;
-			tmp = ft_strjoin(tmp, declare[1]);
-			free(old_tmp);
-			old_tmp = tmp;
-			tmp = ft_strjoin(tmp, "\"");
-			free(old_tmp);
-			output = ft_strjoin("declare -x ", tmp);
-			ft_putendl_fd(output, 1);
+			char *output = ft_strjoin("declare -x ", sorted_env[i]);
+			ft_putstr_fd(output, 1);
 			free(output);
-			ft_free_matriz(declare);
-			free(tmp);
+			write(1, "\n", 1);
 			i++;
 		}
 	}
 	else
 	{
 		i = 0;
-		while (prompt[++i])
+		while(prompt[++i])
 		{
-			pramentres = ft_split(prompt[i], '=');
-			tmp = ft_strtrim(pramentres[1],  "\"" );
-			set_to_env(pramentres[0], tmp, environ);
-			ft_free_matriz(pramentres);
-			free(tmp);
+			ft_delete_quotes(prompt[i]);
+			printf("prompt[%d]: %s\n", i, prompt[i]);
+			set_to_env(prompt[1], environ);
 		}
 	}
 	if (pipe)
