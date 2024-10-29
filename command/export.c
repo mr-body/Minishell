@@ -26,6 +26,7 @@ char	**sort_env(char **environ)
 	}
 	return (environ);
 }
+<<<<<<< HEAD
 void set_to_env(char *value, char **environ) {
     int i = 0;
     // Look for the variable in the environment
@@ -55,6 +56,51 @@ void set_to_env(char *value, char **environ) {
  }
 
 int	command_export(char **prompt, int pipe)
+=======
+void	set_to_env(char *value, char **environ)
+{
+	int		i;
+	char	*new_var;
+	size_t	name_len;
+
+	i = 0;
+	name_len = ft_strlen(value);
+	new_var = ft_strdup(value);
+	while (environ[i])
+	{
+		if (ft_strncmp(environ[i], value, name_len) == 0 && environ[i][name_len] == '=')
+		{
+			free(environ[i]);
+			environ[i] = new_var;
+			return ;
+		}
+		i++;
+	}
+	environ[i] = new_var;
+	environ[i + 1] = NULL;
+}
+
+
+void	ft_delete_quotes(char *str)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	while (str[i])
+	{
+		if (str[i] != '\"')
+		{
+			str[j] = str[i];
+			j++;
+		}
+		i++;
+	}
+	str[j] = '\0';
+}
+int	command_export(char **prompt, int pipe, t_minishell *minishell)
+>>>>>>> d0f590d6be0735e4442177c59ff6c72a65e67570
 {
 	extern char **environ;
 	char **sorted_env = sort_env(environ);
@@ -77,9 +123,16 @@ int	command_export(char **prompt, int pipe)
 		i = 0;
 		while(prompt[++i])
 		{
+<<<<<<< HEAD
 			ft_delete_quotes(prompt[i]);
 			printf("prompt[%d]: %s\n", i, prompt[i]);
 			set_to_env(prompt[1], environ);
+=======
+			char *var = ft_strdup(prompt[i]);
+			ft_delete_quotes(var);
+			set_to_env(var, environ);
+			free(var);
+>>>>>>> d0f590d6be0735e4442177c59ff6c72a65e67570
 		}
 	}
 	if (pipe)
