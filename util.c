@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 16:24:38 by gkomba            #+#    #+#             */
-/*   Updated: 2024/10/25 16:53:16 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/10/29 14:48:24 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,4 +187,28 @@ char	**net_args(char *prompt)
 	if (net_data)
 		ft_free_matriz(net_data);
 	return (data);
+}
+
+int is_redirout(char *str)
+{
+	char	**mat;
+	int		i;
+
+	mat = ft_split(str, 32);
+	i = -1;
+	while (mat[++i])
+	{
+		if (ft_strlen(mat[i]) == 1)
+		{
+			ft_free_matriz(mat);
+			return (R_TRUNC_O);
+		}
+		else if (ft_strlen(mat[i]) == 2 && ft_strncmp(mat[i], ">>", 2) == 0)
+		{
+			ft_free_matriz(mat);
+			return (R_APPEND_O);
+		}
+	}
+	ft_free_matriz(mat);
+	return (0);
 }
