@@ -125,6 +125,37 @@ char	**ft_extended(char **data)
 	return (new_data);
 }
 
+char    **ft_strtok(char *str, char *delimiter)
+{
+    char    **mat;
+    int     i;
+    int     j;
+    int     k;
+    mat = malloc(sizeof(char *) * (ft_count_chr_occurrency_str(str, ' ') + 2));
+    if (!mat)
+        return (NULL);
+    i = -1;
+    j = 0;
+    while (str[++i])
+    {
+        if (str[i] == ' ')
+            continue ;
+        k = i;
+        while (str[k] && !ft_strchr(delimiter, str[k]))
+            k++;
+        mat[j] = ft_substr(str, i, k - i);
+        if (!mat[j])
+        {
+            ft_free_matriz(mat);
+            return (NULL);
+        }
+        i = k;
+        j++;
+    }
+    mat[j] = NULL;
+    return (mat);
+}
+
 char **ft_adjust_data(char **data) {
     int i = -1, j = 0;
     char **new = malloc(sizeof(char *) * (ft_matriz_len(data) + 1));
