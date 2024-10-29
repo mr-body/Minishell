@@ -13,7 +13,7 @@
 #include "minishell.h"
 
 /*funcao que executa os builtins*/
-int	shell_builtin(char **prompt, char **environ, int pipe)
+int	shell_builtin(char **prompt, char **environ, int pipe, t_minishell *minishell)
 {
 	int	exit_status;
 
@@ -24,17 +24,17 @@ int	shell_builtin(char **prompt, char **environ, int pipe)
 		exit(0);
 	}
 	else if (ft_strncmp(prompt[0], "env", 3) == 0)
-		exit_status = command_env(prompt, environ, pipe);
+		exit_status = command_env(prompt, environ, pipe, minishell);
 	else if (ft_strncmp(prompt[0], "cd", 2) == 0)
-		exit_status = command_cd(prompt);
+		exit_status = command_cd(prompt, minishell);
 	else if (ft_strncmp(prompt[0], "echo", 4) == 0)
-		exit_status = command_echo(prompt, pipe);
+		exit_status = command_echo(prompt, pipe, minishell);
 	else if (ft_strncmp(prompt[0], "pwd", 3) == 0)
-		exit_status = command_pwd(prompt, pipe);
+		exit_status = command_pwd(prompt, pipe, minishell);
     else if (ft_strncmp(prompt[0], "export", 6) == 0)
-		exit_status = command_export(prompt, pipe);
+		exit_status = command_export(prompt, pipe, minishell);
     else if (ft_strncmp(prompt[0], "unset", 6) == 0)
-		exit_status = command_unset(prompt, pipe);
+		exit_status = command_unset(prompt, pipe, minishell);
 	return (exit_status);
 }
 
@@ -70,14 +70,14 @@ char	*shell_binary(char **prompt, char **environ)
 
 /*funcao que chama a funcao de xecutar builtin e a funcao*/
 /*de pegar o caminho do binario*/
-int	shell(char **prompt, int pipe)
+int	shell(char **prompt, int pipe, t_minishell *minishell)
 {
 	extern char	**environ;
 	char		*command;
 
 	command = NULL;
 	if (is_builtin(prompt[0]))
-		return (shell_builtin(prompt, environ, pipe));
+		return (shell_builtin(prompt, environ, pipe, minishell));
 	else
 	{
 		command = shell_binary(prompt, environ);

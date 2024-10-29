@@ -18,7 +18,7 @@ void	exec_command(t_minishell *minishell)
 	int		exit_status;
 	pid_t	pid;
 
-	minishell->args = net_args(minishell->readline);
+	minishell->args = net_args(minishell->command);
 	if (!minishell->args)
 	{
 		ft_free_matriz(minishell->args);
@@ -33,18 +33,20 @@ void	exec_command(t_minishell *minishell)
 			perror("fork error: ");
 		else if (pid == 0)
 		{
-			if (shell(minishell->args, 0) == -1)
+			dup2(minishell->fd, STDOUT_FILENO);
+			if (shell(minishell->args, 0, minishell) == -1)
 			{
 				ft_print_command_error(minishell->args[0]);
 				exit(EXIT_FAILURE);
 			}
+			close(minishell->fd);
 		}
 		else
 			waitpid(pid, &minishell->exit_status, 0);
 	}
 	else
 	{
-		if (shell(minishell->args, 0) == -1)
+		if (shell(minishell->args, 0, minishell) == -1)
 			ft_print_command_error(minishell->args[0]);
 	}
 	ft_free_matriz(minishell->args);
@@ -57,7 +59,7 @@ void	exec_command_pipe(t_minishell *minishell)
 	int		i;
 	pid_t	pid;
 
-	minishell->raw_args = ft_split(minishell->readline, '|');
+	minishell->raw_args = ft_split(minishell->command, '|');
 	num_commands = ft_matriz_len(minishell->raw_args);
 	minishell->pipe_fds = (int *)malloc(sizeof(int) * (2 * num_commands - 1));
 	open_fds(minishell, num_commands);
@@ -75,16 +77,18 @@ void	exec_command_pipe(t_minishell *minishell)
 		pid = fork();
 		if (pid == 0)
 		{
+			dup2(minishell->fd, STDOUT_FILENO);
 			if (i < num_commands - 1)
 				dup2(minishell->pipe_fds[i * 2 + 1], STDOUT_FILENO);
 			if (i > 0)
 				dup2(minishell->pipe_fds[(i - 1) * 2], STDIN_FILENO);
 			close_fds(minishell, num_commands);
-			if (shell(minishell->args, 1) == -1)
+			if (shell(minishell->args, 1, minishell) == -1)
 			{
 				perror("error: ");
 				exit(1);
 			}
+			close(minishell->fd);
 		}
 		else if (pid < 0)
 			perror("fork error: ");
@@ -96,8 +100,63 @@ void	exec_command_pipe(t_minishell *minishell)
 /*funcao que chama as funcao que vao exeutar os comandos*/
 void	execute_command(t_minishell *minishell)
 {
-	if (strchr(minishell->readline, '|'))
-		exec_command_pipe(minishell);
-	else
-		exec_command(minishell);
+	// echo "como vc este" | wc -l > text.txt > header.txt
+	// [0] echo "como vc este" | wc -l
+	// [1] text.txt
+	// [2] header.txt
+
+	// echo teste > text > etxv >  tevxz > 6ftx
+
+	int redir;
+	int i = 0;
+	char **data;
+	int fd;
+
+	minishell->fd = 1;
+
+    redir = is_redir(minishell->readline);
+	
+	if (redir == R_TRUNC_O)
+	{
+
+		data = ft_strtok(minishell->readline, ">");
+		minishell->command = data[0];
+
+		while(++i <  (ft_matriz_len(data) - 1))
+		{
+			fd = open(data[i], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+			close(fd);
+		}
+		minishell->fd = open(ft_strtrim(data[ft_matriz_len(data) - 1],  " "), O_WRONLY | O_CREAT | O_TRUNC, 0644);
+
+		if (strchr(minishell->command, '|'))
+			exec_command_pipe(minishell);
+		else
+			exec_command(minishell);
+	}
+	else if(redir == R_APPEND_O)
+	{
+		data = ft_strtok(minishell->readline, ">>");
+		minishell->command = data[0];
+
+		while(++i <  (ft_matriz_len(data) - 1))
+		{
+			fd = open(data[i], O_WRONLY | O_CREAT | O_APPEND, 0644);
+			close(fd);
+		}
+		minishell->fd = open(ft_strtrim(data[ft_matriz_len(data) - 1],  " "), O_WRONLY | O_CREAT | O_APPEND, 0644);
+
+		if (strchr(minishell->command, '|'))
+			exec_command_pipe(minishell);
+		else
+			exec_command(minishell);
+	}
+    else
+    {
+		minishell->command = minishell->readline;
+		if (strchr(minishell->command, '|'))
+			exec_command_pipe(minishell);
+		else
+			exec_command(minishell);
+	}
 }

@@ -12,7 +12,7 @@
 
 #include "../minishell.h"
 
-int	command_cd(char **prompt)
+int	command_cd(char **prompt, t_minishell *minishell)
 {
 	if (prompt[1])
 	{
