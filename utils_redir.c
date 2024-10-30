@@ -4,7 +4,7 @@ int is_redir(char *str)
 {
     if (ft_find_little_str(str, ">>") == 1)
         return (R_APPEND_O);
-    else if (ft_find_little_str(str, "<") == 1)
+    else if (ft_find_little_str(str, "<<") == 1)
         return (R_APPEND_I);
     else if (ft_find_little_str(str, ">") == 1)
         return (R_TRUNC_O);
@@ -30,6 +30,29 @@ int is_redirout(char *str)
         {
             ft_free_matriz(mat);
             return (R_APPEND_O);
+        }
+    }
+    ft_free_matriz(mat);
+    return (0);
+}
+
+int is_redirin(char *str)
+{
+    char    **mat;
+    int     i;
+    mat = ft_split(str, 32);
+    i = -1;
+    while (mat[++i])
+    {
+        if (ft_strlen(mat[i]) == 1)
+        {
+            ft_free_matriz(mat);
+            return (R_TRUNC_I);
+        }
+        else if (ft_strlen(mat[i]) == 2 && ft_strncmp(mat[i], ">>", 2) == 0)
+        {
+            ft_free_matriz(mat);
+            return (R_APPEND_I);
         }
     }
     ft_free_matriz(mat);
