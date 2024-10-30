@@ -125,7 +125,7 @@ void	execute_command(t_minishell *minishell)
 	if (redir == R_TRUNC_O)
 	{
 
-		data = ft_strtok(minishell->readline, ">");
+		data = ft_strtok(minishell->readline, "heredoc>");
 		minishell->command = data[0];
 		minishell->fd_type = 0;
 
