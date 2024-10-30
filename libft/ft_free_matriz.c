@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_free_matriz.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gkomba <<marvin@42.fr> >                   +#+  +:+       +#+        */
+/*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 18:03:37 by gkomba            #+#    #+#             */
-/*   Updated: 2024/08/13 08:30:24 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/10/29 16:23:06 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ char	**ft_free_matriz(char **mat)
 	size_t	i;
 
 	i = -1;
-	while (mat && mat[++i])
+	while (mat[++i])
 		mat[i] = free_ptr(mat[i]);
 	free (mat);
 	mat = NULL;

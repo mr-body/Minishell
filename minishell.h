@@ -40,7 +40,7 @@ void		header(void);
 
 char		**ft_extended(char **data);
 char		**net_args(char *prompt);
-char		**ft_adjust_data(char **data);
+char		**ft_adjust_data(const char **data);
 
 int			shell(char **prompt, int pipe, t_minishell *minishell);
 void		execute_command(t_minishell *minishell);
