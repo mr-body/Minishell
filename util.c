@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 16:24:38 by gkomba            #+#    #+#             */
-/*   Updated: 2024/10/29 16:30:51 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/10/21 12:43:58 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,6 @@ char	*expand_env_var(char *arg, char *tmp)
 	char	*env_var_name;
 
 	j = 0;
-	if (arg == NULL)
-		return NULL;
 	while (arg[j])
 	{
 		if (arg[j] == '$')
@@ -115,8 +113,7 @@ char	**ft_extended(char **data)
 			new_data = ft_free_matriz(new_data);
 			return (NULL);
 		}
-		if (tmp)
-			tmp = expand_env_var(arg, tmp);
+		tmp = expand_env_var(arg, tmp);
 		if (!tmp)
 		{
 			ft_free_matriz(new_data);
@@ -159,10 +156,8 @@ char    **ft_strtok(char *str, char *delimiter)
     return (mat);
 }
 
-char **ft_adjust_data(const char **dat)
-{
+char **ft_adjust_data(char **data) {
     int i = -1, j = 0;
-	char	**data = (char **)dat;
     char **new = malloc(sizeof(char *) * (ft_matriz_len(data) + 1));
     char *tmp = NULL;
 
@@ -212,11 +207,10 @@ char	**net_args(char *prompt)
 		printf("Error: unbalanced quotes\n");
 		return NULL;
 	}
+
 	raw_data = ft_split(prompt, ' ');
-	net_data = ft_adjust_data((const char **)raw_data);
-	ft_free_matriz(raw_data);
+	net_data = ft_adjust_data(raw_data);
 	data = ft_extended(net_data);
-	if (net_data)
-		ft_free_matriz(net_data);
+
 	return (data);
 }

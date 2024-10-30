@@ -26,7 +26,6 @@ char	**sort_env(char **environ)
 	}
 	return (environ);
 }
-
 void	set_to_env(char *value, char **environ)
 {
 	int		i;
@@ -49,7 +48,6 @@ void	set_to_env(char *value, char **environ)
 	environ[i] = new_var;
 	environ[i + 1] = NULL;
 }
-
 
 void	ft_delete_quotes(char *str)
 {
@@ -90,7 +88,7 @@ int	command_export(char **prompt, int pipe, t_minishell *minishell)
 	else
 	{
 		i = 0;
-		while(prompt[++i])
+		while (prompt[++i])
 		{
 			char *var = ft_strdup(prompt[i]);
 			ft_delete_quotes(var);

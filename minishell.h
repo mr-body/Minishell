@@ -41,7 +41,7 @@ void		header(void);
 
 char		**ft_extended(char **data);
 char		**net_args(char *prompt);
-char		**ft_adjust_data(const char **data);
+char		**ft_adjust_data(char **data);
 
 int			shell(char **prompt, int pipe, t_minishell *minishell);
 void		execute_command(t_minishell *minishell);
@@ -75,6 +75,5 @@ char		*expand_env_var(char *arg, char *tmp);
 int			ft_find_little_str(char *str, char *little);
 int			is_redir(char *str);
 int			is_redirout(char *str);
-
 int is_redirin(char *str);
 #endif
