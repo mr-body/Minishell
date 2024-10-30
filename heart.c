@@ -33,7 +33,10 @@ void	exec_command(t_minishell *minishell)
 			perror("fork error: ");
 		else if (pid == 0)
 		{
-			dup2(minishell->fd, STDOUT_FILENO);
+			if(minishell->fd_type == 0 )
+				dup2(minishell->fd, STDOUT_FILENO);
+			else
+				dup2(minishell->fd, STDIN_FILENO);
 			if (shell(minishell->args, 0, minishell) == -1)
 			{
 				ft_print_command_error(minishell->args[0]);
@@ -77,7 +80,10 @@ void	exec_command_pipe(t_minishell *minishell)
 		pid = fork();
 		if (pid == 0)
 		{
-			dup2(minishell->fd, STDOUT_FILENO);
+			if(minishell->fd_type == 0 )
+				dup2(minishell->fd, STDOUT_FILENO);
+			else
+				dup2(minishell->fd, STDIN_FILENO);
 			if (i < num_commands - 1)
 				dup2(minishell->pipe_fds[i * 2 + 1], STDOUT_FILENO);
 			if (i > 0)
@@ -121,6 +127,7 @@ void	execute_command(t_minishell *minishell)
 
 		data = ft_strtok(minishell->readline, ">");
 		minishell->command = data[0];
+		minishell->fd_type = 0;
 
 		while(++i <  (ft_matriz_len(data) - 1))
 		{
@@ -138,6 +145,7 @@ void	execute_command(t_minishell *minishell)
 	{
 		data = ft_strtok(minishell->readline, ">>");
 		minishell->command = data[0];
+		minishell->fd_type = 0;
 
 		while(++i <  (ft_matriz_len(data) - 1))
 		{
@@ -150,6 +158,65 @@ void	execute_command(t_minishell *minishell)
 			exec_command_pipe(minishell);
 		else
 			exec_command(minishell);
+	}
+	else if(redir == R_TRUNC_I)
+	{
+		data = ft_strtok(minishell->readline, "<");
+		minishell->command = data[0];
+		minishell->fd_type = 1;
+
+		minishell->fd = open(ft_strtrim(data[ft_matriz_len(data) - 1],  " "), O_RDONLY);
+
+		if (strchr(minishell->command, '|'))
+			exec_command_pipe(minishell);
+		else
+			exec_command(minishell);
+	}
+	else if(redir == R_APPEND_I)
+	{
+		data = ft_strtok(minishell->readline, "<<");
+		minishell->command = data[0];
+		minishell->fd_type = 1;
+
+		char *delimiter = ft_strtrim(data[ft_matriz_len(data) - 1], " ");
+
+		// Create a temporary file for the here-document
+		char *temp_file = "/tmp/heredoc.tmp";  // Ensure to handle file naming properly in production
+		int temp_fd = open(temp_file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+
+		char *line = NULL;
+
+		// Read lines from stdin until the delimiter
+		while (1)
+		{
+			line = readline("> ");
+
+			// Check for the delimiter
+			if (strcmp(line, delimiter) == 0)
+				break;
+			
+			write(temp_fd, line, strlen(line));
+			write(temp_fd, "\n", 1);
+		}
+
+		free(line);
+		close(temp_fd);
+
+		// Now open the temporary file for reading
+		minishell->fd = open(temp_file, O_RDONLY);
+		if (minishell->fd < 0)
+		{
+			perror("Could not open temp file for reading");
+			return;
+		}
+
+		if (strchr(minishell->command, '|'))
+			exec_command_pipe(minishell);
+		else
+			exec_command(minishell);
+
+		// Clean up: remove the temporary file after use
+		unlink(temp_file);
 	}
     else
     {

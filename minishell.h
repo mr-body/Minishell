@@ -31,6 +31,7 @@ typedef struct s_minishell
 	char	**raw_args;
 	char	**args;
 	int		fd;
+	int		fd_type;
 	int		*pipe_fds;
 	int		exit_status;
 	int		redir;
@@ -74,4 +75,6 @@ char		*expand_env_var(char *arg, char *tmp);
 int			ft_find_little_str(char *str, char *little);
 int			is_redir(char *str);
 int			is_redirout(char *str);
+
+int is_redirin(char *str);
 #endif
