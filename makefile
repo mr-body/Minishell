@@ -9,6 +9,9 @@ ${NAME}:
 
 clean:
 	make clean -C ${LIBFT}
+
+fclean: clean
+	make fclean -C ${LIBFT}
 	rm -f ${NAME}
 
-re: clean all
+re: fclean all

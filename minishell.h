@@ -91,4 +91,6 @@ char	*trim_quotes(char *tmp);
 int		unbalanced_quotes(char *str);
 void	set_to_env(char *value);
 void	increment_shell_level(t_minishell *minishell);
+void	change_pwd(char *curr_pwd, t_minishell *minishell);
+void	change_old_pwd(char *old_pwd, t_minishell *minishell);
 #endif
