@@ -26,27 +26,56 @@ char	**sort_env(char **environ)
 	}
 	return (environ);
 }
-void	set_to_env(char *value, char **environ)
+
+void	set_to_env(char *value)
 {
-	int		i;
-	char	*new_var;
-	size_t	name_len;
+	extern char	**environ;
+	static char	*new_env[700000];
+	int			i;
 
 	i = 0;
-	name_len = ft_strlen(value);
-	new_var = ft_strdup(value);
 	while (environ[i])
 	{
-		if (ft_strncmp(environ[i], value, name_len) == 0 && environ[i][name_len] == '=')
+		if (ft_strncmp2(environ[i], value, ft_strlen(value)) == 0)
 		{
-			free(environ[i]);
-			environ[i] = new_var;
+			environ[i] = value;
 			return ;
 		}
 		i++;
 	}
-	environ[i] = new_var;
-	environ[i + 1] = NULL;
+	i = 0;
+	while (environ[i])
+	{
+		new_env[i] = environ[i];
+		i++;
+	}
+	new_env[i] = value;
+	new_env[i + 1] = NULL;
+	environ = new_env;
+}
+
+char	*ft_get_env(char *var_name)
+{
+	extern char	**environ;
+	static char	new_env[700000];
+	static int	i;
+	char		*tmp;
+	int			j;
+
+	j = 0;
+	if (var_name != NULL)
+	{
+		while (var_name[j])
+		{
+			new_env[i] = var_name[j];
+			i++;
+			j++;
+		}
+		new_env[i] = '\0';
+	}
+	tmp = &new_env[i - j];
+	i++;
+	return (tmp);
 }
 
 void	ft_delete_quotes(char *str)
@@ -67,21 +96,24 @@ void	ft_delete_quotes(char *str)
 	}
 	str[j] = '\0';
 }
+
 int	command_export(char **prompt, int pipe, t_minishell *minishell)
 {
 	extern char **environ;
-	char **sorted_env = sort_env(environ);
-	char **pramentres;
-	int i = 0;
+	char **sorted_env;
+	char *output;
+	char *var;
+	int i;
 
+	i = 0;
 	if (!prompt[1])
 	{
+		sorted_env = sort_env(environ);
 		while (sorted_env[i])
 		{
-			char *output = ft_strjoin("declare -x ", sorted_env[i]);
-			ft_putstr_fd(output, 1);
+			output = ft_strjoin("declare -x ", sorted_env[i]);
+			ft_putendl_fd(output, 1);
 			free(output);
-			write(1, "\n", 1);
 			i++;
 		}
 	}
@@ -90,9 +122,9 @@ int	command_export(char **prompt, int pipe, t_minishell *minishell)
 		i = 0;
 		while (prompt[++i])
 		{
-			char *var = ft_strdup(prompt[i]);
+			var = ft_strdup(prompt[i]);
 			ft_delete_quotes(var);
-			set_to_env(var, environ);
+			set_to_env(ft_get_env(var));
 			free(var);
 		}
 	}

@@ -35,7 +35,14 @@ typedef struct s_minishell
 	int		*pipe_fds;
 	int		exit_status;
 	int		redir;
+	char	data[MAX_WORDS][MAX_WORD_LENGTH];
 }			t_minishell;
+
+typedef struct s_redir
+{
+	char	*redir;
+	int		redir_type;
+}			t_redir;
 
 void		header(void);
 
@@ -45,8 +52,6 @@ char		**ft_adjust_data(char **data);
 
 int			shell(char **prompt, int pipe, t_minishell *minishell);
 void		execute_command(t_minishell *minishell);
-char		**ft_strtok(char *str, char *delimiter);
-
 int			command_cd(char **prompt, t_minishell *minishell);
 int			command_exit(char **prompt, t_minishell *minishell);
 int			command_echo(char **prompt, int pipe, t_minishell *minishell);
@@ -55,7 +60,6 @@ int			command_env(char **prompt, char **environ, int pipe,
 int			command_pwd(char **prompt, int pipe, t_minishell *minishell);
 int			command_unset(char **prompt, int pipe, t_minishell *minishell);
 int			command_export(char **prompt, int pipe, t_minishell *minishell);
-
 char		*ft_strcat(char *s1, char *s2, int c);
 
 /*new funtions*/
@@ -70,10 +74,17 @@ int			shell_builtin(char **prompt, char **environ, int pipe,
 int			check_quotes(char *str, char quote_type);
 char		*handle_quotes(char *tmp);
 void		ft_print_syntax_error(void);
-
 char		*expand_env_var(char *arg, char *tmp);
 int			ft_find_little_str(char *str, char *little);
 int			is_redir(char *str);
 int			is_redirout(char *str);
-int is_redirin(char *str);
+int			is_redirin(char *str);
+void		redir_trunc_o(t_minishell *minishell);
+void		redir_append_o(t_minishell *minishell);
+void		redir_trunc_in(t_minishell *minishell);
+void		redir_append_in(t_minishell *minishell);
+void		exec_command_pipe(t_minishell *minishell);
+void		exec_command(t_minishell *minishell);
+void		ft_strtok(char *str, char *delimiter,
+				char result[MAX_WORDS][MAX_WORD_LENGTH]);
 #endif

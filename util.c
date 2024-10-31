@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 16:24:38 by gkomba            #+#    #+#             */
-/*   Updated: 2024/10/21 12:43:58 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/10/30 15:31:35 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ char	*ft_strcat(char *s1, char *s2, int c)
 	new[len1 + len2 + 1] = '\0';
 	return (new);
 }
-
 
 char	*expand_env_var(char *arg, char *tmp)
 {
@@ -89,7 +88,7 @@ char	*expand_env_var(char *arg, char *tmp)
 			return (old_tmp);
 		}
 	}
-	return(tmp);
+	return (tmp);
 }
 
 char	**ft_extended(char **data)
@@ -125,76 +124,99 @@ char	**ft_extended(char **data)
 	return (new_data);
 }
 
-char    **ft_strtok(char *str, char *delimiter)
+void	ft_strtok(char *str, char *delimiter,
+		char result[MAX_WORDS][MAX_WORD_LENGTH])
 {
-    char    **mat;
-    int     i;
-    int     j;
-    int     k;
-    mat = malloc(sizeof(char *) * (ft_count_chr_occurrency_str(str, ' ') + 2));
-    if (!mat)
-        return (NULL);
-    i = -1;
-    j = 0;
-    while (str[++i])
-    {
-        if (str[i] == ' ')
-            continue ;
-        k = i;
-        while (str[k] && !ft_strchr(delimiter, str[k]))
-            k++;
-        mat[j] = ft_substr(str, i, k - i);
-        if (!mat[j])
-        {
-            ft_free_matriz(mat);
-            return (NULL);
-        }
-        i = k;
-        j++;
-    }
-    mat[j] = NULL;
-    return (mat);
+	int	i;
+	int	j;
+	int	k;
+	int	in_word;
+
+	i = 0;
+	j = 0;
+	k = 0;
+	in_word = 0;
+	while (str[i])
+	{
+		if (strchr(delimiter, str[i]))
+		{
+			if (in_word)
+			{
+				result[j][k] = '\0';
+				j++;
+				k = 0;
+				in_word = 0;
+			}
+		}
+		else
+		{
+			if (k < MAX_WORD_LENGTH - 1)
+			{
+				result[j][k] = str[i];
+				k++;
+			}
+			in_word = 1;
+		}
+		i++;
+	}
+	if (in_word)
+	{
+		result[j][k] = '\0';
+		j++;
+	}
+	i = j;
+	while (i < MAX_WORDS)
+	{
+		result[i][0] = '\0';
+		i++;
+	}
 }
 
-char **ft_adjust_data(char **data) {
-    int i = -1, j = 0;
-    char **new = malloc(sizeof(char *) * (ft_matriz_len(data) + 1));
-    char *tmp = NULL;
+char	**ft_adjust_data(char **data)
+{
+	int		i = -1, j;
+	char	**new;
+	char	*tmp;
+	char	*new_tmp;
 
-    if (!new) return NULL;
-
-    while (data[++i]) 
+	i = -1, j = 0;
+	new = malloc(sizeof(char *) * (ft_matriz_len(data) + 1));
+	tmp = NULL;
+	if (!new)
+		return (NULL);
+	while (data[++i])
 	{
-        if (ft_count_chr_occurrency_str(data[i], '\"') % 2 == 0) 
-            new[j] = data[i];
-		else 
+		if (ft_count_chr_occurrency_str(data[i], '\"') % 2 == 0)
+			new[j] = data[i];
+		else
 		{
-            tmp = strdup(data[i]);
-            if (!tmp) return NULL;
-			if(data[i + 1])
+			tmp = strdup(data[i]);
+			if (!tmp)
+				return (NULL);
+			if (data[i + 1])
 			{
-            	i++;
-				while (data[i] && ft_count_chr_occurrency_str(tmp, '\"') % 2 != 0) 
+				i++;
+				while (data[i] && ft_count_chr_occurrency_str(tmp, '\"')
+					% 2 != 0)
 				{
-					char *new_tmp = ft_strcat(tmp, data[i], ' ');
+					new_tmp = ft_strcat(tmp, data[i], ' ');
 					free(tmp);
 					tmp = new_tmp;
-					if(data[i + 1] && ft_count_chr_occurrency_str(tmp, '\"') % 2 != 0)
+					if (data[i + 1] && ft_count_chr_occurrency_str(tmp, '\"')
+						% 2 != 0)
 						i++;
 					else
-						break;
+						break ;
 				}
 			}
-            if (ft_count_chr_occurrency_str(tmp, '\"') % 2 == 0) 
-                new[j] = tmp;
-        }
+			if (ft_count_chr_occurrency_str(tmp, '\"') % 2 == 0)
+				new[j] = tmp;
+		}
 		j++;
-    }
-
-    new[j] = NULL;
-    return new;
+	}
+	new[j] = NULL;
+	return (new);
 }
-
 
 char	**net_args(char *prompt)
 {
@@ -202,15 +224,13 @@ char	**net_args(char *prompt)
 	char	**net_data;
 	char	**data;
 
-	if(ft_count_chr_occurrency_str(prompt, '\"') % 2 != 0)
+	if (ft_count_chr_occurrency_str(prompt, '\"') % 2 != 0)
 	{
 		printf("Error: unbalanced quotes\n");
-		return NULL;
+		return (NULL);
 	}
-
 	raw_data = ft_split(prompt, ' ');
 	net_data = ft_adjust_data(raw_data);
 	data = ft_extended(net_data);
-
 	return (data);
 }
