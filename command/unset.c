@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execial.c                                          :+:      :+:    :+:   */
+/*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: waalexan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 16:20:52 by gkomba            #+#    #+#             */
-/*   Updated: 2024/10/19 16:38:46 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/10/31 07:25:44 by waalexan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,16 +32,14 @@ int	command_unset(char **prompt, int pipe, t_minishell *minishell)
 		i = 0;
 		while (environ[i])
 		{
-			if (strncmp(environ[i], prompt[line], name_len) == 0
-				&& environ[i][name_len] == '=')
+			if (strncmp(environ[i], prompt[line], name_len) == 0)
 			{
-				j = i;
-				while (environ[j])
+				while (environ[i])
 				{
-					free(environ[j]);
-					environ[j] = environ[j + 1];
-					j++;
+					environ[i] = environ[i + 1];
+					i++;
 				}
+				break;
 			}
 			i++;
 		}
