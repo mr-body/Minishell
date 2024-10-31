@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 10:04:29 by gkomba            #+#    #+#             */
-/*   Updated: 2024/10/22 10:22:55 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/10/30 15:55:18 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,9 @@
 # include "limits.h"
 # include <stdlib.h>
 # include <unistd.h>
+
+#define MAX_WORDS 100
+#define MAX_WORD_LENGTH 50
 
 int		ft_isalpha(int c);
 int		ft_isdigit(int c);
@@ -62,5 +65,7 @@ char	**ft_matdup(char **mat);
 char	*ft_mattstr_copy(char **mat);
 char	*free_ptr(char *ptr);
 void	ft_print_matriz(char **matriz);
+int	ft_strncmp2(const char *s1, const char *s2, size_t n);
+int	ft_matriz_len2(char matriz[MAX_WORDS][MAX_WORD_LENGTH]);
 
 #endif
