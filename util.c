@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 16:24:38 by gkomba            #+#    #+#             */
-/*   Updated: 2024/10/31 11:26:34 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/10/31 12:05:49 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -226,37 +226,4 @@ char	**net_args(char *prompt)
 		return (data);
 	}
 	return (NULL);
-}
-
-void	increment_shell_level(t_minishell *minishell)
-{
-	char	**prompt;
-	char	*shell_level;
-	char	*name;
-	int		level;
-
-	shell_level = getenv("SHLVL");
-	name = NULL;
-	prompt =(char **)malloc(sizeof(char *) * 3);
-	prompt[0] = "export";
-	prompt[2] = 0;
-	if (shell_level)
-	{
-		name = "SHLVL=";
-		level = ft_atoi(shell_level);
-		level++;
-		shell_level = ft_itoa(level);
-		name = ft_strjoin(name, shell_level);
-		prompt[1] = name;
-		command_export(prompt, 0, minishell);
-		free(shell_level);
-		free(name);
-	}
-	else
-	{
-		name = "SHLVL=1";
-		prompt[1] = name;
-		
-		command_export((char *[]){ "export", "SHLVL=", "1", NULL}, 0, minishell);
-	}
 }
