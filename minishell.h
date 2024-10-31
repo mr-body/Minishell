@@ -87,4 +87,8 @@ void		exec_command_pipe(t_minishell *minishell);
 void		exec_command(t_minishell *minishell);
 void		ft_strtok(char *str, char *delimiter,
 				char result[MAX_WORDS][MAX_WORD_LENGTH]);
+char	*trim_quotes(char *tmp);
+int		unbalanced_quotes(char *str);
+void	set_to_env(char *value);
+void	increment_shell_level(t_minishell *minishell);
 #endif
