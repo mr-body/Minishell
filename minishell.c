@@ -25,6 +25,8 @@ int	main(int ac, char **av)
 
 	signal(SIGINT, handle_SIGINT);
 	signal(SIGQUIT, SIG_IGN);
+	ft_memset(&minishell, 0, sizeof(t_minishell));
+	increment_shell_level(&minishell);
 	while (1)
 	{
 		ft_putstr_fd(VERDE "\n┌──" RESET, 1);

@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 16:24:38 by gkomba            #+#    #+#             */
-/*   Updated: 2024/10/30 15:31:35 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/10/31 11:26:34 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,19 +75,7 @@ char	*expand_env_var(char *arg, char *tmp)
 		}
 	}
 	if ((ft_strchr(tmp, '\"')) || (ft_strchr(tmp, '\'')))
-	{
-		old_tmp = handle_quotes(tmp);
-		if (!old_tmp)
-		{
-			free(tmp);
-			return (NULL);
-		}
-		else
-		{
-			free(tmp);
-			return (old_tmp);
-		}
-	}
+		return (trim_quotes(tmp));
 	return (tmp);
 }
 
@@ -138,7 +126,7 @@ void	ft_strtok(char *str, char *delimiter,
 	in_word = 0;
 	while (str[i])
 	{
-		if (strchr(delimiter, str[i]))
+		if (ft_strchr(delimiter, str[i]))
 		{
 			if (in_word)
 			{
@@ -174,12 +162,14 @@ void	ft_strtok(char *str, char *delimiter,
 
 char	**ft_adjust_data(char **data)
 {
-	int		i = -1, j;
+	int		i;
+	int		j;
 	char	**new;
 	char	*tmp;
 	char	*new_tmp;
 
-	i = -1, j = 0;
+	i = -1;
+	j = 0;
 	new = malloc(sizeof(char *) * (ft_matriz_len(data) + 1));
 	tmp = NULL;
 	if (!new)
@@ -223,14 +213,50 @@ char	**net_args(char *prompt)
 	char	**raw_data;
 	char	**net_data;
 	char	**data;
+	int		qt;
 
-	if (ft_count_chr_occurrency_str(prompt, '\"') % 2 != 0)
-	{
-		printf("Error: unbalanced quotes\n");
+	qt = unbalanced_quotes(prompt);
+	if (qt == 1)
 		return (NULL);
+	else
+	{
+		raw_data = ft_split(prompt, ' ');
+		net_data = ft_adjust_data(raw_data);
+		data = ft_extended(net_data);
+		return (data);
 	}
-	raw_data = ft_split(prompt, ' ');
-	net_data = ft_adjust_data(raw_data);
-	data = ft_extended(net_data);
-	return (data);
+	return (NULL);
+}
+
+void	increment_shell_level(t_minishell *minishell)
+{
+	char	**prompt;
+	char	*shell_level;
+	char	*name;
+	int		level;
+
+	shell_level = getenv("SHLVL");
+	name = NULL;
+	prompt =(char **)malloc(sizeof(char *) * 3);
+	prompt[0] = "export";
+	prompt[2] = 0;
+	if (shell_level)
+	{
+		name = "SHLVL=";
+		level = ft_atoi(shell_level);
+		level++;
+		shell_level = ft_itoa(level);
+		name = ft_strjoin(name, shell_level);
+		prompt[1] = name;
+		command_export(prompt, 0, minishell);
+		free(shell_level);
+		free(name);
+	}
+	else
+	{
+		name = "SHLVL=1";
+		prompt[1] = name;
+		
+		command_export((char *[]){ "export", "SHLVL=", "1", NULL}, 0, minishell);
+	}
 }
