@@ -44,7 +44,7 @@ int is_redirin(char *str)
     i = -1;
     while (mat[++i])
     {
-        if (ft_strlen(mat[i]) == 1)
+        if (ft_strlen(mat[i]) == 1 && ft_strncmp(mat[i], "<", 1) == 0)
         {
             ft_free_matriz(mat);
             return (R_TRUNC_I);

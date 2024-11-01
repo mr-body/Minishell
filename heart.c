@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 16:19:40 by gkomba            #+#    #+#             */
-/*   Updated: 2024/10/31 09:02:34 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/10/31 18:50:44 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,7 @@ void	execute_command(t_minishell *minishell)
 	minishell->fd = 1;
 	minishell->fd_type = 1;
 	redir = is_redir(minishell->readline);
+	printf("redir: %d\n", redir);
 	if (redir == R_TRUNC_O)
 		redir_trunc_o(minishell);
 	else if (redir == R_APPEND_O)

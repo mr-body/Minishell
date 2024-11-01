@@ -24,6 +24,17 @@
 # define R_APPEND_I 21
 # define R_TRUNC_I 19
 
+typedef struct vars
+{
+	int		i;
+	int		j;
+	int		k;
+	int		in_word;
+	char	*old_tmp;
+	char	*env_var_value;
+	char	*env_var_name;
+}			t_vars;
+
 typedef struct s_minishell
 {
 	char	*readline;
@@ -60,7 +71,6 @@ int			command_env(char **prompt, char **environ, int pipe,
 int			command_pwd(char **prompt, int pipe, t_minishell *minishell);
 int			command_unset(char **prompt, int pipe, t_minishell *minishell);
 int			command_export(char **prompt, int pipe, t_minishell *minishell);
-char		*ft_strcat(char *s1, char *s2, int c);
 
 /*new funtions*/
 void		ft_exit_process(t_minishell *minishell, int nbr_cmds);

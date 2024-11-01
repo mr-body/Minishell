@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 10:04:29 by gkomba            #+#    #+#             */
-/*   Updated: 2024/10/30 15:55:18 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/01 12:12:49 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,5 +67,6 @@ char	*free_ptr(char *ptr);
 void	ft_print_matriz(char **matriz);
 int	ft_strncmp2(const char *s1, const char *s2, size_t n);
 int	ft_matriz_len2(char matriz[MAX_WORDS][MAX_WORD_LENGTH]);
+char	*ft_strcat(char *s1, char *s2, int c);
 
 #endif
