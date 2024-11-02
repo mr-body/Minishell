@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 16:23:19 by gkomba            #+#    #+#             */
-/*   Updated: 2024/10/21 15:27:47 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/02 18:13:34 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,8 @@ int	shell(char **prompt, int pipe, t_minishell *minishell)
 	else
 	{
 		command = shell_binary(prompt, environ);
-		execve(command, prompt, environ);
+		if (command != NULL)
+			return (execve(command, prompt, environ));
 		command = free_ptr(command);
 	}
 	return (-1);

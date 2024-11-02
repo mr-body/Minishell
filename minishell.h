@@ -35,6 +35,7 @@ typedef struct s_minishell
 	int		fd_type;
 	int		*pipe_fds;
 	int		exit_status;
+	int		is_redir;
 	int		redir;
 	char	data[MAX_WORDS][MAX_WORD_LENGTH];
 }			t_minishell;

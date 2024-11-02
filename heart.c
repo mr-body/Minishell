@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 16:19:40 by gkomba            #+#    #+#             */
-/*   Updated: 2024/10/31 09:02:34 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/02 18:11:31 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,9 @@ void	exec_command_pipe(t_minishell *minishell)
 	{
 		int		redir;
 		int		fd;
+		minishell->is_redir = 0;
+		minishell->fd = STDOUT_FILENO;
+		minishell->fd_type = 1;
 
 		minishell->args = net_args(minishell->raw_args[i]);
 		redir = is_redir(minishell->raw_args[i]);
@@ -109,25 +112,31 @@ void	exec_command_pipe(t_minishell *minishell)
 		pid = fork();
 		if (pid == 0)
 		{
-			if (minishell->fd_type == 0)
-				dup2(minishell->fd, STDOUT_FILENO);
+			if (minishell->is_redir  == 1)
+			{
+				if (minishell->fd_type == 0)
+					dup2(minishell->fd, STDOUT_FILENO);
+				else if (minishell->fd_type == 1)
+					dup2(minishell->fd, STDIN_FILENO);
+			}
 			else
-				dup2(minishell->fd, STDIN_FILENO);
-			if (i < num_commands - 1)
-				dup2(minishell->pipe_fds[i * 2 + 1], STDOUT_FILENO);
-			if (i > 0)
-				dup2(minishell->pipe_fds[(i - 1) * 2], STDIN_FILENO);
-			close_fds(minishell, num_commands);
+			{
+				if (i < num_commands - 1)
+					dup2(minishell->pipe_fds[i * 2 + 1], STDOUT_FILENO);
+				if (i > 0)
+					dup2(minishell->pipe_fds[(i - 1) * 2], STDIN_FILENO);
+				close_fds(minishell, num_commands);
+			}
 			if (shell(minishell->args, 1, minishell) == -1)
 			{
 				perror("error: ");
 				exit(1);
-			}
-			close(minishell->fd);
+			}			
 		}
 		else if (pid < 0)
 			perror("fork error: ");
 		ft_free_matriz(minishell->args);
+		minishell->fd = 1;
 	}
 	ft_exit_process(minishell, num_commands);
 }
@@ -137,7 +146,7 @@ void	execute_command(t_minishell *minishell)
 {
 	char **commands;
 
-	minishell->fd = 1;
+	minishell->fd = STDOUT_FILENO;
 	minishell->fd_type = 1;
 
 	minishell->command = minishell->readline;

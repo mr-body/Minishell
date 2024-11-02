@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: waalexan <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 14:15:03 by gkomba            #+#    #+#             */
-/*   Updated: 2024/10/31 07:09:50 by waalexan         ###   ########.fr       */
+/*   Updated: 2024/11/02 18:10:29 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,15 +27,15 @@ void	redir_trunc_o(t_minishell *minishell)
 	i = 0;
 	while (++i < (ft_matriz_len2(minishell->data) - 1))
 	{
-		tmp = ft_strtrim(minishell->data[ft_matriz_len2(minishell->data) - 1],
-				" ");
-		fd = open(minishell->data[i], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		tmp = ft_strtrim(minishell->data[i], " ");
+		fd = open(tmp, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		close(fd);
 		tmp = free_ptr(tmp);
 	}
-	tmp = ft_strtrim(minishell->data[ft_matriz_len2(minishell->data) - 1], "");
+	tmp = ft_strtrim(minishell->data[ft_matriz_len2(minishell->data) - 1], " ");
 	minishell->fd = open(tmp, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	tmp = free_ptr(tmp);
+	minishell->is_redir = 1;
 }
 void	redir_append_o(t_minishell *minishell)
 {
@@ -60,6 +60,7 @@ void	redir_append_o(t_minishell *minishell)
 	tmp = ft_strtrim(minishell->data[ft_matriz_len2(minishell->data) - 1], " ");
 	minishell->fd = open(tmp, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	tmp = free_ptr(tmp);
+	minishell->is_redir = 1;
 }
 
 void	redir_trunc_in(t_minishell *minishell)
@@ -81,6 +82,7 @@ void	redir_trunc_in(t_minishell *minishell)
 		perror("minishell");
 		return ;
 	}
+	minishell->is_redir = 1;
 }
 
 void	redir_append_in(t_minishell *minishell)
