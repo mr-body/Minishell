@@ -26,6 +26,21 @@ void	exec_command(t_minishell *minishell)
 	}
 	if (!minishell->args[0])
 		return ;
+	
+	int		redir;
+	int		fd;
+
+	redir = is_redir(minishell->command);
+	minishell->redirect_command = minishell->command;
+	if (redir == R_TRUNC_O)
+		redir_trunc_o(minishell);
+	else if (redir == R_APPEND_O)
+		redir_append_o(minishell);
+	else if (redir == R_TRUNC_I)
+		redir_trunc_in(minishell);
+	else if (redir == R_APPEND_I)
+		redir_append_in(minishell);
+
 	if (!is_builtin(minishell->args[0]))
 	{
 		pid = fork();
@@ -69,7 +84,21 @@ void	exec_command_pipe(t_minishell *minishell)
 	i = -1;
 	while (++i < num_commands)
 	{
+		int		redir;
+		int		fd;
+
 		minishell->args = net_args(minishell->raw_args[i]);
+		redir = is_redir(minishell->raw_args[i]);
+		minishell->redirect_command = minishell->raw_args[i];
+		if (redir == R_TRUNC_O)
+			redir_trunc_o(minishell);
+		else if (redir == R_APPEND_O)
+			redir_append_o(minishell);
+		else if (redir == R_TRUNC_I)
+			redir_trunc_in(minishell);
+		else if (redir == R_APPEND_I)
+			redir_append_in(minishell);
+
 		if (!minishell->args)
 		{
 			ft_exit_process(minishell, num_commands);
@@ -106,27 +135,16 @@ void	exec_command_pipe(t_minishell *minishell)
 // Função que executa o comando
 void	execute_command(t_minishell *minishell)
 {
-	int		redir;
-	int		fd;
+	char **commands;
 
 	minishell->fd = 1;
 	minishell->fd_type = 1;
-	redir = is_redir(minishell->readline);
-	if (redir == R_TRUNC_O)
-		redir_trunc_o(minishell);
-	else if (redir == R_APPEND_O)
-		redir_append_o(minishell);
-	else if (redir == R_TRUNC_I)
-		redir_trunc_in(minishell);
-	else if (redir == R_APPEND_I)
-		redir_append_in(minishell);
+
+	minishell->command = minishell->readline;
+	if (strchr(minishell->readline, '|'))
+		exec_command_pipe(minishell);
 	else
-	{
-		minishell->command = minishell->readline;
-		if (strchr(minishell->command, '|'))
-			exec_command_pipe(minishell);
-		else
-			exec_command(minishell);
-	}
+		exec_command(minishell);
+
 }
 

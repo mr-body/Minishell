@@ -61,7 +61,7 @@ char *handle_quotes(char *tmp)
     return (NULL);
 }
 
-int   unbalanced_quotes(char *str)
+int   unbalanced_quotes_2(char *str)
 {
     if (ft_count_chr_occurrency_str(str, '\"') % 2 != 0)
 		return (ft_putendl_fd("Error: unbalanced quotes\n", 2), 1);
@@ -69,3 +69,17 @@ int   unbalanced_quotes(char *str)
         return (ft_putendl_fd("Error: unbalanced quotes\n", 2), 1);
     return (0);
 }
+
+int unbalanced_quotes(char *str)
+{
+    int double_quotes_count = ft_count_chr_occurrency_str(str, '\"');
+    int single_quotes_count = ft_count_chr_occurrency_str(str, '\'');
+
+    if ((double_quotes_count % 2 != 0) && (single_quotes_count % 2 != 0)) {
+        ft_putendl_fd("Error: unbalanced quotes", 2);
+        return 1;
+    }
+    
+    return 0;
+}
+

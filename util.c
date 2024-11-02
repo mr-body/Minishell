@@ -30,7 +30,7 @@ char	*ft_strcat(char *s1, char *s2, int c)
 	return (new);
 }
 
-char	*expand_env_var(char *arg, char *tmp)
+char	*expand_env_var(char *arg, char *tmp, char delimiter)
 {
 	char	single_char[2];
 	int		j;
@@ -39,10 +39,11 @@ char	*expand_env_var(char *arg, char *tmp)
 	char	*env_var_value;
 	char	*env_var_name;
 
+
 	j = 0;
 	while (arg[j])
 	{
-		if (arg[j] == '$')
+		if (arg[j] == '$' && delimiter != '\'')
 		{
 			j++;
 			k = j;
@@ -74,42 +75,7 @@ char	*expand_env_var(char *arg, char *tmp)
 			j++;
 		}
 	}
-	if ((ft_strchr(tmp, '\"')) || (ft_strchr(tmp, '\'')))
-		return (trim_quotes(tmp));
 	return (tmp);
-}
-
-char	**ft_extended(char **data)
-{
-	int		i;
-	char	**new_data;
-	char	*arg;
-	char	*tmp;
-
-	new_data = malloc(sizeof(char *) * (ft_matriz_len(data) + 1));
-	ft_memset(new_data, 0, sizeof(char *) * (ft_matriz_len(data) + 1));
-	if (!new_data)
-		return (NULL);
-	i = -1;
-	while (data[++i])
-	{
-		arg = data[i];
-		tmp = ft_strdup("");
-		if (!tmp)
-		{
-			new_data = ft_free_matriz(new_data);
-			return (NULL);
-		}
-		tmp = expand_env_var(arg, tmp);
-		if (!tmp)
-		{
-			ft_free_matriz(new_data);
-			return (NULL);
-		}
-		new_data[i] = tmp;
-	}
-	new_data[i] = NULL;
-	return (new_data);
 }
 
 void	ft_strtok(char *str, char *delimiter,
@@ -160,13 +126,14 @@ void	ft_strtok(char *str, char *delimiter,
 	}
 }
 
-char	**ft_adjust_data(char **data)
+char	**ft_adjust_data(char **data, int *quotes)
 {
 	int		i;
 	int		j;
 	char	**new;
 	char	*tmp;
 	char	*new_tmp;
+	char delimiter;
 
 	i = -1;
 	j = 0;
@@ -176,8 +143,20 @@ char	**ft_adjust_data(char **data)
 		return (NULL);
 	while (data[++i])
 	{
-		if (ft_count_chr_occurrency_str(data[i], '\"') % 2 == 0)
-			new[j] = data[i];
+		delimiter = 0;
+
+		if(data[i][0] == '\"' || data[i][0] == '\'')
+			delimiter = data[i][0];
+		else
+		{
+			if(ft_strchr(data[i], '\"'))
+				delimiter = '\"';
+			else if(ft_strchr(data[i], '\''))
+				delimiter = '\'';
+		}
+
+		if (ft_count_chr_occurrency_str(data[i], delimiter) % 2 == 0)
+			new[j] = expand_env_var(data[i], ft_strdup(""), delimiter);
 		else
 		{
 			tmp = strdup(data[i]);
@@ -186,21 +165,23 @@ char	**ft_adjust_data(char **data)
 			if (data[i + 1])
 			{
 				i++;
-				while (data[i] && ft_count_chr_occurrency_str(tmp, '\"')
+				while (data[i] && ft_count_chr_occurrency_str(tmp, delimiter)
 					% 2 != 0)
 				{
 					new_tmp = ft_strcat(tmp, data[i], ' ');
 					free(tmp);
 					tmp = new_tmp;
-					if (data[i + 1] && ft_count_chr_occurrency_str(tmp, '\"')
+					if (data[i + 1] && ft_count_chr_occurrency_str(tmp, delimiter)
 						% 2 != 0)
 						i++;
 					else
 						break ;
 				}
 			}
-			if (ft_count_chr_occurrency_str(tmp, '\"') % 2 == 0)
-				new[j] = tmp;
+			if (ft_count_chr_occurrency_str(tmp, delimiter) % 2 == 0)
+				new[j] = expand_env_var(tmp, ft_strdup(""), delimiter);
+			else
+				*quotes = 0;
 		}
 		j++;
 	}
@@ -213,17 +194,21 @@ char	**net_args(char *prompt)
 	char	**raw_data;
 	char	**net_data;
 	char	**data;
-	int		qt;
+	int		quotes;
 
-	qt = unbalanced_quotes(prompt);
-	if (qt == 1)
-		return (NULL);
-	else
+	if(unbalanced_quotes(prompt))
+		return NULL;
+
+
+	quotes = 1;
+	raw_data = ft_split(prompt, ' ');
+	net_data = ft_adjust_data(raw_data, &quotes);
+	if(!quotes)
 	{
-		raw_data = ft_split(prompt, ' ');
-		net_data = ft_adjust_data(raw_data);
-		data = ft_extended(net_data);
-		return (data);
+		ft_putendl_fd("Error: unbalanced quotes", 2);
+		return NULL;
 	}
-	return (NULL);
+
+	return (net_data);
+
 }

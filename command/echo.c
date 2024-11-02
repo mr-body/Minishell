@@ -12,9 +12,15 @@
 
 #include "../minishell.h"
 
+char **space_case(char **prompt)
+{
+	
+}
+
 int	command_echo(char **prompt, int pipe, t_minishell *minishell)
 {
 	int	i;
+
 
 	i = 0;
 	while (prompt[++i])

@@ -28,6 +28,7 @@ typedef struct s_minishell
 {
 	char	*readline;
 	char	*command;
+	char 	*redirect_command;
 	char	**raw_args;
 	char	**args;
 	int		fd;
@@ -46,9 +47,9 @@ typedef struct s_redir
 
 void		header(void);
 
-char		**ft_extended(char **data);
+char		**ft_extended(char **data, char delimiter);
 char		**net_args(char *prompt);
-char		**ft_adjust_data(char **data);
+char	**ft_adjust_data(char **data, int *quotes);
 
 int			shell(char **prompt, int pipe, t_minishell *minishell);
 void		execute_command(t_minishell *minishell);
@@ -74,7 +75,7 @@ int			shell_builtin(char **prompt, char **environ, int pipe,
 int			check_quotes(char *str, char quote_type);
 char		*handle_quotes(char *tmp);
 void		ft_print_syntax_error(void);
-char		*expand_env_var(char *arg, char *tmp);
+char	*expand_env_var(char *arg, char *tmp, char delimiter);
 int			ft_find_little_str(char *str, char *little);
 int			is_redir(char *str);
 int			is_redirout(char *str);
@@ -89,6 +90,7 @@ void		ft_strtok(char *str, char *delimiter,
 				char result[MAX_WORDS][MAX_WORD_LENGTH]);
 char	*trim_quotes(char *tmp);
 int		unbalanced_quotes(char *str);
+int   unbalanced_quotes_2(char *str);
 void	set_to_env(char *value);
 void	increment_shell_level(t_minishell *minishell);
 void	change_pwd(char *curr_pwd, t_minishell *minishell);

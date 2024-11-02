@@ -112,7 +112,7 @@ int	command_export(char **prompt, int pipe, t_minishell *minishell)
 		while (sorted_env[i])
 		{
 			output = ft_strjoin("declare -x ", sorted_env[i]);
-			ft_putendl_fd(output, 1);
+			ft_putendl_fd(output, minishell->fd);
 			free(output);
 			i++;
 		}
