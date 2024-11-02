@@ -6,17 +6,15 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 16:19:40 by gkomba            #+#    #+#             */
-/*   Updated: 2024/10/31 18:50:44 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/01 16:00:37 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/*funcao que executa os comandos simples*/
 void	exec_command(t_minishell *minishell)
 {
 	int		exit_status;
-	pid_t	pid;
 
 	minishell->args = net_args(minishell->command);
 	if (!minishell->args)
@@ -27,26 +25,7 @@ void	exec_command(t_minishell *minishell)
 	if (!minishell->args[0])
 		return ;
 	if (!is_builtin(minishell->args[0]))
-	{
-		pid = fork();
-		if (pid < 0)
-			perror("fork error: ");
-		else if (pid == 0)
-		{
-			if (minishell->fd_type == 0)
-				dup2(minishell->fd, STDOUT_FILENO);
-			else
-				dup2(minishell->fd, STDIN_FILENO);
-			if (shell(minishell->args, 0, minishell) == -1)
-			{
-				ft_print_command_error(minishell->args[0]);
-				exit(EXIT_FAILURE);
-			}
-			close(minishell->fd);
-		}
-		else
-			waitpid(pid, &minishell->exit_status, 0);
-	}
+		execute_child_process(minishell);
 	else
 	{
 		if (shell(minishell->args, 0, minishell) == -1)
@@ -55,7 +34,6 @@ void	exec_command(t_minishell *minishell)
 	ft_free_matriz(minishell->args);
 }
 
-/*funcao que executa os comandos quando tem pipes*/
 void	exec_command_pipe(t_minishell *minishell)
 {
 	int		num_commands;
@@ -77,42 +55,20 @@ void	exec_command_pipe(t_minishell *minishell)
 		}
 		if (!minishell->args)
 			return ;
-		pid = fork();
-		if (pid == 0)
-		{
-			if (minishell->fd_type == 0)
-				dup2(minishell->fd, STDOUT_FILENO);
-			else
-				dup2(minishell->fd, STDIN_FILENO);
-			if (i < num_commands - 1)
-				dup2(minishell->pipe_fds[i * 2 + 1], STDOUT_FILENO);
-			if (i > 0)
-				dup2(minishell->pipe_fds[(i - 1) * 2], STDIN_FILENO);
-			close_fds(minishell, num_commands);
-			if (shell(minishell->args, 1, minishell) == -1)
-			{
-				perror("error: ");
-				exit(1);
-			}
-			close(minishell->fd);
-		}
-		else if (pid < 0)
-			perror("fork error: ");
+		execute_child_process_pipe(minishell, i, num_commands);
 		ft_free_matriz(minishell->args);
 	}
 	ft_exit_process(minishell, num_commands);
 }
 
-// Função que executa o comando
 void	execute_command(t_minishell *minishell)
 {
-	int		redir;
-	int		fd;
+	int	redir;
+	int	fd;
 
 	minishell->fd = 1;
 	minishell->fd_type = 1;
 	redir = is_redir(minishell->readline);
-	printf("redir: %d\n", redir);
 	if (redir == R_TRUNC_O)
 		redir_trunc_o(minishell);
 	else if (redir == R_APPEND_O)
@@ -130,4 +86,3 @@ void	execute_command(t_minishell *minishell)
 			exec_command(minishell);
 	}
 }
-

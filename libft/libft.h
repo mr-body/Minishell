@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 10:04:29 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/01 12:12:49 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/01 15:59:17 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@
 # include <stdlib.h>
 # include <unistd.h>
 
-#define MAX_WORDS 100
-#define MAX_WORD_LENGTH 50
+# define MAX_WORDS 100
+# define MAX_WORD_LENGTH 50
 
 int		ft_isalpha(int c);
 int		ft_isdigit(int c);
@@ -33,6 +33,8 @@ int		ft_memcmp(const void *s1, const void *s2, size_t n);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 int		ft_count_chr_occurrency_matriz(char **mat, char chr);
 int		ft_count_chr_occurrency_str(char *str, char chr);
+int		ft_strncmp2(const char *s1, const char *s2, size_t n);
+int		ft_matriz_len2(char matriz[MAX_WORDS][MAX_WORD_LENGTH]);
 int		ft_atoi(const char *nptr);
 int		ft_atoi_v2(const char *nptr);
 size_t	ft_strlen(const char *str);
@@ -46,6 +48,7 @@ void	ft_putstr_fd(char *s, int fd);
 void	ft_putchar_fd(char c, int fd);
 void	ft_putnbr_fd(int n, int fd);
 void	ft_putendl_fd(char *s, int fd);
+void	ft_print_matriz(char **matriz);
 void	ft_striteri(char *s, void (*f)(unsigned int, char *));
 void	*ft_memcpy(void *dest, const void *src, size_t n);
 void	*ft_memmove(void *dest, const void *src, size_t n);
@@ -54,6 +57,7 @@ char	*ft_strchr(const char *s, int c);
 char	*ft_strdup(const char *s);
 char	*ft_strjoin(char const *s1, char const *s2);
 char	*ft_strtrim(const char *s1, const char *set);
+char	*ft_strcat(char *s1, char *s2, int c);
 char	**ft_split(const char *s, char c);
 char	*ft_itoa(int n);
 char	*ft_strnstr(const char *big, const char *little, size_t n);
@@ -64,9 +68,5 @@ char	**ft_free_matriz(char **mat);
 char	**ft_matdup(char **mat);
 char	*ft_mattstr_copy(char **mat);
 char	*free_ptr(char *ptr);
-void	ft_print_matriz(char **matriz);
-int	ft_strncmp2(const char *s1, const char *s2, size_t n);
-int	ft_matriz_len2(char matriz[MAX_WORDS][MAX_WORD_LENGTH]);
-char	*ft_strcat(char *s1, char *s2, int c);
 
 #endif

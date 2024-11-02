@@ -37,6 +37,8 @@ typedef struct vars
 
 typedef struct s_minishell
 {
+	int		status;
+    char    *cwd;
 	char	*readline;
 	char	*command;
 	char	**raw_args;
@@ -103,4 +105,6 @@ void	set_to_env(char *value);
 void	increment_shell_level(t_minishell *minishell);
 void	change_pwd(char *curr_pwd, t_minishell *minishell);
 void	change_old_pwd(char *old_pwd, t_minishell *minishell);
+void	execute_child_process_pipe(t_minishell *minishell, int i, int num_commands);
+void	execute_child_process(t_minishell *minishell);
 #endif

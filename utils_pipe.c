@@ -27,7 +27,7 @@ void	close_fds(t_minishell *minishell, int nbr_cmds)
 
 void	ft_exit_process(t_minishell *minishell, int nbr_cmds)
 {
-    close_fds(minishell, nbr_cmds);
+	close_fds(minishell, nbr_cmds);
 	minishell->pipe_fds = (int *)free_ptr((char *)minishell->pipe_fds);
 	minishell->raw_args = ft_free_matriz(minishell->raw_args);
 }
