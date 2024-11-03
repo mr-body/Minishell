@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 16:24:38 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/03 11:40:17 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/03 13:21:22 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,13 +99,13 @@ char	**ft_adjust_data(char **data, int *quotes)
 		}
 		else
 		{
-			old_tmp = tmp;
+			// old_tmp = tmp;
 			tmp = strdup(data[i]);
-			free(old_tmp);
+			// free(old_tmp);
 			if (!tmp)
 			{
-				printf("Error: malloc failed\n");
-				free(tmp);
+				// printf("Error: malloc failed\n");
+				// free(tmp);
 				return (NULL);
 			}
 			if (data[i + 1])
@@ -122,7 +122,7 @@ char	**ft_adjust_data(char **data, int *quotes)
 						i++;
 					else
 					{
-						printf("Error: unbalanced quotes1\n");
+						// printf("Error: unbalanced quotes1\n");
 						break ;
 					}
 				}
@@ -134,9 +134,9 @@ char	**ft_adjust_data(char **data, int *quotes)
 			}
 			else
 			{
-				free(tmp);
+				// free(tmp);
 				printf("Error: unbalanced quotes2\n");
-				*quotes = 0;
+				// *quotes = 0;
 			}
 		}
 		j++;
@@ -161,8 +161,8 @@ char	**net_args(char *prompt)
 	net_data = ft_adjust_data(raw_data, &quotes);
 	if(!quotes)
 	{
-		ft_free_matriz(net_data);
-		ft_free_matriz(raw_data);
+		// ft_free_matriz(net_data);
+		// ft_free_matriz(raw_data);
 		ft_putendl_fd("Error: unbalanced quotes", 2);
 		return NULL;
 	}

@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 16:19:40 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/03 11:31:17 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/03 13:21:44 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ void	exec_command(t_minishell *minishell)
 	int		redir;
 	int		fd;
 
-	if (minishell->args)
-		ft_free_matriz(minishell->args);
+	// if (minishell->args)
+	// 	ft_free_matriz(minishell->args);
 	minishell->args = net_args(minishell->command);
 	if (!minishell->args)
 	{

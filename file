@@ -1,25 +1,21 @@
-total 160
-drwxr-xr-x 5 gkomba 2024_luanda  4096 Nov  3 11:03 .
-drwxr-xr-x 4 gkomba 2024_luanda  4096 Nov  2 14:45 ..
+total 144
 -rw-r--r-- 1 gkomba 2024_luanda  2351 Nov  2 14:45 change_env_vars.c
 -rw-r--r-- 1 gkomba 2024_luanda  2052 Nov  2 18:23 child_process.c
 drwxr-xr-x 2 gkomba 2024_luanda  4096 Nov  2 18:17 command
 -rw-r--r-- 1 gkomba 2024_luanda  2268 Nov  2 18:31 expander.c
--rw-r--r-- 1 gkomba 2024_luanda     0 Nov  3 11:03 file.txt
-drwxr-xr-x 8 gkomba 2024_luanda  4096 Nov  2 18:17 .git
--rw-r--r-- 1 gkomba 2024_luanda  1102 Nov  2 14:45 .gitignore
--rw-r--r-- 1 gkomba 2024_luanda  3830 Nov  3 10:57 heart.c
-drwxr-xr-x 2 gkomba 2024_luanda  4096 Nov  3 11:02 libft
+-rw-r--r-- 1 gkomba 2024_luanda     0 Nov  3 13:22 file
+-rw-r--r-- 1 gkomba 2024_luanda  3926 Nov  3 13:21 heart.c
+drwxr-xr-x 2 gkomba 2024_luanda  4096 Nov  3 13:22 libft
 -rw-r--r-- 1 gkomba 2024_luanda   238 Nov  2 14:45 makefile
--rwxr-xr-x 1 gkomba 2024_luanda 72760 Nov  3 11:02 minishell
+-rwxr-xr-x 1 gkomba 2024_luanda 72904 Nov  3 13:22 minishell
 -rw-r--r-- 1 gkomba 2024_luanda   959 Nov  2 18:17 minishell.c
 -rw-r--r-- 1 gkomba 2024_luanda  3295 Nov  3 10:47 minishell.h
 -rw-r--r-- 1 gkomba 2024_luanda   224 Nov  2 14:45 minishell_sms.c
--rw-r--r-- 1 gkomba 2024_luanda  1954 Nov  2 18:17 quote_utils.c
+-rw-r--r-- 1 gkomba 2024_luanda  2004 Nov  3 11:10 quote_utils.c
 -rw-r--r-- 1 gkomba 2024_luanda    21 Nov  2 14:45 README.md
 -rw-r--r-- 1 gkomba 2024_luanda  3991 Nov  3 11:02 redirect.c
 -rw-r--r-- 1 gkomba 2024_luanda  3453 Nov  3 10:47 shell.c
 -rw-r--r-- 1 gkomba 2024_luanda   916 Nov  2 14:45 syntax_checker.c
--rw-r--r-- 1 gkomba 2024_luanda  3108 Nov  3 10:50 util.c
+-rw-r--r-- 1 gkomba 2024_luanda  3573 Nov  3 13:21 util.c
 -rw-r--r-- 1 gkomba 2024_luanda   585 Nov  2 18:17 utils_pipe.c
 -rw-r--r-- 1 gkomba 2024_luanda  2120 Nov  2 18:37 utils_redir.c
