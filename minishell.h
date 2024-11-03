@@ -37,17 +37,18 @@ typedef struct vars
 
 typedef struct s_minishell
 {
-	int		status;
-    char    *cwd;
 	char	*readline;
 	char	*command;
+	char 	*redirect_command;
 	char	**raw_args;
 	char	**args;
 	int		fd;
 	int		fd_type;
 	int		*pipe_fds;
 	int		exit_status;
+	int		is_redir;
 	int		redir;
+	int		status;
 	char	data[MAX_WORDS][MAX_WORD_LENGTH];
 }			t_minishell;
 
@@ -61,7 +62,7 @@ void		header(void);
 
 char		**ft_extended(char **data);
 char		**net_args(char *prompt);
-char		**ft_adjust_data(char **data);
+char	**ft_adjust_data(char **data, int *quotes);
 
 int			shell(char **prompt, int pipe, t_minishell *minishell);
 void		execute_command(t_minishell *minishell);
@@ -80,13 +81,13 @@ void		close_fds(t_minishell *minishell, int nbr_cmds);
 void		open_fds(t_minishell *minishell, int nbr_cmds);
 void		ft_print_command_error(char *cmd);
 int			is_builtin(char *cmd);
-char		*shell_binary(char **prompt, char **environ);
+char		*shell_binary(char **prompt, char **environ, int pipe);
 int			shell_builtin(char **prompt, char **environ, int pipe,
 				t_minishell *minishell);
 int			check_quotes(char *str, char quote_type);
 char		*handle_quotes(char *tmp);
 void		ft_print_syntax_error(void);
-char		*expand_env_var(char *arg, char *tmp);
+char	*expand_env_var(char *arg, char *tmp, char delimiter);
 int			ft_find_little_str(char *str, char *little);
 int			is_redir(char *str);
 int			is_redirout(char *str);
@@ -107,4 +108,5 @@ void	change_pwd(char *curr_pwd, t_minishell *minishell);
 void	change_old_pwd(char *old_pwd, t_minishell *minishell);
 void	execute_child_process_pipe(t_minishell *minishell, int i, int num_commands);
 void	execute_child_process(t_minishell *minishell);
+void    do_redir(t_minishell *minishell);
 #endif

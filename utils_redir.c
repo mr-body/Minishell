@@ -83,3 +83,15 @@ int ft_find_little_str(char *str, char *little)
     }
     return (0);
 }
+
+void    do_redir(t_minishell *minishell)
+{
+    if (minishell->redir == R_TRUNC_O)
+        redir_trunc_o(minishell);
+    else if (minishell->redir == R_APPEND_O)
+        redir_append_o(minishell);
+    else if (minishell->redir == R_TRUNC_I)
+        redir_trunc_in(minishell);
+    else if (minishell->redir == R_APPEND_I)
+        redir_append_in(minishell);
+}

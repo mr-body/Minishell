@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 17:30:33 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/01 12:11:08 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/02 18:31:31 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static char	*get_env_value(char *tmp, char *env_var_name)
 	return (tmp);
 }
 
-char	*expand_env_var(char *arg, char *tmp)
+char	*expand_env_var(char *arg, char *tmp, char delimiter)
 {
 	char	single_char[2];
 	t_vars	var;
@@ -61,7 +61,7 @@ char	*expand_env_var(char *arg, char *tmp)
 	ft_memset(&var, 0, sizeof(t_vars));
 	while (arg[var.j])
 	{
-		if (arg[var.j] == '$')
+		if (arg[var.j] == '$' && delimiter != '\'')
 		{
 			var.env_var_name = get_env_name(arg, &var.j, &var.k);
 			if (var.env_var_name == NULL)
@@ -78,31 +78,4 @@ char	*expand_env_var(char *arg, char *tmp)
 	if ((ft_strchr(tmp, '\"')) || (ft_strchr(tmp, '\'')))
 		return (trim_quotes(tmp));
 	return (tmp);
-}
-
-char	**ft_extended(char **data)
-{
-	int		i;
-	char	**new_data;
-	char	*arg;
-	char	*tmp;
-
-	new_data = malloc(sizeof(char *) * (ft_matriz_len(data) + 1));
-	ft_memset(new_data, 0, sizeof(char *) * (ft_matriz_len(data) + 1));
-	if (new_data == NULL)
-		return (NULL);
-	i = -1;
-	while (data[++i])
-	{
-		arg = data[i];
-		tmp = ft_strdup("");
-		if (tmp == NULL)
-			return (ft_free_matriz(new_data), NULL);
-		tmp = expand_env_var(arg, tmp);
-		if (tmp == NULL)
-			return (ft_free_matriz(new_data), NULL);
-		new_data[i] = tmp;
-	}
-	new_data[i] = NULL;
-	return (new_data);
 }

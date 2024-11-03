@@ -1,3 +1,4 @@
+
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
@@ -6,13 +7,11 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 14:15:03 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/01 18:25:14 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/02 18:10:29 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static int	ft_heredoc(char *line_delimiter);
 
 void	redir_trunc_o(t_minishell *minishell)
 {
@@ -23,8 +22,10 @@ void	redir_trunc_o(t_minishell *minishell)
 
 	delimiter = ">";
 	ft_memset(minishell->data, 0, sizeof(minishell->data));
-	ft_strtok(minishell->readline, delimiter, minishell->data);
-	minishell->command = minishell->data[0];
+	ft_strtok(minishell->redirect_command, delimiter, minishell->data);
+	if (minishell->args)
+		ft_free_matriz(minishell->args);
+	minishell->args = net_args(minishell->data[0]);
 	minishell->fd_type = 0;
 	i = 0;
 	while (++i < (ft_matriz_len2(minishell->data) - 1))
@@ -37,12 +38,8 @@ void	redir_trunc_o(t_minishell *minishell)
 	tmp = ft_strtrim(minishell->data[ft_matriz_len2(minishell->data) - 1], " ");
 	minishell->fd = open(tmp, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	tmp = free_ptr(tmp);
-	if (strchr(minishell->command, '|'))
-		exec_command_pipe(minishell);
-	else
-		exec_command(minishell);
+	minishell->is_redir = 1;
 }
-
 void	redir_append_o(t_minishell *minishell)
 {
 	int		i;
@@ -52,8 +49,8 @@ void	redir_append_o(t_minishell *minishell)
 
 	delimiter = ">>";
 	ft_memset(minishell->data, 0, sizeof(minishell->data));
-	ft_strtok(minishell->readline, delimiter, minishell->data);
-	minishell->command = minishell->data[0];
+	ft_strtok(minishell->redirect_command, delimiter, minishell->data);
+	minishell->args = net_args(minishell->data[0]);
 	minishell->fd_type = 0;
 	i = 0;
 	while (++i < (ft_matriz_len2(minishell->data) - 1))
@@ -66,10 +63,7 @@ void	redir_append_o(t_minishell *minishell)
 	tmp = ft_strtrim(minishell->data[ft_matriz_len2(minishell->data) - 1], " ");
 	minishell->fd = open(tmp, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	tmp = free_ptr(tmp);
-	if (strchr(minishell->command, '|'))
-		exec_command_pipe(minishell);
-	else
-		exec_command(minishell);
+	minishell->is_redir = 1;
 }
 
 void	redir_trunc_in(t_minishell *minishell)
@@ -80,8 +74,8 @@ void	redir_trunc_in(t_minishell *minishell)
 
 	delimiter = "<";
 	ft_memset(minishell->data, 0, sizeof(minishell->data));
-	ft_strtok(minishell->readline, delimiter, minishell->data);
-	minishell->command = minishell->data[0];
+	ft_strtok(minishell->redirect_command, delimiter, minishell->data);
+	minishell->args = net_args(minishell->data[0]);
 	minishell->fd_type = 1;
 	tmp = ft_strtrim(minishell->data[ft_matriz_len2(minishell->data) - 1], " ");
 	minishell->fd = open(tmp, O_RDONLY);
@@ -91,73 +85,47 @@ void	redir_trunc_in(t_minishell *minishell)
 		perror("minishell");
 		return ;
 	}
-	if (strchr(minishell->command, '|'))
-		exec_command_pipe(minishell);
-	else
-		exec_command(minishell);
+	minishell->is_redir = 1;
 }
 
 void	redir_append_in(t_minishell *minishell)
 {
-	char	*delimiter;
-	char	*line_delimiter;
-	char	*temp_file;
+	int fd;
+	char *tmp;
+	char *delimiter;
+	char *line_delimiter;
+	char *temp_file;
+	int temp_fd;
+	char *line;
 
+	line = NULL;
 	delimiter = "<<";
 	temp_file = "/tmp/heredoc.tmp";
 	ft_memset(minishell->data, 0, sizeof(minishell->data));
-	ft_strtok(minishell->readline, delimiter, minishell->data);
-	minishell->command = minishell->data[0];
+	ft_strtok(minishell->redirect_command, delimiter, minishell->data);
+	minishell->args = net_args(minishell->data[0]);
 	minishell->fd_type = 1;
 	line_delimiter = ft_strtrim(minishell->data[ft_matriz_len2(minishell->data)
 			- 1], " ");
-	// int pid = fork();
-	// if (pid == 0)
-	minishell->fd = ft_heredoc(line_delimiter);
+	temp_fd = open(temp_file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	while (1)
+	{
+		line = readline("heredoc> ");
+		if (ft_strncmp(line, line_delimiter, ft_strlen(line_delimiter)) == 0)
+			break ;
+		tmp = ft_strdup("");
+		line = expand_env_var(line, tmp, 0);
+		write(temp_fd, line, ft_strlen(line));
+		write(temp_fd, "\n", 1);
+		line = free_ptr(line);
+	}
+	line = free_ptr(line);
+	close(temp_fd);
 	minishell->fd = open(temp_file, O_RDONLY);
 	if (minishell->fd < 0)
 	{
 		perror("Could not open temp file for reading");
 		return ;
 	}
-	if (ft_strchr(minishell->command, '|'))
-		exec_command_pipe(minishell);
-	else
-		exec_command(minishell);
-	close(minishell->fd);
 	unlink(temp_file);
-}
-
-void 	 heanlder_SIGINT3(int signal)
-{
-	(void)signal;
-	write(1, "\n", 1);
-	exit(0);
-}
-
-static int	ft_heredoc(char *line_delimiter)
-{
-	int		fd;
-	int		bytes;
-	char	*tmp;
-	char	*line_tmp;
-	char	line[1024];
-
-	// signal(SIGINT, heanlder_SIGINT3);
-	fd = open("/tmp/heredoc.tmp", O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	while (1)
-	{
-		ft_putstr_fd("heredoc> ", 1);
-		bytes = read(0, line, 1024);
-		line[bytes - 1] = '\0';
-		if (ft_strncmp(line, line_delimiter, ft_strlen(line_delimiter)) == 0)
-			break ;
-		tmp = ft_strdup("");
-		line_tmp = expand_env_var(line, tmp);
-		write(fd, line_tmp, ft_strlen(line_tmp));
-		write(fd, "\n", 1);
-		line_tmp = free_ptr(line_tmp);
-	}
-	line_delimiter = free_ptr(line_delimiter);
-	return (fd);
 }

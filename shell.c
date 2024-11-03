@@ -1,3 +1,4 @@
+
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
@@ -6,7 +7,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 16:23:19 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/01 16:07:44 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/02 18:13:34 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +40,7 @@ int	shell_builtin(char **prompt, char **environ, int pipe, t_minishell *minishel
 }
 
 /*funcao que pega o caminho dos bainarios*/
-char	*shell_binary(char **prompt, char **environ)
+char	*shell_binary(char **prompt, char **environ, int pipe)
 {
 	char	*cmd_path;
 	char	**routes;
@@ -53,7 +54,10 @@ char	*shell_binary(char **prompt, char **environ)
 		i = -1;
 		while (routes[++i])
 		{
-			cmd_path = ft_strcat(routes[i], prompt[0], '/');
+			if (prompt[0] == NULL)
+				return (NULL);
+			else
+				cmd_path = ft_strcat(routes[i], prompt[0], '/');
 			if (access(cmd_path, X_OK) == 0)
 				break ;
 			cmd_path = free_ptr(cmd_path);
@@ -80,7 +84,7 @@ int	shell(char **prompt, int pipe, t_minishell *minishell)
 		return (shell_builtin(prompt, environ, pipe, minishell));
 	else
 	{
-		command = shell_binary(prompt, environ);
+		command = shell_binary(prompt, environ, pipe);
 		if (command != NULL)
 			return (execve(command, prompt, environ));
 		command = free_ptr(command);

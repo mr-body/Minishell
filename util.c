@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 16:24:38 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/01 15:15:26 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/03 11:40:17 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,47 +61,83 @@ void	ft_strtok(char *str, char *delimiter,
 	}
 }
 
-char	**ft_adjust_data(char **data)
+char	**ft_adjust_data(char **data, int *quotes)
 {
 	int		i;
 	int		j;
 	char	**new;
 	char	*tmp;
 	char	*new_tmp;
+	char	*old_tmp;
+	char delimiter;
 
 	i = -1;
 	j = 0;
-	new = malloc(sizeof(char *) * (ft_matriz_len(data) + 1));
+	new = (char **)malloc(sizeof(char *) * (ft_matriz_len(data) + 1));
 	tmp = NULL;
 	if (!new)
 		return (NULL);
+	ft_memset(new, 0, sizeof(new));
 	while (data[++i])
 	{
-		if (ft_count_chr_occurrency_str(data[i], '\"') % 2 == 0)
-			new[j] = data[i];
+		delimiter = 0;
+
+		if(data[i][0] == '\"' || data[i][0] == '\'')
+			delimiter = data[i][0];
 		else
 		{
+			if(ft_strchr(data[i], '\"'))
+				delimiter = '\"';
+			else if(ft_strchr(data[i], '\''))
+				delimiter = '\'';
+		}
+
+		if (ft_count_chr_occurrency_str(data[i], delimiter) % 2 == 0)
+		{
+			old_tmp = ft_strdup("");
+			new[j] = expand_env_var(data[i], old_tmp, delimiter);
+		}
+		else
+		{
+			old_tmp = tmp;
 			tmp = strdup(data[i]);
+			free(old_tmp);
 			if (!tmp)
+			{
+				printf("Error: malloc failed\n");
+				free(tmp);
 				return (NULL);
+			}
 			if (data[i + 1])
 			{
 				i++;
-				while (data[i] && ft_count_chr_occurrency_str(tmp, '\"')
+				while (data[i] && ft_count_chr_occurrency_str(tmp, delimiter)
 					% 2 != 0)
 				{
 					new_tmp = ft_strcat(tmp, data[i], ' ');
 					free(tmp);
 					tmp = new_tmp;
-					if (data[i + 1] && ft_count_chr_occurrency_str(tmp, '\"')
+					if (data[i + 1] && ft_count_chr_occurrency_str(tmp, delimiter)
 						% 2 != 0)
 						i++;
 					else
+					{
+						printf("Error: unbalanced quotes1\n");
 						break ;
+					}
 				}
 			}
-			if (ft_count_chr_occurrency_str(tmp, '\"') % 2 == 0)
-				new[j] = tmp;
+			if (ft_count_chr_occurrency_str(tmp, delimiter) % 2 == 0)
+			{
+				old_tmp = ft_strdup("");
+				new[j] = expand_env_var(tmp, old_tmp, delimiter);
+			}
+			else
+			{
+				free(tmp);
+				printf("Error: unbalanced quotes2\n");
+				*quotes = 0;
+			}
 		}
 		j++;
 	}
@@ -114,17 +150,23 @@ char	**net_args(char *prompt)
 	char	**raw_data;
 	char	**net_data;
 	char	**data;
-	int		qt;
+	int		quotes;
 
-	qt = unbalanced_quotes(prompt);
-	if (qt == 1)
-		return (NULL);
-	else
+	// ft_memset(net_args, 0, sizeof(net_args));
+	// ft_memset(&raw_data, 0, sizeof(raw_data));
+	if(unbalanced_quotes(prompt))
+		return NULL;
+	quotes = 1;
+	raw_data = ft_split(prompt, ' ');
+	net_data = ft_adjust_data(raw_data, &quotes);
+	if(!quotes)
 	{
-		raw_data = ft_split(prompt, ' ');
-		net_data = ft_adjust_data(raw_data);
-		data = ft_extended(net_data);
-		return (data);
+		ft_free_matriz(net_data);
+		ft_free_matriz(raw_data);
+		ft_putendl_fd("Error: unbalanced quotes", 2);
+		return NULL;
 	}
-	return (NULL);
+	ft_free_matriz(raw_data);
+	return (net_data);
+
 }

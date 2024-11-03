@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 10:39:46 by gkomba            #+#    #+#             */
-/*   Updated: 2024/10/31 10:47:10 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/03 11:10:41 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,11 +61,15 @@ char *handle_quotes(char *tmp)
     return (NULL);
 }
 
-int   unbalanced_quotes(char *str)
+int unbalanced_quotes(char *str)
 {
-    if (ft_count_chr_occurrency_str(str, '\"') % 2 != 0)
-		return (ft_putendl_fd("Error: unbalanced quotes\n", 2), 1);
-	else if (ft_count_chr_occurrency_str(str, '\'') % 2 != 0)
-        return (ft_putendl_fd("Error: unbalanced quotes\n", 2), 1);
-    return (0);
+    int double_quotes_count = ft_count_chr_occurrency_str(str, '\"');
+    int single_quotes_count = ft_count_chr_occurrency_str(str, '\'');
+
+    if ((double_quotes_count % 2 != 0) && (single_quotes_count % 2 != 0)) {
+        ft_putendl_fd("Error: unbalanced quotes", 2);
+        return 1;
+    }
+    
+    return 0;
 }
