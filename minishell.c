@@ -14,7 +14,7 @@ void	handle_SIGINT(int signal)
 
 void	get_readline(t_minishell *minishell)
 {
-	minishell->readline = readline("Minishell > ");
+	minishell->readline = readline(AMARELO "minishell" VERDE "# " RESET);
 	if (!minishell->readline)
 	{
 		free(minishell->readline);

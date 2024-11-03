@@ -11,6 +11,7 @@ int is_redir(char *str)
     else if (ft_find_little_str(str, "<") == 1)
         return (R_TRUNC_I);
     return (0);
+
 }
 
 int is_redirout(char *str)

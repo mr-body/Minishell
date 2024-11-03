@@ -24,6 +24,15 @@
 # define R_APPEND_I 21
 # define R_TRUNC_I 19
 
+#define INITIAL_ARG_COUNT 10
+#define INITIAL_TEMP_SIZE 256
+
+typedef struct s_data
+{
+    char **args;         
+    int count;
+} t_data;
+
 typedef struct vars
 {
 	int		i;
@@ -98,6 +107,7 @@ void		redir_trunc_in(t_minishell *minishell);
 void		redir_append_in(t_minishell *minishell);
 void		exec_command_pipe(t_minishell *minishell);
 void		exec_command(t_minishell *minishell);
+void free_data(t_data *data);
 void		ft_strtok(char *str, char *delimiter,
 				char result[MAX_WORDS][MAX_WORD_LENGTH]);
 char	*trim_quotes(char *tmp);

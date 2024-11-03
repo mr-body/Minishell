@@ -48,7 +48,6 @@ int	command_echo(char **prompt, int pipe, t_minishell *minishell)
 	}
 	if (n_flag == 0)
 	{
-		printf("here\n");
 		write(1, "\n", 1);
 	}
 	if (pipe)

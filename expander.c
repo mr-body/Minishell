@@ -75,7 +75,5 @@ char	*expand_env_var(char *arg, char *tmp, char delimiter)
 			var.j++;
 		}
 	}
-	if ((ft_strchr(tmp, '\"')) || (ft_strchr(tmp, '\'')))
-		return (trim_quotes(tmp));
 	return (tmp);
 }
