@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quote_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: waalexan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 10:39:46 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/03 11:10:41 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/04 22:09:00 by waalexan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,30 +46,32 @@ int	check_quotes(char *str, char quote_type)
 	return (quote_count);
 }
 
-char *handle_quotes(char *tmp)
+char	*handle_quotes(char *tmp)
 {
-    if (check_quotes(tmp, '\"') > 1 && check_quotes(tmp, '\"') % 2 == 0)
-    {
-        tmp = ft_strtrim(tmp, "\"");
-        return (tmp);
-    }
-    if (check_quotes(tmp, '\'') > 1 && check_quotes(tmp, '\'') % 2 == 0)
-    {
-        tmp = ft_strtrim(tmp, "\'");
-        return (tmp);
-    }
-    return (NULL);
+	if (check_quotes(tmp, '\"') > 1 && check_quotes(tmp, '\"') % 2 == 0)
+	{
+		tmp = ft_strtrim(tmp, "\"");
+		return (tmp);
+	}
+	if (check_quotes(tmp, '\'') > 1 && check_quotes(tmp, '\'') % 2 == 0)
+	{
+		tmp = ft_strtrim(tmp, "\'");
+		return (tmp);
+	}
+	return (NULL);
 }
 
-int unbalanced_quotes(char *str)
+int	unbalanced_quotes(char *str)
 {
-    int double_quotes_count = ft_count_chr_occurrency_str(str, '\"');
-    int single_quotes_count = ft_count_chr_occurrency_str(str, '\'');
+	int	double_quotes_count;
+	int	single_quotes_count;
 
-    if ((double_quotes_count % 2 != 0) && (single_quotes_count % 2 != 0)) {
-        ft_putendl_fd("Error: unbalanced quotes", 2);
-        return 1;
-    }
-    
-    return 0;
+	double_quotes_count = ft_count_chr_occurrency_str(str, '\"');
+	single_quotes_count = ft_count_chr_occurrency_str(str, '\'');
+	if ((double_quotes_count % 2 != 0) && (single_quotes_count % 2 != 0))
+	{
+		ft_putendl_fd("Error: unbalanced quotes", 2);
+		return (1);
+	}
+	return (0);
 }

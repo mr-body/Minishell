@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   export.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: waalexan <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/04 22:18:49 by waalexan          #+#    #+#             */
+/*   Updated: 2024/11/04 22:19:45 by waalexan         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
 char	**sort_env(char **environ)
@@ -99,11 +111,11 @@ void	ft_delete_quotes(char *str)
 
 int	command_export(char **prompt, int pipe, t_minishell *minishell)
 {
-	extern char **environ;
-	char **sorted_env;
-	char *output;
-	char *var;
-	int i;
+	extern char	**environ;
+	char		**sorted_env;
+	char		*output;
+	char		*var;
+	int			i;
 
 	i = 0;
 	if (!prompt[1])

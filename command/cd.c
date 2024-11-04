@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: waalexan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 16:20:47 by gkomba            #+#    #+#             */
-/*   Updated: 2024/10/31 12:14:08 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/04 22:18:03 by waalexan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	command_cd(char **prompt, t_minishell *minishell)
 {
-	char 	*wdir;
+	char	*wdir;
 
 	if (prompt[1])
 	{

@@ -1,20 +1,20 @@
-
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   shell.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: waalexan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 16:23:19 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/02 18:13:34 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/04 22:11:10 by waalexan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /*funcao que executa os builtins*/
-int	shell_builtin(char **prompt, char **environ, int pipe, t_minishell *minishell)
+int	shell_builtin(char **prompt, char **environ, int pipe,
+		t_minishell *minishell)
 {
 	int	exit_status;
 
@@ -32,9 +32,9 @@ int	shell_builtin(char **prompt, char **environ, int pipe, t_minishell *minishel
 		exit_status = command_echo(prompt, pipe, minishell);
 	else if (ft_strncmp(prompt[0], "pwd", 3) == 0)
 		exit_status = command_pwd(prompt, pipe, minishell);
-    else if (ft_strncmp(prompt[0], "export", 6) == 0)
+	else if (ft_strncmp(prompt[0], "export", 6) == 0)
 		exit_status = command_export(prompt, pipe, minishell);
-    else if (ft_strncmp(prompt[0], "unset", 6) == 0)
+	else if (ft_strncmp(prompt[0], "unset", 6) == 0)
 		exit_status = command_unset(prompt, pipe, minishell);
 	return (exit_status);
 }
@@ -107,9 +107,9 @@ int	is_builtin(char *cmd)
 		return (1);
 	else if (ft_strncmp(cmd, "pwd", 3) == 0)
 		return (1);
-    else if (ft_strncmp(cmd, "export", 6) == 0)
+	else if (ft_strncmp(cmd, "export", 6) == 0)
 		return (1);
-    else if (ft_strncmp(cmd, "unset", 5) == 0)
+	else if (ft_strncmp(cmd, "unset", 5) == 0)
 		return (1);
 	return (0);
 }

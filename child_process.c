@@ -15,7 +15,7 @@
 void	execute_child_process_pipe(t_minishell *minishell, int i,
 		int num_commands)
 {
-	int pid;
+	int	pid;
 
 	pid = fork();
 	if (pid == 0)
@@ -44,9 +44,10 @@ void	execute_child_process_pipe(t_minishell *minishell, int i,
 	else if (pid < 0)
 		perror("fork error: ");
 }
+
 void	execute_child_process(t_minishell *minishell)
 {
-	pid_t pid;
+	pid_t	pid;
 
 	pid = fork();
 	if (pid < 0)

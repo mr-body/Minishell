@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: waalexan <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/04 22:08:51 by waalexan          #+#    #+#             */
+/*   Updated: 2024/11/04 22:08:52 by waalexan         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
@@ -24,14 +36,14 @@
 # define R_APPEND_I 21
 # define R_TRUNC_I 19
 
-#define INITIAL_ARG_COUNT 10
-#define INITIAL_TEMP_SIZE 256
+# define INITIAL_ARG_COUNT 10
+# define INITIAL_TEMP_SIZE 256
 
 typedef struct s_data
 {
-    char **args;         
-    int count;
-} t_data;
+	char	**args;
+	int		count;
+}			t_data;
 
 typedef struct vars
 {
@@ -48,7 +60,7 @@ typedef struct s_minishell
 {
 	char	*readline;
 	char	*command;
-	char 	*redirect_command;
+	char	*redirect_command;
 	char	**raw_args;
 	char	**args;
 	int		fd;
@@ -71,7 +83,7 @@ void		header(void);
 
 char		**ft_extended(char **data);
 char		**net_args(char *prompt);
-char	**ft_adjust_data(char **data, int *quotes);
+char		**ft_adjust_data(char **data, int *quotes);
 
 int			shell(char **prompt, int pipe, t_minishell *minishell);
 void		execute_command(t_minishell *minishell);
@@ -96,7 +108,7 @@ int			shell_builtin(char **prompt, char **environ, int pipe,
 int			check_quotes(char *str, char quote_type);
 char		*handle_quotes(char *tmp);
 void		ft_print_syntax_error(void);
-char	*expand_env_var(char *arg, char *tmp, char delimiter);
+char		*expand_env_var(char *arg, char *tmp, char delimiter);
 int			ft_find_little_str(char *str, char *little);
 int			is_redir(char *str);
 int			is_redirout(char *str);
@@ -107,19 +119,20 @@ void		redir_trunc_in(t_minishell *minishell);
 void		redir_append_in(t_minishell *minishell);
 void		exec_command_pipe(t_minishell *minishell);
 void		exec_command(t_minishell *minishell);
-void free_data(t_data *data);
+void		free_data(t_data *data);
 void		ft_strtok(char *str, char *delimiter,
 				char result[MAX_WORDS][MAX_WORD_LENGTH]);
-char	*trim_quotes(char *tmp);
-int		unbalanced_quotes(char *str);
-void	set_to_env(char *value);
-void	increment_shell_level(t_minishell *minishell);
-void	change_pwd(char *curr_pwd, t_minishell *minishell);
-void	change_old_pwd(char *old_pwd, t_minishell *minishell);
-void	execute_child_process_pipe(t_minishell *minishell, int i, int num_commands);
-void	execute_child_process(t_minishell *minishell);
-void    do_redir(t_minishell *minishell);
-char **ft_split_ms(const char *str, char delimiter);
-void	ft_delete_first_spaces(char *str);
-void	ft_delete_quotes(char *str);
+char		*trim_quotes(char *tmp);
+int			unbalanced_quotes(char *str);
+void		set_to_env(char *value);
+void		increment_shell_level(t_minishell *minishell);
+void		change_pwd(char *curr_pwd, t_minishell *minishell);
+void		change_old_pwd(char *old_pwd, t_minishell *minishell);
+void		execute_child_process_pipe(t_minishell *minishell, int i,
+				int num_commands);
+void		execute_child_process(t_minishell *minishell);
+void		do_redir(t_minishell *minishell);
+char		**ft_split_ms(const char *str, char delimiter);
+void		ft_delete_first_spaces(char *str);
+void		ft_delete_quotes(char *str);
 #endif

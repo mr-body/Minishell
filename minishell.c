@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: waalexan <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/04 22:07:03 by waalexan          #+#    #+#             */
+/*   Updated: 2024/11/04 22:08:12 by waalexan         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-static int	g_redsplay = 0;
+static int	g_redsplay;
 
-void	handle_SIGINT(int signal)
+void	handle_sigint(int signal)
 {
 	(void)signal;
 	rl_replace_line("", 0);
@@ -22,7 +34,6 @@ void	get_readline(t_minishell *minishell)
 	}
 	if (minishell->readline)
 	{
-		// put
 		add_history(minishell->readline);
 	}
 	if (ft_strncmp(minishell->readline, "exit", 4) == 0)
@@ -38,8 +49,9 @@ int	main(int ac, char **av)
 {
 	t_minishell	minishell;
 
+	g_redsplay = 0;
 	signal(SIGQUIT, SIG_IGN);
-	signal(SIGINT, handle_SIGINT);
+	signal(SIGINT, handle_sigint);
 	ft_memset(&minishell, 0, sizeof(t_minishell));
 	increment_shell_level(&minishell);
 	while (1)

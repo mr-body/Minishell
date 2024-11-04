@@ -1,13 +1,12 @@
-
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: waalexan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 14:15:03 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/02 18:10:29 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/04 22:10:05 by waalexan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +39,7 @@ void	redir_trunc_o(t_minishell *minishell)
 	tmp = free_ptr(tmp);
 	minishell->is_redir = 1;
 }
+
 void	redir_append_o(t_minishell *minishell)
 {
 	int		i;
@@ -90,13 +90,13 @@ void	redir_trunc_in(t_minishell *minishell)
 
 void	redir_append_in(t_minishell *minishell)
 {
-	int fd;
-	char *tmp;
-	char *delimiter;
-	char *line_delimiter;
-	char *temp_file;
-	int temp_fd;
-	char *line;
+	int		fd;
+	char	*delimiter;
+	char	*line_delimiter;
+	char	*temp_file;
+	int		temp_fd;
+	char	*line;
+	char	*tmp;
 
 	line = NULL;
 	delimiter = "<<";

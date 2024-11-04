@@ -23,6 +23,7 @@ static char	*get_env_name(char *arg, int *j, int *k)
 	env_var_name = ft_substr(arg, *j, *k - *j);
 	return (env_var_name);
 }
+
 static char	*join_single_char(char *tmp, char chr)
 {
 	char	single_char[2];
@@ -39,7 +40,7 @@ static char	*join_single_char(char *tmp, char chr)
 static char	*get_env_value(char *tmp, char *env_var_name)
 {
 	char	*old_tmp;
-	char *env_var_value;
+	char	*env_var_value;
 
 	env_var_value = getenv(env_var_name);
 	if (env_var_value)

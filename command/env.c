@@ -6,7 +6,7 @@
 /*   By: waalexan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 16:20:32 by gkomba            #+#    #+#             */
-/*   Updated: 2024/10/31 07:12:05 by waalexan         ###   ########.fr       */
+/*   Updated: 2024/11/04 22:18:24 by waalexan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	command_env(char **prompt, char **environ, int pipe, t_minishell *minishell)
 	i = -1;
 	while (environ[++i])
 	{
-		if(ft_strchr(environ[i], '='))
+		if (ft_strchr(environ[i], '='))
 		{
 			write(minishell->fd, environ[i], ft_strlen(environ[i]));
 			write(minishell->fd, "\n", 1);

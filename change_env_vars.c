@@ -21,8 +21,8 @@ void	increment_shell_level(t_minishell *minishell)
 
 	shell_level = getenv("SHLVL");
 	name = NULL;
-	prompt =(char **)malloc(sizeof(char *) * 3);
-    ft_memset(prompt, 0, sizeof(char *) * 3);
+	prompt = (char **)malloc(sizeof(char *) * 3);
+	ft_memset(prompt, 0, sizeof(char *) * 3);
 	prompt[0] = "export";
 	prompt[2] = 0;
 	if (shell_level)
@@ -41,39 +41,39 @@ void	increment_shell_level(t_minishell *minishell)
 	{
 		name = "SHLVL=1";
 		prompt[1] = name;
-		command_export(prompt, 0, minishell);	
+		command_export(prompt, 0, minishell);
 	}
-    free(prompt);
+	free(prompt);
 }
 
-void    change_pwd(char *curr_pwd, t_minishell *minishell)
+void	change_pwd(char *curr_pwd, t_minishell *minishell)
 {
-    char    **prompt;
-    char    *name;
+	char	**prompt;
+	char	*name;
 
-    prompt = (char **)malloc(sizeof(char *) * 3);
-    ft_memset(prompt, 0, sizeof(char *) * 3);
-    prompt[0] = "export";
-    prompt[2] = 0;
-    name = ft_strjoin("PWD=", curr_pwd);
-    prompt[1] = name;
-    command_export(prompt, 0, minishell);
-    free(name);
-    free(prompt);
+	prompt = (char **)malloc(sizeof(char *) * 3);
+	ft_memset(prompt, 0, sizeof(char *) * 3);
+	prompt[0] = "export";
+	prompt[2] = 0;
+	name = ft_strjoin("PWD=", curr_pwd);
+	prompt[1] = name;
+	command_export(prompt, 0, minishell);
+	free(name);
+	free(prompt);
 }
 
-void    change_old_pwd(char *old_pwd, t_minishell *minishell)
+void	change_old_pwd(char *old_pwd, t_minishell *minishell)
 {
-    char    **prompt;
-    char    *name;
+	char	**prompt;
+	char	*name;
 
-    prompt = (char **)malloc(sizeof(char *) * 3);
-    ft_memset(prompt, 0, sizeof(char *) * 3);
-    prompt[0] = "export";
-    prompt[2] = 0;
-    name = ft_strjoin("OLDPWD=", old_pwd);
-    prompt[1] = name;
-    command_export(prompt, 0, minishell);
-    free(name);
-    free(prompt);
+	prompt = (char **)malloc(sizeof(char *) * 3);
+	ft_memset(prompt, 0, sizeof(char *) * 3);
+	prompt[0] = "export";
+	prompt[2] = 0;
+	name = ft_strjoin("OLDPWD=", old_pwd);
+	prompt[1] = name;
+	command_export(prompt, 0, minishell);
+	free(name);
+	free(prompt);
 }
