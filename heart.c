@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 16:19:40 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/03 13:21:44 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/04 19:04:18 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,9 @@ int	exec_command_pipe_aux(t_minishell *minishell, int num_commands)
 		minishell->fd = STDOUT_FILENO;
 		minishell->fd_type = 1;
 		minishell->args = net_args(minishell->raw_args[i]);
+		printf("=====================================\n");
+		ft_print_matriz(minishell->args);
+		printf("=====================================\n");
 		redir = is_redir(minishell->raw_args[i]);
 		minishell->redirect_command = minishell->raw_args[i];
 		if (redir == R_TRUNC_O)
@@ -102,14 +105,22 @@ void	exec_command_pipe(t_minishell *minishell)
 	pid_t	pid;
 	int		redir;
 
-	minishell->raw_args = ft_split(minishell->command, '|');
+	minishell->raw_args = ft_split_ms(minishell->command, '|');
+	printf("=====================================\n");
+	ft_print_matriz(minishell->raw_args);
+	printf("=====================================\n");
 	num_commands = ft_matriz_len(minishell->raw_args);
+	printf("=====================================\n");
+	printf("num_commands: %d\n", num_commands);
+	printf("=====================================\n");
 	minishell->pipe_fds = (int *)malloc(sizeof(int) * (2 * num_commands - 1));
 	open_fds(minishell, num_commands);
 	if (exec_command_pipe_aux(minishell, num_commands))
 		return ;
 	ft_exit_process(minishell, num_commands);
 }
+
+int check_if_str_is_pipe(char **matriz);
 
 // Função que executa o comando
 void	execute_command(t_minishell *minishell)
@@ -119,10 +130,38 @@ void	execute_command(t_minishell *minishell)
 	minishell->fd = STDOUT_FILENO;
 	minishell->fd_type = 1;
 
+	char **data = net_args(minishell->readline);
+	printf("=====================================\n");
+	ft_print_matriz(data);
+	printf("=====================================\n");
 	minishell->command = minishell->readline;
-	if (strchr(minishell->readline, '|'))
+	if (minishell->readline[0] == '\n' || minishell->readline[0] == '\0')
+	{
+		ft_free_matriz(data);
+		return ;
+	}
+	if (check_if_str_is_pipe(data) == 1)
+	{
+		ft_free_matriz(data);
 		exec_command_pipe(minishell);
+	}
 	else
+	{
+		ft_free_matriz(data);
 		exec_command(minishell);
+	}
+}
 
+int check_if_str_is_pipe(char **matriz)
+{
+	int i;
+
+	i = 0;
+	while (matriz[i])
+	{
+		if (ft_strncmp(matriz[i], "|", ft_strlen(matriz[i])) == 0)
+			return (1);
+		i++;
+	}
+	return (0);
 }

@@ -119,4 +119,7 @@ void	change_old_pwd(char *old_pwd, t_minishell *minishell);
 void	execute_child_process_pipe(t_minishell *minishell, int i, int num_commands);
 void	execute_child_process(t_minishell *minishell);
 void    do_redir(t_minishell *minishell);
+char **ft_split_ms(const char *str, char delimiter);
+void	ft_delete_first_spaces(char *str);
+void	ft_delete_quotes(char *str);
 #endif
