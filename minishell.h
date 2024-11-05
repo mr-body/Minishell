@@ -6,7 +6,7 @@
 /*   By: waalexan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 02:13:41 by waalexan          #+#    #+#             */
-/*   Updated: 2024/11/05 04:35:53 by waalexan         ###   ########.fr       */
+/*   Updated: 2024/11/05 15:26:56 by waalexan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ typedef struct s_minishell
 	t_data	*raw_args;
 	t_data	*args;
 	int		fd;
+	int		last;
 	int		fd_type;
 	int		*pipe_fds;
 	int		exit_status;
