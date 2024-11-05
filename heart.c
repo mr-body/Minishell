@@ -6,7 +6,7 @@
 /*   By: waalexan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 16:19:40 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/05 04:21:31 by waalexan         ###   ########.fr       */
+/*   Updated: 2024/11/05 04:43:44 by waalexan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,11 @@ typedef struct heart
 {
 	int	i;
 	int	redir;
-} t_heart;
+}	t_heart;
 
 int	exec_command_pipe_aux(t_minishell *minishell, int num_commands)
 {
-	t_heart var;
+	t_heart	var;
 
 	var.i = -1;
 	while (++var.i < num_commands)
