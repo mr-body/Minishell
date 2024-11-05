@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: waalexan <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 14:15:03 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/04 22:10:05 by waalexan         ###   ########.fr       */
+/*   Updated: 2024/11/05 12:38:56 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,9 @@ void	redir_trunc_o(t_minishell *minishell)
 	if (minishell->args)
 		ft_free_matriz(minishell->args);
 	minishell->args = net_args(minishell->data[0]);
+	printf("=====================================\n");
+	ft_print_matriz(minishell->args);
+	printf("=====================================\n");
 	minishell->fd_type = 0;
 	i = 0;
 	while (++i < (ft_matriz_len2(minishell->data) - 1))

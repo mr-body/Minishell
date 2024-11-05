@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 16:19:40 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/04 19:04:18 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/05 12:37:21 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,9 @@ int	exec_command_pipe_aux(t_minishell *minishell, int num_commands)
 		ft_print_matriz(minishell->args);
 		printf("=====================================\n");
 		redir = is_redir(minishell->raw_args[i]);
+		printf("=====================================\n");
+		printf("redir: %s\n", minishell->raw_args[i]);
+		printf("=====================================\n");
 		minishell->redirect_command = minishell->raw_args[i];
 		if (redir == R_TRUNC_O)
 			redir_trunc_o(minishell);
