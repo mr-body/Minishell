@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: waalexan <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/05 02:13:41 by waalexan          #+#    #+#             */
+/*   Updated: 2024/11/05 02:14:28 by waalexan         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
@@ -24,19 +36,41 @@
 # define R_APPEND_I 21
 # define R_TRUNC_I 19
 
+# define INITIAL_ARG_COUNT 10
+# define INITIAL_TEMP_SIZE 256
+
+typedef struct s_data
+{
+	char	**args;
+	char	*types;
+	int		count;
+}			t_data;
+
+typedef struct vars
+{
+	int		i;
+	int		j;
+	int		k;
+	int		in_word;
+	char	*old_tmp;
+	char	*env_var_value;
+	char	*env_var_name;
+}			t_vars;
+
 typedef struct s_minishell
 {
 	char	*readline;
 	char	*command;
-	char 	*redirect_command;
-	char	**raw_args;
-	char	**args;
+	char	*redirect_command;
+	t_data	*raw_args;
+	t_data	*args;
 	int		fd;
 	int		fd_type;
 	int		*pipe_fds;
 	int		exit_status;
 	int		is_redir;
 	int		redir;
+	int		status;
 	char	data[MAX_WORDS][MAX_WORD_LENGTH];
 }			t_minishell;
 
@@ -48,9 +82,9 @@ typedef struct s_redir
 
 void		header(void);
 
-char		**ft_extended(char **data, char delimiter);
-char		**net_args(char *prompt);
-char	**ft_adjust_data(char **data, int *quotes);
+char		**ft_extended(char **data);
+t_data		*net_args(char *prompt);
+char		**ft_adjust_data(char **data, int *quotes);
 
 int			shell(char **prompt, int pipe, t_minishell *minishell);
 void		execute_command(t_minishell *minishell);
@@ -62,7 +96,6 @@ int			command_env(char **prompt, char **environ, int pipe,
 int			command_pwd(char **prompt, int pipe, t_minishell *minishell);
 int			command_unset(char **prompt, int pipe, t_minishell *minishell);
 int			command_export(char **prompt, int pipe, t_minishell *minishell);
-char		*ft_strcat(char *s1, char *s2, int c);
 
 /*new funtions*/
 void		ft_exit_process(t_minishell *minishell, int nbr_cmds);
@@ -70,13 +103,13 @@ void		close_fds(t_minishell *minishell, int nbr_cmds);
 void		open_fds(t_minishell *minishell, int nbr_cmds);
 void		ft_print_command_error(char *cmd);
 int			is_builtin(char *cmd);
-char		*shell_binary(char **prompt, char **environ);
+char		*shell_binary(char **prompt, char **environ, int pipe);
 int			shell_builtin(char **prompt, char **environ, int pipe,
 				t_minishell *minishell);
 int			check_quotes(char *str, char quote_type);
 char		*handle_quotes(char *tmp);
 void		ft_print_syntax_error(void);
-char	*expand_env_var(char *arg, char *tmp, char delimiter);
+char		*expand_env_var(char *arg, char *tmp, char delimiter);
 int			ft_find_little_str(char *str, char *little);
 int			is_redir(char *str);
 int			is_redirout(char *str);
@@ -87,13 +120,18 @@ void		redir_trunc_in(t_minishell *minishell);
 void		redir_append_in(t_minishell *minishell);
 void		exec_command_pipe(t_minishell *minishell);
 void		exec_command(t_minishell *minishell);
+void		free_data(t_data *data);
 void		ft_strtok(char *str, char *delimiter,
 				char result[MAX_WORDS][MAX_WORD_LENGTH]);
-char	*trim_quotes(char *tmp);
-int		unbalanced_quotes(char *str);
-int   unbalanced_quotes_2(char *str);
-void	set_to_env(char *value);
-void	increment_shell_level(t_minishell *minishell);
-void	change_pwd(char *curr_pwd, t_minishell *minishell);
-void	change_old_pwd(char *old_pwd, t_minishell *minishell);
+char		*trim_quotes(char *tmp);
+int			unbalanced_quotes(char *str);
+void		set_to_env(char *value);
+void		increment_shell_level(t_minishell *minishell);
+void		change_pwd(char *curr_pwd, t_minishell *minishell);
+void		change_old_pwd(char *old_pwd, t_minishell *minishell);
+void		execute_child_process_pipe(t_minishell *minishell, int i,
+				int num_commands);
+void		execute_child_process(t_minishell *minishell);
+void		do_redir(t_minishell *minishell);
+t_data		*ft_big_split(char *str, char delimiter);
 #endif

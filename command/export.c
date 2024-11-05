@@ -1,4 +1,24 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   export.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: waalexan <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/04 22:18:49 by waalexan          #+#    #+#             */
+/*   Updated: 2024/11/05 03:35:04 by waalexan         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
+
+typedef struct export
+{
+	char		**sorted_env;
+	char		*output;
+	char		*var;
+	int			i;
+}	t_export;
 
 char	**sort_env(char **environ)
 {
@@ -99,33 +119,30 @@ void	ft_delete_quotes(char *str)
 
 int	command_export(char **prompt, int pipe, t_minishell *minishell)
 {
-	extern char **environ;
-	char **sorted_env;
-	char *output;
-	char *var;
-	int i;
+	t_export	var;
+	extern char	**environ;
 
-	i = 0;
+	ft_memset(&var, 0, sizeof(t_export));
 	if (!prompt[1])
 	{
-		sorted_env = sort_env(environ);
-		while (sorted_env[i])
+		var.sorted_env = sort_env(environ);
+		while (var.sorted_env[var.i])
 		{
-			output = ft_strjoin("declare -x ", sorted_env[i]);
-			ft_putendl_fd(output, minishell->fd);
-			free(output);
-			i++;
+			var.output = ft_strjoin("declare -x ", var.sorted_env[var.i]);
+			ft_putendl_fd(var.output, 1);
+			free(var.output);
+			var.i++;
 		}
 	}
 	else
 	{
-		i = 0;
-		while (prompt[++i])
+		var.i = 0;
+		while (prompt[++var.i])
 		{
-			var = ft_strdup(prompt[i]);
-			ft_delete_quotes(var);
-			set_to_env(ft_get_env(var));
-			free(var);
+			var.var = ft_strdup(prompt[var.i]);
+			ft_delete_quotes(var.var);
+			set_to_env(ft_get_env(var.var));
+			free(var.var);
 		}
 	}
 	if (pipe)

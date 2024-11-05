@@ -3,14 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: waalexan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 14:15:03 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/02 18:10:29 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/05 04:19:20 by waalexan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+typedef struct redirect
+{
+	int		fd;
+	char	*tmp;
+	char	*delimiter;
+	char	*l_delimiter;
+	char	*temp_file;
+	int		temp_fd;
+	char	*line;
+}			t_redirect;
 
 void	redir_trunc_o(t_minishell *minishell)
 {
@@ -22,6 +33,8 @@ void	redir_trunc_o(t_minishell *minishell)
 	delimiter = ">";
 	ft_memset(minishell->data, 0, sizeof(minishell->data));
 	ft_strtok(minishell->redirect_command, delimiter, minishell->data);
+	if (minishell->args)
+		free_data(minishell->args);
 	minishell->args = net_args(minishell->data[0]);
 	minishell->fd_type = 0;
 	i = 0;
@@ -37,6 +50,7 @@ void	redir_trunc_o(t_minishell *minishell)
 	tmp = free_ptr(tmp);
 	minishell->is_redir = 1;
 }
+
 void	redir_append_o(t_minishell *minishell)
 {
 	int		i;
@@ -87,42 +101,34 @@ void	redir_trunc_in(t_minishell *minishell)
 
 void	redir_append_in(t_minishell *minishell)
 {
-	int fd;
-	char *tmp;
-	char *delimiter;
-	char *line_delimiter;
-	char *temp_file;
-	int temp_fd;
-	char *line;
+	t_redirect	var;
 
-	line = NULL;
-	delimiter = "<<";
-	temp_file = "/tmp/heredoc.tmp";
+	var.line = NULL;
+	var.delimiter = "<<";
+	var.temp_file = "/tmp/heredoc.tmp";
 	ft_memset(minishell->data, 0, sizeof(minishell->data));
-	ft_strtok(minishell->redirect_command, delimiter, minishell->data);
+	ft_strtok(minishell->redirect_command, var.delimiter, minishell->data);
 	minishell->args = net_args(minishell->data[0]);
 	minishell->fd_type = 1;
-	line_delimiter = ft_strtrim(minishell->data[ft_matriz_len2(minishell->data)
+	var.l_delimiter = ft_strtrim(minishell->data[ft_matriz_len2(minishell->data)
 			- 1], " ");
-	temp_fd = open(temp_file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	var.temp_fd = open(var.temp_file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	while (1)
 	{
-		line = readline("heredoc> ");
-		if (ft_strncmp(line, line_delimiter, ft_strlen(line_delimiter)) == 0)
+		var.line = readline("heredoc> ");
+		if (ft_strncmp(var.line, var.l_delimiter,
+				ft_strlen(var.l_delimiter)) == 0)
 			break ;
-		tmp = ft_strdup("");
-		line = expand_env_var(line, tmp, 0);
-		write(temp_fd, line, ft_strlen(line));
-		write(temp_fd, "\n", 1);
-		line = free_ptr(line);
+		var.tmp = ft_strdup("");
+		var.line = expand_env_var(var.line, var.tmp, 0);
+		write(var.temp_fd, var.line, ft_strlen(var.line));
+		write(var.temp_fd, "\n", 1);
+		var.line = free_ptr(var.line);
 	}
-	line = free_ptr(line);
-	close(temp_fd);
-	minishell->fd = open(temp_file, O_RDONLY);
+	var.line = free_ptr(var.line);
+	close(var.temp_fd);
+	minishell->fd = open(var.temp_file, O_RDONLY);
 	if (minishell->fd < 0)
-	{
-		perror("Could not open temp file for reading");
-		return ;
-	}
-	unlink(temp_file);
+		return (perror("Could not open temp file for reading"));
+	unlink(var.temp_file);
 }

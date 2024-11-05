@@ -1,61 +1,67 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: waalexan <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/05 01:59:39 by waalexan          #+#    #+#             */
+/*   Updated: 2024/11/05 02:00:13 by waalexan         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-void	handle_SIGINT(int signal)
+static int	g_redsplay;
+
+void	handle_sigint(int signal)
 {
-	char *cwd = getcwd(NULL, 0);
-	if (cwd)
-	{
-		ft_putstr_fd(VERDE "\n┌──" RESET, 1);
-		ft_putstr_fd(AZUL "(Minishell)" RESET, 1);
-		ft_putstr_fd(VERDE "-[" RESET, 1);
-		ft_putstr_fd(cwd, 1);
-		ft_putstr_fd(VERDE "]\n", 1);
-		free(cwd);
-	}
+	(void)signal;
 	rl_replace_line("", 0);
+	write(1, "\n", 1);
 	rl_on_new_line();
-	rl_redisplay();
+	if (g_redsplay)
+		rl_redisplay();
+}
+
+void	get_readline(t_minishell *minishell)
+{
+	minishell->readline = readline(AMARELO "minishell" VERDE "# " RESET);
+	if (!minishell->readline)
+	{
+		free(minishell->readline);
+		exit(0);
+	}
+	if (minishell->readline)
+	{
+		add_history(minishell->readline);
+	}
+	if (ft_strncmp(minishell->readline, "exit", 4) == 0)
+	{
+		free(minishell->readline);
+		exit(0);
+	}
+	else
+		execute_command(minishell);
 }
 
 int	main(int ac, char **av)
 {
 	t_minishell	minishell;
-	int		status;
-    char    *cwd;
 
-	signal(SIGINT, handle_SIGINT);
+	g_redsplay = 0;
 	signal(SIGQUIT, SIG_IGN);
+	signal(SIGINT, handle_sigint);
 	ft_memset(&minishell, 0, sizeof(t_minishell));
 	increment_shell_level(&minishell);
 	while (1)
 	{
-		ft_putstr_fd(VERDE "\n┌──" RESET, 1);
-		ft_putstr_fd(AZUL "(Minishell)" RESET, 1);
-		ft_putstr_fd(VERDE "-[" RESET, 1);
-		cwd = getcwd(NULL, 0);
-        ft_putstr_fd(cwd, 1);
-		ft_putstr_fd(VERDE "]", 1);
-		minishell.readline = readline(VERDE "\n└─" RESET AZUL "# " RESET);
-		if (!minishell.readline)
-        {
-            free(cwd);
-            free(minishell.readline);
-			exit (0);
-        }
-		if (minishell.readline)
-			add_history(minishell.readline);
-		if (ft_strncmp(minishell.readline, "exit", 4) == 0)
-		{
-			free(minishell.readline);
-            free(cwd);
-			exit(0);
-		}
-		else
-			execute_command(&minishell);
-		while (waitpid(-1, &status, 0) > 0)
+		g_redsplay = 1;
+		get_readline(&minishell);
+		g_redsplay = 0;
+		while (waitpid(-1, &minishell.status, 0) > 0)
 			;
 		free(minishell.readline);
-        free(cwd);
 	}
 	return (0);
 }

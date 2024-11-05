@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils_pipe.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: waalexan <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/05 02:12:13 by waalexan          #+#    #+#             */
+/*   Updated: 2024/11/05 02:12:14 by waalexan         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void	open_fds(t_minishell *minishell, int nbr_cmds)
@@ -27,7 +39,7 @@ void	close_fds(t_minishell *minishell, int nbr_cmds)
 
 void	ft_exit_process(t_minishell *minishell, int nbr_cmds)
 {
-    close_fds(minishell, nbr_cmds);
+	close_fds(minishell, nbr_cmds);
 	minishell->pipe_fds = (int *)free_ptr((char *)minishell->pipe_fds);
-	minishell->raw_args = ft_free_matriz(minishell->raw_args);
+	free_data(minishell->raw_args);
 }

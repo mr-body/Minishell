@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_count_chr_occur.c                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: waalexan <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/05 00:21:59 by waalexan          #+#    #+#             */
+/*   Updated: 2024/11/05 00:22:18 by waalexan         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft.h"
 
 int	ft_count_chr_occurrency_matriz(char **mat, char chr)
@@ -22,11 +34,11 @@ int	ft_count_chr_occurrency_matriz(char **mat, char chr)
 
 int	ft_count_chr_occurrency_str(char *str, char chr)
 {
-	int i;
-	int chr_occurrency;
+	int	i;
+	int	chr_occurrency;
 
-	if(!str)
-		return(0);
+	if (!str)
+		return (0);
 	i = -1;
 	chr_occurrency = 0;
 	while (str[++i])
@@ -34,7 +46,5 @@ int	ft_count_chr_occurrency_str(char *str, char chr)
 		if (str[i] == chr)
 			chr_occurrency += 1;
 	}
-
 	return (chr_occurrency);
-
 }

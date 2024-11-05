@@ -1,24 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell_sms.c                                    :+:      :+:    :+:   */
+/*   ft_strcat.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: waalexan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/05 01:59:11 by waalexan          #+#    #+#             */
-/*   Updated: 2024/11/05 01:59:12 by waalexan         ###   ########.fr       */
+/*   Created: 2024/11/01 12:12:22 by gkomba            #+#    #+#             */
+/*   Updated: 2024/11/05 00:24:45 by waalexan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-void	ft_print_command_error(char *cmd)
+char	*ft_strcat(char *s1, char *s2, int c)
 {
-	ft_putstr_fd(cmd, 2);
-	ft_putstr_fd(": command not found\n", 2);
-}
+	size_t	len1;
+	size_t	len2;
+	char	*new;
 
-void	ft_print_syntax_error(void)
-{
-	ft_putendl_fd("minishell: syntax error: quote", 2);
+	len1 = ft_strlen(s1);
+	len2 = ft_strlen(s2);
+	new = malloc(len1 + len2 + 2);
+	if (!new)
+		return (NULL);
+	ft_memcpy(new, s1, len1);
+	new[len1] = (char)c;
+	ft_memcpy(new + len1 + 1, s2, len2);
+	new[len1 + len2 + 1] = '\0';
+	return (new);
 }
