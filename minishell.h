@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: waalexan <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/04 22:08:51 by waalexan          #+#    #+#             */
-/*   Updated: 2024/11/04 22:08:52 by waalexan         ###   ########.fr       */
+/*   Created: 2024/11/05 02:13:41 by waalexan          #+#    #+#             */
+/*   Updated: 2024/11/05 15:19:35 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@
 typedef struct s_data
 {
 	char	**args;
+	char	*types;
 	int		count;
 }			t_data;
 
@@ -60,9 +61,10 @@ typedef struct s_minishell
 {
 	char	*readline;
 	char	*command;
+	char 	**verify_pipes_syntax;
 	char	*redirect_command;
-	char	**raw_args;
-	char	**args;
+	t_data	*raw_args;
+	t_data	*args;
 	int		fd;
 	int		fd_type;
 	int		*pipe_fds;
@@ -82,7 +84,7 @@ typedef struct s_redir
 void		header(void);
 
 char		**ft_extended(char **data);
-char		**net_args(char *prompt);
+t_data		*net_args(char *prompt);
 char		**ft_adjust_data(char **data, int *quotes);
 
 int			shell(char **prompt, int pipe, t_minishell *minishell);
@@ -132,7 +134,8 @@ void		execute_child_process_pipe(t_minishell *minishell, int i,
 				int num_commands);
 void		execute_child_process(t_minishell *minishell);
 void		do_redir(t_minishell *minishell);
-char		**ft_split_ms(const char *str, char delimiter);
-void		ft_delete_first_spaces(char *str);
-void		ft_delete_quotes(char *str);
+t_data		*ft_big_split(char *str, char delimiter);
+char	**ft_split_ms(const char *str, char delimiter);
+int	ft_is_only(char *str, char c);
+int	verify_pipes_syntax(char **matrix);
 #endif
