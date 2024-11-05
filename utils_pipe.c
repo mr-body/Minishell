@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 02:12:13 by waalexan          #+#    #+#             */
-/*   Updated: 2024/11/05 16:04:31 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/05 18:44:10 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,4 +59,18 @@ int	ft_is_only(char *str, char c)
 		i++;
 	}
 	return (1);
+}
+
+int check_if_str_is_pipe(char **matriz)
+{
+	int i;
+
+	i = 0;
+	while (matriz[i])
+	{
+		if (ft_strncmp(matriz[i], "|", ft_strlen(matriz[i])) == 0)
+			return (1);
+		i++;
+	}
+	return (0);
 }

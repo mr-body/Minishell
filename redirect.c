@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 14:15:03 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/05 16:04:10 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/05 18:40:03 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ typedef struct redirect
 	char	*line;
 }			t_redirect;
 
-void	redir_trunc_o(t_minishell *minishell)
+int	redir_trunc_o(t_minishell *minishell)
 {
 	int		i;
 	int		fd;
@@ -49,6 +49,7 @@ void	redir_trunc_o(t_minishell *minishell)
 	minishell->fd = open(tmp, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	tmp = free_ptr(tmp);
 	minishell->is_redir = 1;
+	return (0);
 }
 
 void	redir_append_o(t_minishell *minishell)

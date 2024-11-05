@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 02:13:41 by waalexan          #+#    #+#             */
-/*   Updated: 2024/11/05 16:21:32 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/05 19:13:19 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ typedef struct s_minishell
 {
 	char	*readline;
 	char	*command;
-	char 	**verify_pipes_syntax;
+	char 	**verify_syntax;
 	char	*redirect_command;
 	t_data	*raw_args;
 	t_data	*args;
@@ -89,7 +89,7 @@ t_data		*net_args(char *prompt);
 char		**ft_adjust_data(char **data, int *quotes);
 
 int			shell(char **prompt, int pipe, t_minishell *minishell);
-void		execute_command(t_minishell *minishell);
+int		execute_command(t_minishell *minishell);
 int			command_cd(char **prompt, t_minishell *minishell);
 int			command_exit(char **prompt, t_minishell *minishell);
 int			command_echo(char **prompt, int pipe, t_minishell *minishell);
@@ -116,12 +116,12 @@ int			ft_find_little_str(char *str, char *little);
 int			is_redir(char *str);
 int			is_redirout(char *str);
 int			is_redirin(char *str);
-void		redir_trunc_o(t_minishell *minishell);
+int		redir_trunc_o(t_minishell *minishell);
 void		redir_append_o(t_minishell *minishell);
 void		redir_trunc_in(t_minishell *minishell);
 void		redir_append_in(t_minishell *minishell);
-void		exec_command_pipe(t_minishell *minishell);
-void		exec_command(t_minishell *minishell);
+int		exec_command_pipe(t_minishell *minishell);
+int		exec_command(t_minishell *minishell);
 void		free_data(t_data *data);
 void		ft_strtok(char *str, char *delimiter,
 				char result[MAX_WORDS][MAX_WORD_LENGTH]);
@@ -139,4 +139,7 @@ t_data		*ft_big_split(char *str, char delimiter);
 char	**ft_split_ms(const char *str, char delimiter);
 int	ft_is_only(char *str, char c);
 int	verify_pipes_syntax(t_minishell *minishell);
+int	verify_redir_syntax(t_minishell *minishell, char *redir_type);
+int syntax_checker(t_minishell *minishell);
+int check_if_str_is_pipe(char **matriz);
 #endif

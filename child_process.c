@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 15:57:35 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/05 16:20:57 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/05 19:09:09 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ void	execute_child_process_pipe(t_minishell *minishell, int i,
 				dup2(minishell->fd, STDOUT_FILENO);
 			else if (minishell->fd_type == 1)
 				dup2(minishell->fd, STDIN_FILENO);
-				
 			if (i < num_commands - 1)
 				dup2(minishell->pipe_fds[i * 2 + 1], STDOUT_FILENO);
 			if (i > 0)
