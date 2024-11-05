@@ -1,116 +1,31 @@
+
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   util.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: waalexan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/19 16:24:38 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/05 15:57:20 by gkomba           ###   ########.fr       */
+/*   Created: 2024/11/05 02:04:03 by waalexan          #+#    #+#             */
+/*   Updated: 2024/11/05 03:08:46 by waalexan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*ft_strcat(char *s1, char *s2, int c)
-{
-	size_t	len1;
-	size_t	len2;
-	char	*new;
-
-	len1 = ft_strlen(s1);
-	len2 = ft_strlen(s2);
-	new = malloc(len1 + len2 + 2);
-	if (!new)
-		return (NULL);
-	ft_memcpy(new, s1, len1);
-	new[len1] = (char)c;
-	ft_memcpy(new + len1 + 1, s2, len2);
-	new[len1 + len2 + 1] = '\0';
-	return (new);
-}
-
-char	*expand_env_var(char *arg, char *tmp)
-{
-	char	single_char[2];
-	int		j;
-	int		k;
-	char	*old_tmp;
-	char	*env_var_value;
-	char	*env_var_name;
-
-	j = 0;
-	while (arg[j])
-	{
-		if (arg[j] == '$')
-		{
-			j++;
-			k = j;
-			while (arg[k] && (ft_isalnum(arg[k]) || arg[k] == '_'))
-				k++;
-			env_var_name = ft_substr(arg, j, k - j);
-			if (!env_var_name)
-			{
-				free(tmp);
-				return (NULL);
-			}
-			env_var_value = getenv(env_var_name);
-			if (env_var_value)
-			{
-				old_tmp = tmp;
-				tmp = ft_strjoin(tmp, env_var_value);
-				free(old_tmp);
-			}
-			free(env_var_name);
-			j = k;
-		}
-		else
-		{
-			single_char[0] = arg[j];
-			single_char[1] = '\0';
-			old_tmp = tmp;
-			tmp = ft_strjoin(tmp, single_char);
-			free(old_tmp);
-			j++;
-		}
-	}
-	if ((ft_strchr(tmp, '\"')) || (ft_strchr(tmp, '\'')))
-		return (trim_quotes(tmp));
-	return (tmp);
-}
-
-char	**ft_extended(char **data)
+typedef struct util
 {
 	int		i;
-	char	**new_data;
-	char	*arg;
-	char	*tmp;
-
-	new_data = malloc(sizeof(char *) * (ft_matriz_len(data) + 1));
-	ft_memset(new_data, 0, sizeof(char *) * (ft_matriz_len(data) + 1));
-	if (!new_data)
-		return (NULL);
-	i = -1;
-	while (data[++i])
-	{
-		arg = data[i];
-		tmp = ft_strdup("");
-		if (!tmp)
-		{
-			new_data = ft_free_matriz(new_data);
-			return (NULL);
-		}
-		tmp = expand_env_var(arg, tmp);
-		if (!tmp)
-		{
-			ft_free_matriz(new_data);
-			return (NULL);
-		}
-		new_data[i] = tmp;
-	}
-	new_data[i] = NULL;
-	return (new_data);
-}
+	int		j;
+	int		k;
+	int		in_word;
+	char	temp[INITIAL_TEMP_SIZE];
+	int		temp_index;
+	int		is_quote;
+	char	type_quoter;
+	char	*new;
+	t_data	*data;
+}			t_util;
 
 void	ft_strtok(char *str, char *delimiter,
 		char result[MAX_WORDS][MAX_WORD_LENGTH])
@@ -132,12 +47,9 @@ void	ft_strtok(char *str, char *delimiter,
 		}
 		else
 		{
-			if (k < MAX_WORD_LENGTH - 1)
-			{
-				result[j][k] = str[i];
-				k++;
-			}
-			in_word = 1;
+			if (var.k < MAX_WORD_LENGTH - 1)
+				result[var.j][var.k++] = str[var.i];
+			var.in_word = 1;
 		}
 		var.i++;
 	}
@@ -146,78 +58,105 @@ void	ft_strtok(char *str, char *delimiter,
 		result[var.j][var.k] = '\0';
 		var.j++;
 	}
-	i = j;
-	while (i < MAX_WORDS)
-	{
-		result[i][0] = '\0';
-		i++;
-	}
+	while (var.j < MAX_WORDS)
+		result[var.j++][0] = '\0';
 }
 
-char	**ft_adjust_data(char **data)
+void	free_data(t_data *data)
 {
-	int		i;
-	int		j;
-	char	**new;
-	char	*tmp;
-	char	*new_tmp;
+	int	i;
 
 	i = -1;
-	j = 0;
-	new = malloc(sizeof(char *) * (ft_matriz_len(data) + 1));
-	tmp = NULL;
-	if (!new)
-		return (NULL);
-	while (data[++i])
+	while (++i < data->count)
 	{
-		if (ft_count_chr_occurrency_str(data[i], '\"') % 2 == 0)
-			new[j] = data[i];
-		else
-		{
-			tmp = strdup(data[i]);
-			if (!tmp)
-				return (NULL);
-			if (data[i + 1])
-			{
-				i++;
-				while (data[i] && ft_count_chr_occurrency_str(tmp, '\"')
-					% 2 != 0)
-				{
-					new_tmp = ft_strcat(tmp, data[i], ' ');
-					free(tmp);
-					tmp = new_tmp;
-					if (data[i + 1] && ft_count_chr_occurrency_str(tmp, '\"')
-						% 2 != 0)
-						i++;
-					else
-						break ;
-				}
-			}
-			if (ft_count_chr_occurrency_str(tmp, '\"') % 2 == 0)
-				new[j] = tmp;
-		}
-		j++;
+		free(data->args[i]);
 	}
-	new[j] = NULL;
-	return (new);
+	free(data->args);
+	free(data->types);
+	free(data);
 }
 
-char	**net_args(char *prompt)
+t_data	*ft_big_split(char *str, char delimiter)
 {
-	char	**raw_data;
-	char	**net_data;
-	char	**data;
-	int		qt;
+	t_util	var;
 
-	qt = unbalanced_quotes(prompt);
-	if (qt == 1)
+	ft_memset(&var, 0, sizeof(t_util));
+	var.data = malloc(sizeof(t_data));
+	if (!var.data)
 		return (NULL);
-	else
+	var.data->count = 0;
+	var.data->args = malloc(INITIAL_ARG_COUNT * sizeof(char *));
+	var.data->types = malloc(INITIAL_ARG_COUNT * sizeof(char));
+	if (!var.data->args || !var.data->types)
 	{
-		raw_data = ft_split(prompt, ' ');
-		net_data = ft_adjust_data(raw_data);
-		data = ft_extended(net_data);
-		return (data);
+		return (free(var.data), NULL);
 	}
-	return (NULL);
+	while (*str)
+	{
+		if (*str == '"' || *str == '\'')
+		{
+			if (var.is_quote == 0)
+			{
+				var.is_quote = 1;
+				var.type_quoter = *str;
+			}
+			else if (*str == var.type_quoter)
+				var.is_quote = 0;
+			if (delimiter == 32)
+			{
+				if (*str != var.type_quoter)
+					var.temp[var.temp_index++] = *str;
+			}
+			else
+				var.temp[var.temp_index++] = *str;
+			str++;
+			continue ;
+		}
+		if (var.is_quote)
+		{
+			if (var.temp_index < INITIAL_TEMP_SIZE - 1)
+				var.temp[var.temp_index++] = *str;
+		}
+		else if (*str == delimiter)
+		{
+			if (var.temp_index > 0)
+			{
+				var.temp[var.temp_index] = '\0';
+				var.data->types[var.data->count] = var.type_quoter;
+				var.new = expand_env_var(var.temp, ft_strdup(""),
+						var.type_quoter);
+				var.data->args[var.data->count] = var.new;
+				if (!var.new)
+					return (free_data(var.data), NULL);
+				var.data->count++;
+				var.temp_index = 0;
+			}
+		}
+		else
+		{
+			if (var.temp_index < INITIAL_TEMP_SIZE - 1)
+				var.temp[var.temp_index++] = *str;
+		}
+		str++;
+	}
+	if (var.temp_index > 0)
+	{
+		var.temp[var.temp_index] = '\0';
+		var.data->types[var.data->count] = var.type_quoter;
+		var.new = expand_env_var(var.temp, ft_strdup(""), var.type_quoter);
+		var.data->args[var.data->count] = var.new;
+		if (!var.new)
+			return (free_data(var.data), NULL);
+		var.data->count++;
+	}
+	var.data->args[var.data->count] = NULL;
+	return (var.data);
+}
+
+t_data	*net_args(char *prompt)
+{
+	t_data	*data;
+
+	data = ft_big_split(prompt, 32);
+	return (data);
 }

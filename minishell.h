@@ -3,17 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-<<<<<<< HEAD
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 02:13:41 by waalexan          #+#    #+#             */
-/*   Updated: 2024/11/05 15:19:35 by gkomba           ###   ########.fr       */
-=======
-/*   By: waalexan <marvin@42.fr>                    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/05 02:13:41 by waalexan          #+#    #+#             */
-/*   Updated: 2024/11/05 04:35:53 by waalexan         ###   ########.fr       */
->>>>>>> origin/waalexan
+/*   Updated: 2024/11/05 16:07:04 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,10 +61,7 @@ typedef struct s_minishell
 {
 	char	*readline;
 	char	*command;
-<<<<<<< HEAD
 	char 	**verify_pipes_syntax;
-=======
->>>>>>> origin/waalexan
 	char	*redirect_command;
 	t_data	*raw_args;
 	t_data	*args;
@@ -147,5 +137,5 @@ void		do_redir(t_minishell *minishell);
 t_data		*ft_big_split(char *str, char delimiter);
 char	**ft_split_ms(const char *str, char delimiter);
 int	ft_is_only(char *str, char c);
-int	verify_pipes_syntax(char **matrix);
+int	verify_pipes_syntax(t_minishell *minishell);
 #endif

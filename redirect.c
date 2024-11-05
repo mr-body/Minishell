@@ -6,11 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 14:15:03 by gkomba            #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2024/11/05 12:38:56 by gkomba           ###   ########.fr       */
-=======
-/*   Updated: 2024/11/05 04:19:20 by waalexan         ###   ########.fr       */
->>>>>>> origin/waalexan
+/*   Updated: 2024/11/05 16:04:10 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,16 +34,8 @@ void	redir_trunc_o(t_minishell *minishell)
 	ft_memset(minishell->data, 0, sizeof(minishell->data));
 	ft_strtok(minishell->redirect_command, delimiter, minishell->data);
 	if (minishell->args)
-<<<<<<< HEAD
-		ft_free_matriz(minishell->args);
-	minishell->args = net_args(minishell->data[0]);
-	printf("=====================================\n");
-	ft_print_matriz(minishell->args);
-	printf("=====================================\n");
-=======
 		free_data(minishell->args);
 	minishell->args = net_args(minishell->data[0]);
->>>>>>> origin/waalexan
 	minishell->fd_type = 0;
 	i = 0;
 	while (++i < (ft_matriz_len2(minishell->data) - 1))

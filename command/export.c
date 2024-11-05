@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 15:53:45 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/05 15:53:47 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/05 15:59:46 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,16 +120,8 @@ void	ft_delete_quotes(char *str)
 
 int	command_export(char **prompt, int pipe, t_minishell *minishell)
 {
-<<<<<<< HEAD
-	extern char	**environ;
-	char		**sorted_env;
-	char		*output;
-	char		*var;
-	int			i;
-=======
 	t_export	var;
 	extern char	**environ;
->>>>>>> origin/waalexan
 
 	ft_memset(&var, 0, sizeof(t_export));
 	if (!prompt[1])
