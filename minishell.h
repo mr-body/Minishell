@@ -3,10 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
+<<<<<<< HEAD
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 02:13:41 by waalexan          #+#    #+#             */
 /*   Updated: 2024/11/05 15:19:35 by gkomba           ###   ########.fr       */
+=======
+/*   By: waalexan <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/05 02:13:41 by waalexan          #+#    #+#             */
+/*   Updated: 2024/11/05 04:35:53 by waalexan         ###   ########.fr       */
+>>>>>>> origin/waalexan
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +68,10 @@ typedef struct s_minishell
 {
 	char	*readline;
 	char	*command;
+<<<<<<< HEAD
 	char 	**verify_pipes_syntax;
+=======
+>>>>>>> origin/waalexan
 	char	*redirect_command;
 	t_data	*raw_args;
 	t_data	*args;

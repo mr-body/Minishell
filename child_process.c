@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 15:57:35 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/02 18:23:22 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/05 15:54:40 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,12 @@ void	execute_child_process_pipe(t_minishell *minishell, int i,
 				dup2(minishell->pipe_fds[(i - 1) * 2], STDIN_FILENO);
 			close_fds(minishell, num_commands);
 		}
-		if (shell(minishell->args, 1, minishell) == -1)
+		if (shell(minishell->args->args, 0, minishell) == -1)
 		{
 			perror("error: ");
 			exit(1);
 		}
+		// exit(0);
 	}
 	else if (pid < 0)
 		perror("fork error: ");
@@ -58,9 +59,9 @@ void	execute_child_process(t_minishell *minishell)
 			dup2(minishell->fd, STDOUT_FILENO);
 		else
 			dup2(minishell->fd, STDIN_FILENO);
-		if (shell(minishell->args, 0, minishell) == -1)
+		if (shell(minishell->args->args, 0, minishell) == -1)
 		{
-			ft_print_command_error(minishell->args[0]);
+			ft_print_command_error(minishell->args->args[0]);
 			exit(EXIT_FAILURE);
 		}
 		close(minishell->fd);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: waalexan <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 16:23:19 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/04 22:11:10 by waalexan         ###   ########.fr       */
+/*   Updated: 2024/11/05 15:56:55 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,6 @@ char	*shell_binary(char **prompt, char **environ, int pipe)
 	return (cmd_path);
 }
 
-/*funcao que chama a funcao de xecutar builtin e a funcao*/
-/*de pegar o caminho do binario*/
 int	shell(char **prompt, int pipe, t_minishell *minishell)
 {
 	extern char	**environ;
@@ -92,7 +90,6 @@ int	shell(char **prompt, int pipe, t_minishell *minishell)
 	return (-1);
 }
 
-/*funcao que verifica se um comando é um builtin*/
 int	is_builtin(char *cmd)
 {
 	if (!cmd)

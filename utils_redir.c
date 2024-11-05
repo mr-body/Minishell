@@ -5,8 +5,13 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: waalexan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
+<<<<<<< HEAD
 /*   Created: 2024/11/04 22:17:17 by waalexan          #+#    #+#             */
 /*   Updated: 2024/11/04 22:17:24 by waalexan         ###   ########.fr       */
+=======
+/*   Created: 2024/11/05 02:13:12 by waalexan          #+#    #+#             */
+/*   Updated: 2024/11/05 02:13:13 by waalexan         ###   ########.fr       */
+>>>>>>> origin/waalexan
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +19,42 @@
 
 int	is_redir(char *str)
 {
-	if (ft_find_little_str(str, ">>") == 1)
-		return (R_APPEND_O);
-	else if (ft_find_little_str(str, "<<") == 1)
-		return (R_APPEND_I);
-	else if (ft_find_little_str(str, ">") == 1)
-		return (R_TRUNC_O);
-	else if (ft_find_little_str(str, "<") == 1)
-		return (R_TRUNC_I);
+	int		i;
+	int		is_quote;
+	char	quote_type;
+
+	i = 0;
+	is_quote = 0;
+	quote_type = 0;
+	while (str[i])
+	{
+		if (str[i] == '"' || str[i] == '\'')
+		{
+			if (!is_quote)
+			{
+				is_quote = 1;
+				quote_type = str[i];
+			}
+			else if (str[i] == quote_type)
+			{
+				is_quote = 0;
+			}
+			i++;
+			continue ;
+		}
+		if (!is_quote)
+		{
+			if (str[i] == '>' && str[i + 1] == '>')
+				return (R_APPEND_O);
+			else if (str[i] == '<' && str[i + 1] == '<')
+				return (R_APPEND_I);
+			else if (str[i] == '>')
+				return (R_TRUNC_O);
+			else if (str[i] == '<')
+				return (R_TRUNC_I);
+		}
+		i++;
+	}
 	return (0);
 }
 

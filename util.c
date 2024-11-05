@@ -3,171 +3,221 @@
 /*                                                        :::      ::::::::   */
 /*   util.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: waalexan <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/04 22:16:10 by waalexan          #+#    #+#             */
-/*   Updated: 2024/11/04 22:16:43 by waalexan         ###   ########.fr       */
+/*   Created: 2024/10/19 16:24:38 by gkomba            #+#    #+#             */
+/*   Updated: 2024/11/05 15:57:20 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+char	*ft_strcat(char *s1, char *s2, int c)
+{
+	size_t	len1;
+	size_t	len2;
+	char	*new;
+
+	len1 = ft_strlen(s1);
+	len2 = ft_strlen(s2);
+	new = malloc(len1 + len2 + 2);
+	if (!new)
+		return (NULL);
+	ft_memcpy(new, s1, len1);
+	new[len1] = (char)c;
+	ft_memcpy(new + len1 + 1, s2, len2);
+	new[len1 + len2 + 1] = '\0';
+	return (new);
+}
+
+char	*expand_env_var(char *arg, char *tmp)
+{
+	char	single_char[2];
+	int		j;
+	int		k;
+	char	*old_tmp;
+	char	*env_var_value;
+	char	*env_var_name;
+
+	j = 0;
+	while (arg[j])
+	{
+		if (arg[j] == '$')
+		{
+			j++;
+			k = j;
+			while (arg[k] && (ft_isalnum(arg[k]) || arg[k] == '_'))
+				k++;
+			env_var_name = ft_substr(arg, j, k - j);
+			if (!env_var_name)
+			{
+				free(tmp);
+				return (NULL);
+			}
+			env_var_value = getenv(env_var_name);
+			if (env_var_value)
+			{
+				old_tmp = tmp;
+				tmp = ft_strjoin(tmp, env_var_value);
+				free(old_tmp);
+			}
+			free(env_var_name);
+			j = k;
+		}
+		else
+		{
+			single_char[0] = arg[j];
+			single_char[1] = '\0';
+			old_tmp = tmp;
+			tmp = ft_strjoin(tmp, single_char);
+			free(old_tmp);
+			j++;
+		}
+	}
+	if ((ft_strchr(tmp, '\"')) || (ft_strchr(tmp, '\'')))
+		return (trim_quotes(tmp));
+	return (tmp);
+}
+
+char	**ft_extended(char **data)
+{
+	int		i;
+	char	**new_data;
+	char	*arg;
+	char	*tmp;
+
+	new_data = malloc(sizeof(char *) * (ft_matriz_len(data) + 1));
+	ft_memset(new_data, 0, sizeof(char *) * (ft_matriz_len(data) + 1));
+	if (!new_data)
+		return (NULL);
+	i = -1;
+	while (data[++i])
+	{
+		arg = data[i];
+		tmp = ft_strdup("");
+		if (!tmp)
+		{
+			new_data = ft_free_matriz(new_data);
+			return (NULL);
+		}
+		tmp = expand_env_var(arg, tmp);
+		if (!tmp)
+		{
+			ft_free_matriz(new_data);
+			return (NULL);
+		}
+		new_data[i] = tmp;
+	}
+	new_data[i] = NULL;
+	return (new_data);
+}
+
 void	ft_strtok(char *str, char *delimiter,
 		char result[MAX_WORDS][MAX_WORD_LENGTH])
 {
-	int	i;
-	int	j;
-	int	k;
-	int	in_word;
+	t_util	var;
 
-	i = 0;
-	j = 0;
-	k = 0;
-	in_word = 0;
-	while (str[i])
+	ft_memset(&var, 0, sizeof(t_util));
+	while (str[var.i])
 	{
-		if (ft_strchr(delimiter, str[i]))
+		if (ft_strchr(delimiter, str[var.i]))
 		{
-			if (in_word)
+			if (var.in_word)
 			{
-				result[j][k] = '\0';
-				j++;
-				k = 0;
-				in_word = 0;
+				result[var.j][var.k] = '\0';
+				var.j++;
+				var.k = 0;
+				var.in_word = 0;
 			}
 		}
 		else
 		{
 			if (k < MAX_WORD_LENGTH - 1)
 			{
-				result[j][k++] = str[i];
+				result[j][k] = str[i];
+				k++;
 			}
 			in_word = 1;
 		}
+		var.i++;
+	}
+	if (var.in_word)
+	{
+		result[var.j][var.k] = '\0';
+		var.j++;
+	}
+	i = j;
+	while (i < MAX_WORDS)
+	{
+		result[i][0] = '\0';
 		i++;
 	}
-	if (in_word)
-	{
-		result[j][k] = '\0';
-		j++;
-	}
-	while (j < MAX_WORDS)
-	{
-		result[j++][0] = '\0';
-	}
 }
 
-char	**ft_big_split(char *str)
-{
-	char	**args;
-	char	temp[INITIAL_TEMP_SIZE];
-	int		temp_index;
-	int		count;
-	int		is_quote;
-	char	type_quoter;
-	char	*new;
-
-	temp_index = 0;
-	args = malloc(INITIAL_ARG_COUNT * sizeof(char *));
-	if (!args)
-		return (NULL);
-	temp_index = 0;
-	count = 0;
-	is_quote = 0;
-	type_quoter = 0;
-	while (*str)
-	{
-		if (*str == '"' || *str == '\'')
-		{
-			if (is_quote == 0)
-			{
-				is_quote = 1;
-				type_quoter = *str;
-			}
-			else if (*str == type_quoter)
-			{
-				is_quote = 0;
-			}
-			if (*str != type_quoter)
-				temp[temp_index++] = *str;
-			str++;
-			continue ;
-		}
-		if (is_quote)
-		{
-			if (temp_index < INITIAL_TEMP_SIZE - 1)
-			{
-				temp[temp_index++] = *str;
-			}
-		}
-		else if (*str == ' ')
-		{
-			if (temp_index > 0)
-			{
-				temp[temp_index] = '\0';
-				new = expand_env_var(temp, ft_strdup(""), type_quoter);
-				args[count++] = new;
-				if (!args[count - 1])
-					ft_free_matriz(args);
-				temp_index = 0;
-			}
-		}
-		else
-		{
-			if (temp_index < INITIAL_TEMP_SIZE - 1)
-			{
-				temp[temp_index++] = *str;
-			}
-		}
-		str++;
-	}
-	if (temp_index > 0)
-	{
-		temp[temp_index] = '\0';
-		new = expand_env_var(temp, ft_strdup(""), type_quoter);
-		args[count++] = new;
-		if (!args[count - 1])
-			ft_free_matriz(args);
-	}
-	args[count] = NULL;
-	return (args);
-}
-
-void	ft_delete_first_spaces(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i] == ' ')
-		i++;
-	ft_memmove(str, str + i, ft_strlen(str + i) + 1);
-}
-
-void	ft_check_is_have_env_var(char **data)
+char	**ft_adjust_data(char **data)
 {
 	int		i;
-	char	*old_tmp;
+	int		j;
+	char	**new;
+	char	*tmp;
+	char	*new_tmp;
 
-	i = 0;
-	while (data[i])
+	i = -1;
+	j = 0;
+	new = malloc(sizeof(char *) * (ft_matriz_len(data) + 1));
+	tmp = NULL;
+	if (!new)
+		return (NULL);
+	while (data[++i])
 	{
-		if (ft_strchr(data[i], '$'))
+		if (ft_count_chr_occurrency_str(data[i], '\"') % 2 == 0)
+			new[j] = data[i];
+		else
 		{
-			old_tmp = data[i];
-			data[i] = expand_env_var(data[i], ft_strdup(""), 0);
-			free(old_tmp);
+			tmp = strdup(data[i]);
+			if (!tmp)
+				return (NULL);
+			if (data[i + 1])
+			{
+				i++;
+				while (data[i] && ft_count_chr_occurrency_str(tmp, '\"')
+					% 2 != 0)
+				{
+					new_tmp = ft_strcat(tmp, data[i], ' ');
+					free(tmp);
+					tmp = new_tmp;
+					if (data[i + 1] && ft_count_chr_occurrency_str(tmp, '\"')
+						% 2 != 0)
+						i++;
+					else
+						break ;
+				}
+			}
+			if (ft_count_chr_occurrency_str(tmp, '\"') % 2 == 0)
+				new[j] = tmp;
 		}
-		i++;
+		j++;
 	}
+	new[j] = NULL;
+	return (new);
 }
 
 char	**net_args(char *prompt)
 {
+	char	**raw_data;
+	char	**net_data;
 	char	**data;
-	int		quotes;
+	int		qt;
 
-	quotes = 1;
-	data = ft_split_ms(prompt, 32);
-	ft_check_is_have_env_var(data);
-	return (data);
+	qt = unbalanced_quotes(prompt);
+	if (qt == 1)
+		return (NULL);
+	else
+	{
+		raw_data = ft_split(prompt, ' ');
+		net_data = ft_adjust_data(raw_data);
+		data = ft_extended(net_data);
+		return (data);
+	}
+	return (NULL);
 }

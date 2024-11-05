@@ -6,11 +6,12 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 11:35:50 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/05 15:19:40 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/05 15:57:09 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+<<<<<<< HEAD
 
 int	verify_pipes_syntax(char **matrix)
 {
