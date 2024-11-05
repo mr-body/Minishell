@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_pipe.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: waalexan <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/04 22:16:59 by waalexan          #+#    #+#             */
-/*   Updated: 2024/11/04 22:17:00 by waalexan         ###   ########.fr       */
+/*   Created: 2024/11/05 02:12:13 by waalexan          #+#    #+#             */
+/*   Updated: 2024/11/05 14:45:30 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,5 +41,22 @@ void	ft_exit_process(t_minishell *minishell, int nbr_cmds)
 {
 	close_fds(minishell, nbr_cmds);
 	minishell->pipe_fds = (int *)free_ptr((char *)minishell->pipe_fds);
-	minishell->raw_args = ft_free_matriz(minishell->raw_args);
+	free_data(minishell->raw_args);
+}
+
+int	ft_is_only(char *str, char c)
+{
+	int	i;
+
+	i = 0;
+	if (!str)
+		return (0);
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] != c)
+			return (0);
+		i++;
+	}
+	return (1);
 }
