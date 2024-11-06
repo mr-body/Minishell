@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 16:20:32 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/05 16:20:32 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/06 13:47:52 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,15 @@ int	command_env(char **prompt, char **environ, int pipe, t_minishell *minishell)
 {
 	int	i;
 
+	if (prompt[1])
+	{
+		if (pipe)
+		{
+			ft_free_matriz(prompt);
+			exit(1);
+		}
+		return (ft_putendl_fd("env: too many arguments", 2), 1);
+	}
 	i = -1;
 	while (environ[++i])
 	{

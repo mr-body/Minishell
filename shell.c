@@ -6,40 +6,36 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 16:23:19 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/05 15:56:55 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/06 14:21:25 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/*funcao que executa os builtins*/
 int	shell_builtin(char **prompt, char **environ, int pipe,
 		t_minishell *minishell)
 {
-	int	exit_status;
-
-	exit_status = 0;
 	if (ft_strncmp(prompt[0], "exit", 4) == 0)
 	{
+		ft_putendl_fd("exit", 1);
 		prompt = ft_free_matriz(prompt);
 		exit(0);
 	}
 	else if (ft_strncmp(prompt[0], "env", 3) == 0)
-		exit_status = command_env(prompt, environ, pipe, minishell);
+		minishell->exit_status = command_env(prompt, environ, pipe, minishell);
 	else if (ft_strncmp(prompt[0], "cd", 2) == 0)
-		exit_status = command_cd(prompt, minishell);
+		minishell->exit_status = command_cd(prompt, minishell);
 	else if (ft_strncmp(prompt[0], "echo", 4) == 0)
-		exit_status = command_echo(prompt, pipe, minishell);
+		minishell->exit_status = command_echo(prompt, pipe, minishell);
 	else if (ft_strncmp(prompt[0], "pwd", 3) == 0)
-		exit_status = command_pwd(prompt, pipe, minishell);
+		minishell->exit_status = command_pwd(prompt, pipe, minishell);
 	else if (ft_strncmp(prompt[0], "export", 6) == 0)
-		exit_status = command_export(prompt, pipe, minishell);
+		minishell->exit_status = command_export(prompt, pipe, minishell);
 	else if (ft_strncmp(prompt[0], "unset", 6) == 0)
-		exit_status = command_unset(prompt, pipe, minishell);
-	return (exit_status);
+		minishell->exit_status = command_unset(prompt, pipe, minishell);
+	return (minishell->exit_status);
 }
 
-/*funcao que pega o caminho dos bainarios*/
 char	*shell_binary(char **prompt, char **environ, int pipe)
 {
 	char	*cmd_path;
@@ -64,10 +60,7 @@ char	*shell_binary(char **prompt, char **environ, int pipe)
 		}
 	}
 	if (cmd_path == NULL)
-	{
-		routes = ft_free_matriz(routes);
-		return (NULL);
-	}
+		return (ft_free_matriz(routes), NULL);
 	routes = ft_free_matriz(routes);
 	return (cmd_path);
 }

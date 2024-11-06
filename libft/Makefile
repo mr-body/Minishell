@@ -42,6 +42,8 @@ SRCS = ft_strlen.c\
 	ft_matstr.c\
 	ft_count_chr_occur.c\
 	ft_strcat.c\
+	ft_strcpy.c\
+	ft_strncpy.c\
 
 
 OBJS = ${SRCS:.c=.o}

@@ -69,5 +69,8 @@ char	**ft_free_matriz(char **mat);
 char	**ft_matdup(char **mat);
 char	*ft_mattstr_copy(char **mat);
 char	*free_ptr(char *ptr);
+char	*ft_strcpy(char *dest, const char *src);
+char	*ft_strncpy(char *dest, const char *src, unsigned int n);
+char	**free_split(char **split, size_t word);
 
 #endif

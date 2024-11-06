@@ -6,20 +6,12 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 22:18:49 by waalexan          #+#    #+#             */
-/*   Updated: 2024/11/05 16:20:40 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/06 14:16:46 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "../minishell.h"
-
-typedef struct export
-{
-	char		**sorted_env;
-	char		*output;
-	char		*var;
-	int			i;
-}	t_export;
 
 char	**sort_env(char **environ)
 {
@@ -99,53 +91,48 @@ char	*ft_get_env(char *var_name)
 	return (tmp);
 }
 
-void	ft_delete_quotes(char *str)
+int	export_var(char **prompt)
 {
 	int	i;
-	int	j;
-
+	char		*var;
 	i = 0;
-	j = 0;
-	while (str[i])
+	while (prompt[++i])
 	{
-		if (str[i] != '\"')
-		{
-			str[j] = str[i];
-			j++;
-		}
+		if (check_name_var_syntax(prompt[i]))
+			return (1);
+		var = ft_strdup(prompt[i]);
+		ft_delete_quotes(var);
+		set_to_env(ft_get_env(var));
+		free(var);
+	}
+	return (0);
+}
+
+int	export_print(void)
+{
+	extern char	**environ;
+	int	i;
+	char	*output;
+	char	**sorted_env;
+	
+	i = 0;
+	sorted_env = sort_env(environ);
+	while (sorted_env[i])
+	{
+		output = ft_strjoin("declare -x ", sorted_env[i]);
+		ft_putendl_fd(output, 1);
+		free(output);
 		i++;
 	}
-	str[j] = '\0';
+	return (0);
 }
 
 int	command_export(char **prompt, int pipe, t_minishell *minishell)
 {
-	t_export	var;
-	extern char	**environ;
-
-	ft_memset(&var, 0, sizeof(t_export));
 	if (!prompt[1])
-	{
-		var.sorted_env = sort_env(environ);
-		while (var.sorted_env[var.i])
-		{
-			var.output = ft_strjoin("declare -x ", var.sorted_env[var.i]);
-			ft_putendl_fd(var.output, 1);
-			free(var.output);
-			var.i++;
-		}
-	}
+		minishell->exit_status = export_print();
 	else
-	{
-		var.i = 0;
-		while (prompt[++var.i])
-		{
-			var.var = ft_strdup(prompt[var.i]);
-			ft_delete_quotes(var.var);
-			set_to_env(ft_get_env(var.var));
-			free(var.var);
-		}
-	}
+		minishell->exit_status = export_var(prompt);
 	if (pipe)
 	{
 		ft_free_matriz(prompt);

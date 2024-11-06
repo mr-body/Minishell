@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 17:41:57 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/04 18:53:16 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/06 15:58:53 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,96 +24,111 @@ int	count_words(const char *str, char delimiter)
 	while (str[i])
 	{
 		if (str[i] == '"' || str[i] == '\'')
-		{
 			in_quotes = !in_quotes;
-		}
 		if (!in_quotes && str[i] == delimiter)
 		{
 			if (i > 0 && str[i - 1] != delimiter)
-			{
 				count++;
-			}
 		}
 		i++;
 	}
 	if (i > 0 && str[i - 1] != delimiter)
-	{
 		count++;
-	}
 	return (count);
+}
+
+char	**last_word(char **result, const char *str, int start, int *index)
+{
+	int	length;
+	int	j;
+	int	i;
+
+	length = 0;
+	j = 0;
+	i = *index;
+	length = ft_strlen(str) - start;
+	result[i] = (char *)malloc((length + 1) * sizeof(char));
+	if (result[i] == NULL)
+		return (free_split(result, i), NULL);
+	ft_strcpy(result[i], str + start);
+	result[i][length] = '\0';
+	i++;
+	*index = i;
+	return (result);
+}
+
+int	ft_strcpy_ms_split(char **result, const char *str, int *iter,
+		t_split_ms_vars *var)
+{
+	int	length;
+	int	j;
+	int	idx;
+	int	st;
+	int	i;
+
+	st = var->st;
+	idx = var->idx;
+	i = *iter;
+	length = i - st;
+	result[idx] = (char *)malloc((length + 1) * sizeof(char));
+	if (result[idx] == NULL)
+	{
+		free_split(result, idx);
+		return (free(result), 1);
+	}
+	ft_strncpy(result[idx], str + st, length);
+	result[idx][length] = '\0';
+	idx++;
+	st = -1;
+	var->idx = idx;
+	var->st = st;
+	return (0);
+}
+
+static char	**ft_alloc_splited_str(char **result, const char *str,
+		char delimiter, t_split_ms_vars *var)
+{
+	int	i;
+	int	in_quotes;
+
+	in_quotes = 0;
+	var->idx = var->index;
+	var->st = var->start;
+	i = -1;
+	while (str[++i])
+	{
+		ft_in_quotes(str[i], &in_quotes);
+		if (!in_quotes && str[i] == delimiter)
+		{
+			if (var->st != -1)
+				if (ft_strcpy_ms_split(result, str, &i, var) == 1)
+					return (NULL);
+		}
+		else if (var->st == -1)
+			var->st = i;
+	}
+	var->index = var->idx;
+	var->start = var->st;
+	return (result);
 }
 
 char	**ft_split_ms(const char *str, char delimiter)
 {
-	int		word_count;
-	int		in_quotes;
-	int		start;
-	int		index;
-	int		i;
-	int		j;
-	int		length;
-	char	type_qt;
-	char	**result;
+	int				word_count;
+	t_split_ms_vars	vars;
+	char			**result;
 
 	word_count = count_words(str, delimiter);
-	in_quotes = 0;
-	start = -1;
-	index = 0;
-	result = malloc((word_count + 1) * sizeof(char *));
-	i = -1;
+	vars.start = -1;
+	vars.index = 0;
+	result = (char **)malloc((word_count + 1) * sizeof(char *));
 	if (str == NULL)
 		return (NULL);
 	if (result == NULL)
 		return (NULL);
-	while (str[++i])
-	{
-		if (str[i] == '"' || str[i] == '\'')
-		{
-			in_quotes = !in_quotes;
-			type_qt = str[i];
-		}
-		if (!in_quotes && str[i] == delimiter)
-		{
-			if (start != -1)
-			{
-				length = i - start;
-				result[index] = malloc((length + 1) * sizeof(char));
-				if (result[index] == NULL)
-				{
-					j = -1;
-					while (++j < index)
-						free(result[j]);
-					free(result);
-					return (NULL);
-				}
-				strncpy(result[index], str + start, length);
-				result[index][length] = '\0';
-				index++;
-				start = -1;
-			}
-		}
-		else
-		{
-			if (start == -1)
-				start = i;
-		}
-	}
-	if (start != -1)
-	{
-		length = strlen(str) - start;
-		result[index] = malloc((length + 1) * sizeof(char));
-		if (result[index] == NULL)
-		{
-			j = -1;
-			while (++j < index)
-				free(result[j]);
-			free(result);
-			return (NULL);
-		}
-		strcpy(result[index], str + start);
-		result[index][length] = '\0';
-		index++;
-	}
-	result[index] = NULL;
+	result = ft_alloc_splited_str(result, str, delimiter, &vars);
+	if (vars.start != -1)
+		result = last_word(result, str, vars.start, &vars.index);
+	result[vars.index] = NULL;
 	return (result);
 }

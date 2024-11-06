@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 16:19:40 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/05 19:14:03 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/06 13:35:45 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,6 @@ int	exec_command_pipe(t_minishell *minishell)
 	return (0);
 }
 
-// Função que executa o comando
 int	execute_command(t_minishell *minishell)
 {
 	char	**data;
@@ -118,6 +117,8 @@ int	execute_command(t_minishell *minishell)
 	minishell->fd = STDOUT_FILENO;
 	minishell->fd_type = 1;
 	data = ft_split_ms(minishell->readline, ' ');
+	if (data[0] == NULL)
+		return (ft_free_matriz(data), 0);
 	minishell->command = minishell->readline;
 	minishell->status = 0;
 	minishell->exit_status = 0;

@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 11:35:50 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/05 18:40:23 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/06 14:58:21 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ int	verify_pipes_syntax(t_minishell *minishell)
 			{
 				ft_putendl_fd("syntax error near unexpected token `newline'",
 					2);
-				return (ft_free_matriz(minishell->verify_syntax), 2);
+				ft_free_matriz(minishell->verify_syntax);
+				return (2);
 			}
 			if (ft_strncmp(minishell->verify_syntax[i + 1], "|", 1) == 0)
 			{
@@ -80,5 +81,27 @@ int	syntax_checker(t_minishell *minishell)
 	minishell->status = verify_redir_syntax(minishell, "<");
 	if (minishell->status == 2)
 		return (2);
+	return (0);
+}
+
+int	check_name_var_syntax(char *var)
+{
+	int	i;
+
+	i = 0;
+	if (ft_isdigit(var[i]) || var[i] == '=')
+	{
+		ft_putendl_fd("export: not a valid identifier", 2);
+		return (1);
+	}
+	while (var[i] && var[i] != '=')
+	{
+		if (!ft_isalnum(var[i]) && var[i] != '_')
+		{
+			ft_putendl_fd("export: not a valid identifier", 2);
+			return (1);
+		}
+		i++;
+	}
 	return (0);
 }

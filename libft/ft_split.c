@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_splitv2.c                                       :+:      :+:    :+:   */
+/*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gkomba <gkomba@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 20:25:44 by gkomba            #+#    #+#             */
-/*   Updated: 2024/05/18 20:54:27 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/06 15:34:44 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static char	**free_split(char **split, size_t word)
+char	**free_split(char **split, size_t word)
 {
 	while (word > 0)
 	{
@@ -44,7 +44,7 @@ static size_t	ft_count(const char *s, char c)
 	return (num_palavras);
 }
 
-static char	*ft_strcpy(char *dest, const char *s, size_t i, size_t word_len)
+static char	*ft_strcpy_split(char *dest, const char *s, size_t i, size_t word_len)
 {
 	size_t	j;
 
@@ -80,7 +80,7 @@ static char	**ft_alloc(const char *s, char c, char **split, size_t num_word)
 		split[word] = (char *)malloc(sizeof(char) * (word_len + 1));
 		if (!split)
 			return (free_split(split, word));
-		ft_strcpy(split[word], s, i, word_len);
+		ft_strcpy_split(split[word], s, i, word_len);
 		word_len = 0;
 		word++;
 	}

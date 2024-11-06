@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 10:39:46 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/05 15:59:01 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/06 15:56:09 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,4 +74,29 @@ int	unbalanced_quotes(char *str)
 		return (1);
 	}
 	return (0);
+}
+
+void	ft_in_quotes(char c, int *in_quotes)
+{
+	if (c == '"' || c == '\'')
+		*in_quotes = !*in_quotes;
+}
+
+void	ft_delete_quotes(char *str)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	while (str[i])
+	{
+		if (str[i] != '\"')
+		{
+			str[j] = str[i];
+			j++;
+		}
+		i++;
+	}
+	str[j] = '\0';
 }
