@@ -3,40 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: waalexan <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 16:20:52 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/05 14:59:46 by waalexan         ###   ########.fr       */
+/*   Updated: 2024/11/06 18:28:44 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-typedef struct unset
+void	unset_var(char **prpt)
 {
-	int		i;
-	int		j;
-	int		line;
-	size_t	name_len;
-
-}			t_unset;
-
-int	command_unset(char **prompt, int pipe, t_minishell *minishell)
-{
-	extern char	**environ;
 	t_unset		var;
+	extern char	**environ;
 
 	ft_memset(&var, 0, sizeof(t_unset));
-	if (!prompt[1])
-		return (ft_putstr_fd("Nome da variável não fornecido.\n", 1), -1);
 	var.line = 0;
-	while (prompt[++var.line])
+	while (prpt[++var.line])
 	{
-		var.name_len = strlen(prompt[var.line]);
+		var.name_len = ft_strlen(prpt[var.line]);
 		var.i = 0;
 		while (environ[var.i])
 		{
-			if (strncmp(environ[var.i], prompt[var.line], var.name_len) == 0)
+			if (ft_strncmp(environ[var.i], prpt[var.line], var.name_len) == 0)
 			{
 				while (environ[var.i])
 				{
@@ -48,6 +37,13 @@ int	command_unset(char **prompt, int pipe, t_minishell *minishell)
 			var.i++;
 		}
 	}
+}
+
+int	command_unset(char **prompt, int pipe, t_minishell *minishell)
+{
+	if (!prompt[1])
+		return (ft_putstr_fd("unset:  not a valid identifier\n", 1), 1);
+	unset_var(prompt);
 	if (pipe)
 		exit(0);
 	return (0);

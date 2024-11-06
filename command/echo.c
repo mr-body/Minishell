@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 16:20:39 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/05 16:24:34 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/06 18:28:36 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	command_echo(char **prompt, int pipe, t_minishell *minishell)
 	}
 	if (n_flag == 0)
 	{
-		write(1, "\n", 1);
+		write(minishell->fd, "\n", 1);
 	}
 	if (pipe)
 	{

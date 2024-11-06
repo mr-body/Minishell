@@ -1,31 +1,41 @@
-
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   util.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: waalexan <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 02:04:03 by waalexan          #+#    #+#             */
-/*   Updated: 2024/11/05 03:08:46 by waalexan         ###   ########.fr       */
+/*   Updated: 2024/11/06 16:37:50 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-typedef struct util
+void	tonkenize(char *str, char *delimiter,
+			char result[MAX_WORDS][MAX_WORD_LENGTH], t_util *var)
 {
-	int		i;
-	int		j;
-	int		k;
-	int		in_word;
-	char	temp[INITIAL_TEMP_SIZE];
-	int		temp_index;
-	int		is_quote;
-	char	type_quoter;
-	char	*new;
-	t_data	*data;
-}			t_util;
+	while (str[var->i])
+	{
+		if (ft_strchr(delimiter, str[var->i]))
+		{
+			if (var->in_word)
+			{
+				result[var->j][var->k] = '\0';
+				var->j++;
+				var->k = 0;
+				var->in_word = 0;
+			}
+		}
+		else
+		{
+			if (var->k < MAX_WORD_LENGTH - 1)
+				result[var->j][var->k++] = str[var->i];
+			var->in_word = 1;
+		}
+		var->i++;
+	}
+}
 
 void	ft_strtok(char *str, char *delimiter,
 		char result[MAX_WORDS][MAX_WORD_LENGTH])
@@ -33,26 +43,7 @@ void	ft_strtok(char *str, char *delimiter,
 	t_util	var;
 
 	ft_memset(&var, 0, sizeof(t_util));
-	while (str[var.i])
-	{
-		if (ft_strchr(delimiter, str[var.i]))
-		{
-			if (var.in_word)
-			{
-				result[var.j][var.k] = '\0';
-				var.j++;
-				var.k = 0;
-				var.in_word = 0;
-			}
-		}
-		else
-		{
-			if (var.k < MAX_WORD_LENGTH - 1)
-				result[var.j][var.k++] = str[var.i];
-			var.in_word = 1;
-		}
-		var.i++;
-	}
+	tonkenize(str, delimiter, result, &var);
 	if (var.in_word)
 	{
 		result[var.j][var.k] = '\0';

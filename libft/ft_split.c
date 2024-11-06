@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 20:25:44 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/06 15:34:44 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/06 18:08:09 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,8 @@ static size_t	ft_count(const char *s, char c)
 	return (num_palavras);
 }
 
-static char	*ft_strcpy_split(char *dest, const char *s, size_t i, size_t word_len)
+static char	*ft_strcpy_split(char *dest, const char *s, size_t i,
+		size_t word_len)
 {
 	size_t	j;
 
@@ -90,8 +91,8 @@ static char	**ft_alloc(const char *s, char c, char **split, size_t num_word)
 
 char	**ft_split(const char *s, char c)
 {
-	char		**split;
-	size_t		num_palavras;
+	char	**split;
+	size_t	num_palavras;
 
 	if (!s)
 		return (0);

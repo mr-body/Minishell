@@ -6,32 +6,20 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 16:19:40 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/06 13:35:45 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/06 18:29:26 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-typedef struct heart
-{
-	int	i;
-	int	redir;
-}		t_heart;
-
 int	exec_command(t_minishell *minishell)
 {
-	int		redir;
-	int		fd;
-	pid_t	pid;
+	int	redir;
+	int	retrn;
 
-	minishell->args = net_args(minishell->command);
-	if (!minishell->args)
-		return (free_data(minishell->args), 1);
 	redir = 0;
-	if (!minishell->args->args[0])
-		return (0);
-	redir = is_redir(minishell->command);
-	minishell->redirect_command = minishell->command;
+	if (extract_command(minishell, &redir, &retrn) != 0)
+		return (retrn);
 	if (redir == R_TRUNC_O)
 		redir_trunc_o(minishell);
 	else if (redir == R_APPEND_O)
@@ -50,29 +38,18 @@ int	exec_command(t_minishell *minishell)
 			ft_print_command_error(minishell->args->args[0]);
 	}
 	free_data(minishell->args);
-}
-
-void	last_redir(t_minishell *minishell)
-{
-	if (ft_strchr(minishell->raw_args->args[ft_matriz_len(minishell->raw_args->args)
-			- 1], '>')
-		|| ft_strchr(minishell->raw_args->args[ft_matriz_len(minishell->raw_args->args)
-			- 1], '>>'))
-		minishell->last = 1;
-	else
-		minishell->last = 0;
+	return (0);
 }
 
 int	exec_command_pipe_aux(t_minishell *minishell, int num_commands)
 {
 	t_heart	var;
 
-	last_redir(minishell);	
 	var.i = -1;
 	var.redir = 0;
+	last_redir(minishell);
 	while (++var.i < num_commands)
 	{
-		minishell->is_redir = 0;
 		minishell->args = net_args(minishell->raw_args->args[var.i]);
 		var.redir = is_redir(minishell->raw_args->args[var.i]);
 		minishell->redirect_command = minishell->raw_args->args[var.i];
@@ -124,7 +101,7 @@ int	execute_command(t_minishell *minishell)
 	minishell->exit_status = 0;
 	minishell->redirect_command = minishell->readline;
 	if (minishell->readline[0] == '\n' || minishell->readline[0] == '\0')
-		return(ft_free_matriz(data), 0);
+		return (ft_free_matriz(data), 0);
 	if (syntax_checker(minishell) == 2)
 		return (ft_free_matriz(data), 1);
 	if (check_if_str_is_pipe(data) == 1)

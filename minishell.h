@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 02:13:41 by waalexan          #+#    #+#             */
-/*   Updated: 2024/11/06 15:56:25 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/06 18:18:55 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,49 @@
 # define INITIAL_ARG_COUNT 10
 # define INITIAL_TEMP_SIZE 256
 
+typedef struct increment_shell_level
+{
+	char	*prompt[3];
+	char	*shell_level;
+	char	*name;
+	int		level;
+}			t_increment_shell_level;
+
+typedef struct unset
+{
+	int		i;
+	int		j;
+	int		line;
+	size_t	name_len;
+
+}			t_unset;
+
+typedef struct heart
+{
+	int		i;
+	int		redir;
+}			t_heart;
+
 typedef struct s_data
 {
 	char	**args;
 	char	*types;
 	int		count;
 }			t_data;
+
+typedef struct util
+{
+	int		i;
+	int		j;
+	int		k;
+	int		in_word;
+	char	temp[INITIAL_TEMP_SIZE];
+	int		temp_index;
+	int		is_quote;
+	char	type_quoter;
+	char	*new;
+	t_data	*data;
+}			t_util;
 
 typedef struct split_ms_vars
 {
@@ -122,8 +159,6 @@ void		ft_print_syntax_error(void);
 char		*expand_env_var(char *arg, char *tmp, char delimiter);
 int			ft_find_little_str(char *str, char *little);
 int			is_redir(char *str);
-int			is_redirout(char *str);
-int			is_redirin(char *str);
 int			redir_trunc_o(t_minishell *minishell);
 void		redir_append_o(t_minishell *minishell);
 void		redir_trunc_in(t_minishell *minishell);
@@ -133,7 +168,6 @@ int			exec_command(t_minishell *minishell);
 void		free_data(t_data *data);
 void		ft_strtok(char *str, char *delimiter,
 				char result[MAX_WORDS][MAX_WORD_LENGTH]);
-char		*trim_quotes(char *tmp);
 int			unbalanced_quotes(char *str);
 void		set_to_env(char *value);
 void		increment_shell_level(t_minishell *minishell);
@@ -142,7 +176,6 @@ void		change_old_pwd(char *old_pwd, t_minishell *minishell);
 void		execute_child_process_pipe(t_minishell *minishell, int i,
 				int num_commands);
 void		execute_child_process(t_minishell *minishell);
-void		do_redir(t_minishell *minishell);
 t_data		*ft_big_split(char *str, char delimiter);
 char		**ft_split_ms(const char *str, char delimiter);
 int			ft_is_only(char *str, char c);
@@ -152,5 +185,10 @@ int			syntax_checker(t_minishell *minishell);
 int			check_if_str_is_pipe(char **matriz);
 void		ft_delete_quotes(char *str);
 int			check_name_var_syntax(char *var);
-void	ft_in_quotes(char c, int *in_quotes);
+void		ft_in_quotes(char c, int *in_quotes);
+int			extract_command(t_minishell *minishell, int *redir, int *retrn);
+void		last_redir(t_minishell *minishell);
+void		set_to_env(char *value);
+char		**sort_env(char **environ);
+char		*ft_get_env(char *var_name);
 #endif

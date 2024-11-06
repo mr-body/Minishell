@@ -6,20 +6,11 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 12:05:18 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/05 15:54:10 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/06 17:06:27 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-typedef struct increment_shell_level
-{
-	char	*prompt[3];
-	char	*shell_level;
-	char	*name;
-	int		level;
-}			t_increment_shell_level;
-
 
 void	increment_shell_level(t_minishell *minishell)
 {

@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 02:12:13 by waalexan          #+#    #+#             */
-/*   Updated: 2024/11/05 18:44:10 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/06 18:29:38 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,9 @@ int	ft_is_only(char *str, char c)
 	return (1);
 }
 
-int check_if_str_is_pipe(char **matriz)
+int	check_if_str_is_pipe(char **matriz)
 {
-	int i;
+	int		i;
 
 	i = 0;
 	while (matriz[i])

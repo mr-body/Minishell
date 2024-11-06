@@ -6,29 +6,11 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 10:39:46 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/06 15:56:09 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/06 16:41:57 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-char	*trim_quotes(char *tmp)
-{
-	char	*old_tmp;
-
-	old_tmp = handle_quotes(tmp);
-	if (!old_tmp)
-	{
-		free(tmp);
-		return (NULL);
-	}
-	else
-	{
-		free(tmp);
-		return (old_tmp);
-	}
-	return (tmp);
-}
 
 int	check_quotes(char *str, char quote_type)
 {
