@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: waalexan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 02:13:41 by waalexan          #+#    #+#             */
-/*   Updated: 2024/11/06 18:18:55 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/07 13:20:37 by waalexan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,7 @@ typedef struct s_minishell
 	int		*pipe_fds;
 	int		exit_status;
 	int		is_redir;
+	int		is_stdin;
 	int		redir;
 	int		status;
 	char	data[MAX_WORDS][MAX_WORD_LENGTH];
