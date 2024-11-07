@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 14:15:03 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/07 12:20:06 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/07 15:15:53 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,23 @@ void	redir_trunc_in(t_minishell *minishell)
 		return ;
 	}
 	minishell->is_redir = 1;
+	minishell->is_stdin = 1;
+}
+
+void	inset_at_the_heredoc(t_minishell *minishell, t_redirect *var)
+{
+	while (1)
+	{
+		var->line = readline("heredoc> ");
+		if (ft_strncmp(var->line, var->l_delimiter,
+				ft_strlen(var->l_delimiter)) == 0)
+			break ;
+		var->tmp = ft_strdup("");
+		var->line = expand_env_var(var->line, var->tmp, 0);
+		write(var->temp_fd, var->line, ft_strlen(var->line));
+		write(var->temp_fd, "\n", 1);
+		var->line = free_ptr(var->line);
+	}
 }
 
 void	redir_append_in(t_minishell *minishell)
@@ -107,22 +124,13 @@ void	redir_append_in(t_minishell *minishell)
 	var.l_delimiter = ft_strtrim(minishell->data[ft_matriz_len2(minishell->data)
 			- 1], " ");
 	var.temp_fd = open(var.temp_file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	while (1)
-	{
-		var.line = readline("heredoc> ");
-		if (ft_strncmp(var.line, var.l_delimiter,
-				ft_strlen(var.l_delimiter)) == 0)
-			break ;
-		var.tmp = ft_strdup("");
-		var.line = expand_env_var(var.line, var.tmp, 0);
-		write(var.temp_fd, var.line, ft_strlen(var.line));
-		write(var.temp_fd, "\n", 1);
-		var.line = free_ptr(var.line);
-	}
+	inset_at_the_heredoc(minishell, &var);
 	var.line = free_ptr(var.line);
 	close(var.temp_fd);
 	minishell->fd = open(var.temp_file, O_RDONLY);
 	if (minishell->fd < 0)
 		return (perror("Could not open temp file for reading"));
 	unlink(var.temp_file);
+	minishell->is_redir = 1;
+	minishell->is_stdin = 1;
 }

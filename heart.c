@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 16:19:40 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/07 14:09:24 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/07 15:16:02 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ int	exec_command_pipe_aux(t_minishell *minishell, int num_commands)
 	t_heart	var;
 
 	var.i = -1;
-	var.redir = 0;
 	last_redir(minishell);
 	while (++var.i < num_commands)
 	{
@@ -78,6 +77,7 @@ int	exec_command_pipe(t_minishell *minishell)
 	pid_t	pid;
 	int		redir;
 
+	minishell->is_stdin = 0;
 	minishell->raw_args = ft_big_split(minishell->command, '|');
 	num_commands = ft_matriz_len(minishell->raw_args->args);
 	minishell->pipe_fds = (int *)malloc(sizeof(int) * (2 * num_commands - 1));
