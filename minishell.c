@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 01:59:39 by waalexan          #+#    #+#             */
-/*   Updated: 2024/11/05 15:55:31 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/07 08:48:13 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void	handle_sigint(int signal)
 void	get_readline(t_minishell *minishell)
 {
 	minishell->readline = readline(AMARELO "minishell" VERDE "# " RESET);
+	g_redsplay = 0;
 	if (!minishell->readline)
 	{
 		free(minishell->readline);
@@ -58,7 +59,6 @@ int	main(int ac, char **av)
 	{
 		g_redsplay = 1;
 		get_readline(&minishell);
-		g_redsplay = 0;
 		while (waitpid(-1, &minishell.status, 0) > 0)
 			;
 		free(minishell.readline);

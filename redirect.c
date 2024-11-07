@@ -6,22 +6,11 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 14:15:03 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/05 18:40:03 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/07 12:20:06 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-typedef struct redirect
-{
-	int		fd;
-	char	*tmp;
-	char	*delimiter;
-	char	*l_delimiter;
-	char	*temp_file;
-	int		temp_fd;
-	char	*line;
-}			t_redirect;
 
 int	redir_trunc_o(t_minishell *minishell)
 {
@@ -62,6 +51,8 @@ void	redir_append_o(t_minishell *minishell)
 	delimiter = ">>";
 	ft_memset(minishell->data, 0, sizeof(minishell->data));
 	ft_strtok(minishell->redirect_command, delimiter, minishell->data);
+	if (minishell->args)
+		free_data(minishell->args);
 	minishell->args = net_args(minishell->data[0]);
 	minishell->fd_type = 0;
 	i = 0;
@@ -87,6 +78,8 @@ void	redir_trunc_in(t_minishell *minishell)
 	delimiter = "<";
 	ft_memset(minishell->data, 0, sizeof(minishell->data));
 	ft_strtok(minishell->redirect_command, delimiter, minishell->data);
+	if (minishell->args)
+		free_data(minishell->args);
 	minishell->args = net_args(minishell->data[0]);
 	minishell->fd_type = 1;
 	tmp = ft_strtrim(minishell->data[ft_matriz_len2(minishell->data) - 1], " ");

@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 17:30:33 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/05 15:54:49 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/07 08:16:33 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,26 @@ static char	*get_env_value(char *tmp, char *env_var_name)
 	return (tmp);
 }
 
+void	is_on_brace(char *arg, t_vars *var, char *str)
+{
+	if (ft_strncmp(str, "SUGAR", ft_strlen(str)) == 0)
+	{
+		if (arg[var->j + 1] == '{')
+		{
+			var->braces = 1;
+			var->j++;
+		}
+	}
+	else if (ft_strncmp(str, "PANCAKE", ft_strlen(str)) == 0)
+	{
+		if (arg[var->j] == '}' && var->braces == 1)
+		{
+			var->braces = 0;
+			var->j++;
+		}
+	}
+}
+
 char	*expand_env_var(char *arg, char *tmp, char delimiter)
 {
 	char	single_char[2];
@@ -64,6 +84,7 @@ char	*expand_env_var(char *arg, char *tmp, char delimiter)
 	{
 		if (arg[var.j] == '$' && delimiter != '\'')
 		{
+			is_on_brace(arg, &var, "SUGAR");
 			var.env_var_name = get_env_name(arg, &var.j, &var.k);
 			if (var.env_var_name == NULL)
 				return (free(tmp), NULL);
@@ -72,6 +93,7 @@ char	*expand_env_var(char *arg, char *tmp, char delimiter)
 		}
 		else
 		{
+			is_on_brace(arg, &var, "PANCAKE");
 			tmp = join_single_char(tmp, arg[var.j]);
 			var.j++;
 		}

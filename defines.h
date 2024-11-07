@@ -1,30 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   defines.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/05 02:13:41 by waalexan          #+#    #+#             */
-/*   Updated: 2024/11/07 12:15:42 by gkomba           ###   ########.fr       */
+/*   Created: 2024/11/07 08:49:36 by gkomba            #+#    #+#             */
+/*   Updated: 2024/11/07 12:15:32 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#ifndef DEFINES_H
+# define DEIFINES_H
 
-# include "libft/libft.h"
-# include <fcntl.h>
-# include <readline/history.h>
-# include <readline/readline.h>
-# include <signal.h>
-# include <stdbool.h>
-# include <stdio.h>
-# include <stdlib.h>
-# include <unistd.h>
-# include <wait.h>
-# include "defines.h"
-# include "structs.h"
-# include "funtions.h"
+# define VERDE "\033[0;32m"
+# define AMARELO "\033[0;33m"
+# define VERMELHO "\033[0;31m"
+# define AZUL "\033[0;34m"
+# define RESET "\033[0m"
+# define CLEAR "\033[H\033[2J"
+
+# define R_APPEND_O 42
+# define R_TRUNC_O 1337
+# define R_APPEND_I 21
+# define R_TRUNC_I 19
+
+# define INITIAL_ARG_COUNT 10
+# define INITIAL_TEMP_SIZE 256
 
 #endif
