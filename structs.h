@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 08:46:29 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/07 15:18:29 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/07 17:55:23 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,7 @@ typedef struct s_minishell
 	int		redir;
 	int		status;
 	char	data[MAX_WORDS][MAX_WORD_LENGTH];
+	char *data2[MAX_ARGS];
 }			t_minishell;
 
 #endif

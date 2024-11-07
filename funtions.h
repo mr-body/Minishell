@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 08:53:12 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/07 12:16:23 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/07 19:17:28 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,4 +77,6 @@ void	invalid_char_error(char c);
 void	redir_syntax_error(char *str);
 void	pipe_syntax_error(char *str);
 
+
+void split_redirect_command(char *command, char **data, char delimiter);
 #endif

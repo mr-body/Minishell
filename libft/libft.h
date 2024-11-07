@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 10:04:29 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/07 14:54:21 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/07 19:11:34 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,9 @@
 # include <stdlib.h>
 # include <unistd.h>
 
-# define MAX_WORDS 100
-# define MAX_WORD_LENGTH 50
+# define MAX_WORDS 1024
+# define MAX_WORD_LENGTH 1024
+# define MAX_ARGS 1024
 
 int		ft_isalpha(int c);
 int		ft_isdigit(int c);
@@ -36,6 +37,7 @@ int		ft_count_chr_occurrency_str(char *str, char chr);
 int		ft_strncmp2(const char *s1, const char *s2, size_t n);
 int		ft_strchr_quote(const char *str, char c);
 int		ft_matriz_len2(char matriz[MAX_WORDS][MAX_WORD_LENGTH]);
+int		ft_matriz_len3(char *data2[MAX_ARGS]);
 int		ft_atoi(const char *nptr);
 int		ft_atoi_v2(const char *nptr);
 size_t	ft_strlen(const char *str);
@@ -60,6 +62,7 @@ char	*ft_strdup(const char *s);
 char	*ft_strjoin(char const *s1, char const *s2);
 char	*ft_strtrim(const char *s1, const char *set);
 char	*ft_strcat(char *s1, char *s2, int c);
+char	*ft_strcat_no_malloc(char *dest, char *src);
 char	**ft_split(const char *s, char c);
 char	*ft_itoa(int n);
 char	*ft_strnstr(const char *big, const char *little, size_t n);
@@ -72,6 +75,8 @@ char	*ft_mattstr_copy(char **mat);
 char	*free_ptr(char *ptr);
 char	*ft_strcpy(char *dest, const char *src);
 char	*ft_strncpy(char *dest, const char *src, unsigned int n);
+char	*ft_strncat(char *dest, char *src, unsigned int nb);
 char	**free_split(char **split, size_t word);
+char	**ft_free_matriz2(char *matriz[MAX_ARGS]);
 
 #endif

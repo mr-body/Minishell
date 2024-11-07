@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 08:49:36 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/07 12:15:32 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/07 17:57:59 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 # define R_APPEND_I 21
 # define R_TRUNC_I 19
 
-# define INITIAL_ARG_COUNT 10
-# define INITIAL_TEMP_SIZE 256
+# define INITIAL_ARG_COUNT 64
+# define INITIAL_TEMP_SIZE 1024
 
 #endif
