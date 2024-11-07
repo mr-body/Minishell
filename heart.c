@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heart.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: waalexan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 16:19:40 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/06 18:29:26 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/07 12:46:34 by waalexan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,10 @@ int	exec_command_pipe_aux(t_minishell *minishell, int num_commands)
 	t_heart	var;
 
 	var.i = -1;
-	var.redir = 0;
 	last_redir(minishell);
 	while (++var.i < num_commands)
 	{
+		minishell->is_redir = 0;
 		minishell->args = net_args(minishell->raw_args->args[var.i]);
 		var.redir = is_redir(minishell->raw_args->args[var.i]);
 		minishell->redirect_command = minishell->raw_args->args[var.i];
