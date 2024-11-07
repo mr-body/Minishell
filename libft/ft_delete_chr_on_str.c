@@ -1,46 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strchr.c                                        :+:      :+:    :+:   */
+/*   ft_delete_chr_on_str.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/15 16:02:26 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/07 14:11:04 by gkomba           ###   ########.fr       */
+/*   Created: 2024/11/07 14:52:42 by gkomba            #+#    #+#             */
+/*   Updated: 2024/11/07 15:09:09 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include <stdio.h>
 
-char	*ft_strchr(const char *s, int c)
+void	ft_delete_chr_on_str(char *str, char chr)
 {
-	while ((char)c != *s)
-	{
-		if (!*s)
-			return (0);
-		s++;
-	}
-	return ((char *)s);
-}
+	int	i;
+	int	j;
 
-int	ft_strchr_quote(const char *str, char c)
-{
-	int in_quotes;
-	if (str == NULL)
-		return (1);
-
-	in_quotes = 0;
-	while (*str)
+	i = 0;
+	j = 0;
+	while (str[i])
 	{
-		if (*str == '"' || *str == '\'')
-			in_quotes = !in_quotes;
-		if (*str == c)
+		if (str[i] != chr)
 		{
-			if (in_quotes)
-				return (1);
-			return (0);
+			str[j] = str[i];
+			j++;
 		}
-		str++;
+		i++;
 	}
-	return (1);
+	str[j] = '\0';
 }

@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 02:04:03 by waalexan          #+#    #+#             */
-/*   Updated: 2024/11/06 16:37:50 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/07 15:08:55 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ t_data	*ft_big_split(char *str, char delimiter)
 		return (free(var.data), NULL);
 	}
 	while (*str)
-	{
+	{ 
 		if (*str == '"' || *str == '\'')
 		{
 			if (var.is_quote == 0)
@@ -93,22 +93,8 @@ t_data	*ft_big_split(char *str, char delimiter)
 			}
 			else if (*str == var.type_quoter)
 				var.is_quote = 0;
-			if (delimiter == 32)
-			{
-				if (*str != var.type_quoter)
-					var.temp[var.temp_index++] = *str;
-			}
-			else
-				var.temp[var.temp_index++] = *str;
-			str++;
-			continue ;
 		}
-		if (var.is_quote)
-		{
-			if (var.temp_index < INITIAL_TEMP_SIZE - 1)
-				var.temp[var.temp_index++] = *str;
-		}
-		else if (*str == delimiter)
+		if (*str == delimiter)
 		{
 			if (var.temp_index > 0)
 			{
@@ -116,6 +102,7 @@ t_data	*ft_big_split(char *str, char delimiter)
 				var.data->types[var.data->count] = var.type_quoter;
 				var.new = expand_env_var(var.temp, ft_strdup(""),
 						var.type_quoter);
+				ft_delete_chr_on_str(var.new, var.type_quoter);
 				var.data->args[var.data->count] = var.new;
 				if (!var.new)
 					return (free_data(var.data), NULL);
@@ -135,6 +122,7 @@ t_data	*ft_big_split(char *str, char delimiter)
 		var.temp[var.temp_index] = '\0';
 		var.data->types[var.data->count] = var.type_quoter;
 		var.new = expand_env_var(var.temp, ft_strdup(""), var.type_quoter);
+		ft_delete_chr_on_str(var.new, var.type_quoter);
 		var.data->args[var.data->count] = var.new;
 		if (!var.new)
 			return (free_data(var.data), NULL);

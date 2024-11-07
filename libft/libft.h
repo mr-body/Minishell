@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 10:04:29 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/06 18:07:39 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/07 14:54:21 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ int		ft_strncmp(const char *s1, const char *s2, size_t n);
 int		ft_count_chr_occurrency_matriz(char **mat, char chr);
 int		ft_count_chr_occurrency_str(char *str, char chr);
 int		ft_strncmp2(const char *s1, const char *s2, size_t n);
+int		ft_strchr_quote(const char *str, char c);
 int		ft_matriz_len2(char matriz[MAX_WORDS][MAX_WORD_LENGTH]);
 int		ft_atoi(const char *nptr);
 int		ft_atoi_v2(const char *nptr);
@@ -49,6 +50,7 @@ void	ft_putchar_fd(char c, int fd);
 void	ft_putnbr_fd(int n, int fd);
 void	ft_putendl_fd(char *s, int fd);
 void	ft_print_matriz(char **matriz);
+void	ft_delete_chr_on_str(char *str, char chr);
 void	ft_striteri(char *s, void (*f)(unsigned int, char *));
 void	*ft_memcpy(void *dest, const void *src, size_t n);
 void	*ft_memmove(void *dest, const void *src, size_t n);

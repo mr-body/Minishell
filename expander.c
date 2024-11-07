@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 17:30:33 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/07 08:16:33 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/07 15:13:26 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,11 @@ static char	*get_env_name(char *arg, int *j, int *k)
 	*j = *j + 1;
 	*k = *j;
 	while (arg[*k] && (ft_isalnum(arg[*k]) || arg[*k] == '_'))
+	{
+		if (arg[*k] == '\"')
+			break ;
 		*k = *k + 1;
+	}
 	env_var_name = ft_substr(arg, *j, *k - *j);
 	return (env_var_name);
 }
