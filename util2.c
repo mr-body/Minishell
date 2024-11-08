@@ -1,30 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   util2.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/05 02:13:41 by waalexan          #+#    #+#             */
-/*   Updated: 2024/11/07 15:16:08 by gkomba           ###   ########.fr       */
+/*   Created: 2024/11/07 12:23:40 by waalexan          #+#    #+#             */
+/*   Updated: 2024/11/08 12:50:05 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "minishell.h"
 
-# include "libft/libft.h"
-# include <fcntl.h>
-# include <readline/history.h>
-# include <readline/readline.h>
-# include <signal.h>
-# include <stdbool.h>
-# include <stdio.h>
-# include <stdlib.h>
-# include <unistd.h>
-# include <wait.h>
-# include "defines.h"
-# include "structs.h"
-# include "funtions.h"
+void	free_data(t_data *data)
+{
+	int	i;
 
-#endif
+	i = -1;
+	while (++i < data->count)
+	{
+		free(data->args[i]);
+	}
+	free(data->args);
+	free(data->types);
+	free(data);
+}

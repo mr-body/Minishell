@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 02:13:12 by waalexan          #+#    #+#             */
-/*   Updated: 2024/11/06 18:04:17 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/08 12:51:22 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,22 +28,19 @@ int	return_redir_type(char curr_c, char next_c)
 void	verify_redir_is_in_qt(char *str, int *index, int *is_quote,
 			int *quote_type)
 {
-	int		i;
 	int		qt_flag;
 
-	i = *index;
 	qt_flag = *is_quote;
-	if (str[i] == '"' || str[i] == '\'')
+	if (str[*index] == '"' || str[*index] == '\'')
 	{
 		if (!qt_flag)
 		{
 			qt_flag = 1;
-			*quote_type = (int)str[i];
+			*quote_type = (int)str[*index];
 		}
-		else if (str[i] == *quote_type)
+		else if (str[*index] == *quote_type)
 			qt_flag = 0;
-		i++;
-		*index = i;
+		*index++;
 		*is_quote = qt_flag;
 	}
 }
@@ -55,10 +52,10 @@ int	is_redir(char *str)
 	int	redirect;
 	int	quote_type;
 
-	i = 0;
+	i = -1;
 	is_quote = 0;
 	redirect = 0;
-	while (str[i])
+	while (str[++i])
 	{
 		verify_redir_is_in_qt(str, &i, &is_quote, &quote_type);
 		if (!is_quote)
@@ -67,7 +64,6 @@ int	is_redir(char *str)
 			if (redirect)
 				return (redirect);
 		}
-		i++;
 	}
 	return (0);
 }

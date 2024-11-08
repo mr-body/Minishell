@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: waalexan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/19 16:19:40 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/07 12:46:34 by waalexan         ###   ########.fr       */
+/*   Created: 2024/11/08 13:02:16 by waalexan          #+#    #+#             */
+/*   Updated: 2024/11/08 13:02:21 by waalexan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	exec_command_pipe_aux(t_minishell *minishell, int num_commands)
 			redir_trunc_in(minishell);
 		else if (var.redir == R_APPEND_I)
 			redir_append_in(minishell);
-		if (!minishell->args)
+		if (!minishell->args || minishell->not_flag == -1)
 			return (ft_exit_process(minishell, num_commands), 1);
 		execute_child_process_pipe(minishell, var.i, num_commands);
 		free_data(minishell->args);
@@ -77,6 +77,7 @@ int	exec_command_pipe(t_minishell *minishell)
 	pid_t	pid;
 	int		redir;
 
+	minishell->is_stdin = 0;
 	minishell->raw_args = ft_big_split(minishell->command, '|');
 	num_commands = ft_matriz_len(minishell->raw_args->args);
 	minishell->pipe_fds = (int *)malloc(sizeof(int) * (2 * num_commands - 1));

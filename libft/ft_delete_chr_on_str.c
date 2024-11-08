@@ -1,30 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_delete_chr_on_str.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/05 02:13:41 by waalexan          #+#    #+#             */
-/*   Updated: 2024/11/07 15:16:08 by gkomba           ###   ########.fr       */
+/*   Created: 2024/11/07 14:52:42 by gkomba            #+#    #+#             */
+/*   Updated: 2024/11/08 12:48:03 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "libft.h"
+#include <stdio.h>
 
-# include "libft/libft.h"
-# include <fcntl.h>
-# include <readline/history.h>
-# include <readline/readline.h>
-# include <signal.h>
-# include <stdbool.h>
-# include <stdio.h>
-# include <stdlib.h>
-# include <unistd.h>
-# include <wait.h>
-# include "defines.h"
-# include "structs.h"
-# include "funtions.h"
+void	ft_delete_chr_on_str(char *str, char chr)
+{
+	int	i;
+	int	j;
 
-#endif
+	i = 0;
+	j = 0;
+	while (str[i])
+	{
+		if (str[i] != chr)
+		{
+			str[j] = str[i];
+			j++;
+		}
+		i++;
+	}
+	str[j] = '\0';
+}
