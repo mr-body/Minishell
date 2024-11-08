@@ -1,13 +1,12 @@
-
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   util.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: waalexan <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 02:04:03 by waalexan          #+#    #+#             */
-/*   Updated: 2024/11/07 12:24:08 by waalexan         ###   ########.fr       */
+/*   Updated: 2024/11/08 12:51:08 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +31,9 @@ static int	set_type_quoter(t_util *var, char chr, char delimiter)
 				var->temp[var->temp_index++] = chr;
 		}
 		else
+		{
 			var->temp[var->temp_index++] = chr;
+		}
 		return (0);
 	}
 	return (1);
@@ -73,12 +74,12 @@ static int	last_ajustes(t_util *var)
 		var->temp[var->temp_index] = '\0';
 		var->data->types[var->data->count] = var->type_quoter;
 		var->new = expand_env_var(var->temp, ft_strdup(""), var->type_quoter);
-		var->data->args[var->data->count] = var->new;
 		if (!var->new)
 		{
 			free_data(var->data);
 			return (-1);
 		}
+		var->data->args[var->data->count] = var->new;
 		var->data->count++;
 	}
 	var->data->args[var->data->count] = NULL;
@@ -101,20 +102,20 @@ t_data	*ft_big_split(char *str, char delimiter)
 	while (*str)
 	{
 		if (!set_type_quoter(&var, *str, delimiter))
+		{
 			str++;
+			continue ;
+		}
 		if (insert_at_the_matriz(&var, *str, delimiter) == -1)
-			return (NULL);
+			return (free(var.data), NULL);
 		str++;
 	}
 	if (last_ajustes(&var) == -1)
-		return (NULL);
+		return (free(var.data), NULL);
 	return (var.data);
 }
 
 t_data	*net_args(char *prompt)
 {
-	t_data	*data;
-
-	data = ft_big_split(prompt, 32);
-	return (data);
+	return (ft_big_split(prompt, 32));
 }

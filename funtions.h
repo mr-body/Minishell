@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 08:53:12 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/07 19:17:28 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/08 12:53:33 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	change_old_pwd(char *old_pwd, t_minishell *minishell);
 void	execute_child_process_pipe(t_minishell *minishell, int i,
 			int num_commands);
 void	redir_append_o(t_minishell *minishell);
-void	redir_trunc_in(t_minishell *minishell);
+int		redir_trunc_in(t_minishell *minishell);
 void	redir_append_in(t_minishell *minishell);
 void	execute_child_process(t_minishell *minishell);
 void	ft_delete_quotes(char *str);
@@ -77,6 +77,5 @@ void	invalid_char_error(char c);
 void	redir_syntax_error(char *str);
 void	pipe_syntax_error(char *str);
 
-
-void split_redirect_command(char *command, char **data, char delimiter);
+void	split_redirect_command(char *command, char **data, char delimiter);
 #endif

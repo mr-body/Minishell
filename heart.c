@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 16:19:40 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/07 15:16:02 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/08 12:54:26 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	exec_command_pipe_aux(t_minishell *minishell, int num_commands)
 			redir_trunc_in(minishell);
 		else if (var.redir == R_APPEND_I)
 			redir_append_in(minishell);
-		if (!minishell->args)
+		if (!minishell->args || minishell->not_flag == -1)
 			return (ft_exit_process(minishell, num_commands), 1);
 		execute_child_process_pipe(minishell, var.i, num_commands);
 		free_data(minishell->args);

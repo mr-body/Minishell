@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 01:59:39 by waalexan          #+#    #+#             */
-/*   Updated: 2024/11/07 08:48:13 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/08 12:50:24 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,8 @@ void	get_readline(t_minishell *minishell)
 	{
 		add_history(minishell->readline);
 	}
-	if (ft_strncmp(minishell->readline, "exit", 4) == 0)
+	if (ft_strncmp(minishell->readline, "exit",
+			ft_strlen(minishell->readline)) == 0)
 	{
 		free(minishell->readline);
 		exit(0);

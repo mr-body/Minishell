@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 17:30:33 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/07 16:28:08 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/08 12:49:51 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,8 +102,6 @@ char	*expand_env_var(char *arg, char *tmp, char delimiter)
 			var.j++;
 		}
 	}
-	// printf("tmp: %s > %lu\n", tmp, ft_strlen(tmp));
-	//ft_delete_chr_on_str(tmp, delimiter);
-	// printf("tmp: %s > %lu\n", tmp, ft_strlen(tmp));
+	ft_delete_chr_on_str(tmp, delimiter);
 	return (tmp);
 }

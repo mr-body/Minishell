@@ -6,12 +6,21 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 08:46:29 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/07 17:55:23 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/08 12:54:48 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STRUCTS_H
-#define STRUCTS_H
+# define STRUCTS_H
+
+typedef struct s_split_redir_cmd
+{
+	int		data_idx;
+	int		in_quotes;
+	int		is_redirect;
+	char	*current_arg;
+	int		i;
+}			t_split_redir_cmd;
 
 typedef struct redirect
 {
@@ -105,8 +114,9 @@ typedef struct s_minishell
 	int		is_stdin;
 	int		redir;
 	int		status;
+	int		not_flag;
 	char	data[MAX_WORDS][MAX_WORD_LENGTH];
-	char *data2[MAX_ARGS];
+	char	*data2[MAX_ARGS];
 }			t_minishell;
 
 #endif
