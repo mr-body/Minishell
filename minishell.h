@@ -6,7 +6,7 @@
 /*   By: waalexan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 02:13:41 by waalexan          #+#    #+#             */
-/*   Updated: 2024/11/07 13:20:37 by waalexan         ###   ########.fr       */
+/*   Updated: 2024/11/08 09:04:21 by waalexan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@
 # define R_APPEND_I 21
 # define R_TRUNC_I 19
 
-# define INITIAL_ARG_COUNT 10
+# define INITIAL_ARG_COUNT 256
 # define INITIAL_TEMP_SIZE 256
 
 typedef struct increment_shell_level

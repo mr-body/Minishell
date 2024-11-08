@@ -6,7 +6,7 @@
 /*   By: waalexan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 14:15:03 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/07 14:01:53 by waalexan         ###   ########.fr       */
+/*   Updated: 2024/11/08 09:46:03 by waalexan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,8 @@ void	redir_trunc_in(t_minishell *minishell)
 	delimiter = "<";
 	ft_memset(minishell->data, 0, sizeof(minishell->data));
 	ft_strtok(minishell->redirect_command, delimiter, minishell->data);
+	if (minishell->args)
+		free_data(minishell->args);
 	minishell->args = net_args(minishell->data[0]);
 	minishell->fd_type = 1;
 	tmp = ft_strtrim(minishell->data[ft_matriz_len2(minishell->data) - 1], " ");
@@ -126,6 +128,8 @@ void	redir_append_in(t_minishell *minishell)
 	var.temp_file = "/tmp/heredoc.tmp";
 	ft_memset(minishell->data, 0, sizeof(minishell->data));
 	ft_strtok(minishell->redirect_command, var.delimiter, minishell->data);
+	if (minishell->args)
+		free_data(minishell->args);
 	minishell->args = net_args(minishell->data[0]);
 	minishell->fd_type = 1;
 	var.l_delimiter = ft_strtrim(minishell->data[ft_matriz_len2(minishell->data)
