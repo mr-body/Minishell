@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strcat.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: waalexan <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 12:12:22 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/05 00:24:45 by waalexan         ###   ########.fr       */
+/*   Updated: 2024/11/07 18:14:16 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,4 +28,24 @@ char	*ft_strcat(char *s1, char *s2, int c)
 	ft_memcpy(new + len1 + 1, s2, len2);
 	new[len1 + len2 + 1] = '\0';
 	return (new);
+}
+
+char	*ft_strcat_no_malloc(char *dest, char *src)
+{
+	int	i;
+	int	j;
+
+	j = 0;
+	i = 0;
+	while (dest[j] != '\0')
+	{
+		j++;
+	}
+	while (src[i] != '\0')
+	{
+		dest[j + i] = src[i];
+		i++;
+	}
+	dest[j + i] = '\0';
+	return (dest);
 }

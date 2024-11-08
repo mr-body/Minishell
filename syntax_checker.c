@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 11:35:50 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/06 16:39:22 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/07 08:43:21 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,13 @@ int	verify_pipes_syntax(t_minishell *minishell)
 		{
 			if (minishell->verify_syntax[i + 1] == NULL)
 			{
-				ft_putendl_fd("syntax error near unexpected token `newline'",
-					2);
+				pipe_syntax_error("SUGAR");
 				ft_free_matriz(minishell->verify_syntax);
 				return (2);
 			}
 			if (ft_strncmp(minishell->verify_syntax[i + 1], "|", 1) == 0)
 			{
-				ft_putendl_fd("syntax error near unexpected token `|'", 2);
+				pipe_syntax_error("PANCAKE");
 				return (ft_free_matriz(minishell->verify_syntax), 2);
 			}
 		}
@@ -52,35 +51,19 @@ int	verify_redir_syntax(t_minishell *minishell, char *redir_type)
 		{
 			if (minishell->verify_syntax[i + 1] == NULL)
 			{
-				ft_putendl_fd("syntax error near unexpected token `newline'",
-					2);
+				redir_syntax_error("SUGAR");
 				return (ft_free_matriz(minishell->verify_syntax), 2);
 			}
 			if ((ft_strncmp(minishell->verify_syntax[i + 1], redir_type,
 						1) == 0) || ft_strncmp(minishell->verify_syntax[i + 1],
 					"|", 1) == 0)
 			{
-				ft_putendl_fd("syntax error near unexpected token `newline'",
-					2);
+				redir_syntax_error("PANCAKE");
 				return (ft_free_matriz(minishell->verify_syntax), 2);
 			}
 		}
 	}
 	return (ft_free_matriz(minishell->verify_syntax), 0);
-}
-
-int	syntax_checker(t_minishell *minishell)
-{
-	minishell->exit_status = verify_pipes_syntax(minishell);
-	if (minishell->exit_status == 2)
-		return (2);
-	minishell->status = verify_redir_syntax(minishell, ">");
-	if (minishell->status == 2)
-		return (2);
-	minishell->status = verify_redir_syntax(minishell, "<");
-	if (minishell->status == 2)
-		return (2);
-	return (0);
 }
 
 int	check_name_var_syntax(char *var)
@@ -102,5 +85,40 @@ int	check_name_var_syntax(char *var)
 		}
 		i++;
 	}
+	return (0);
+}
+
+int	check_invalid_character(char *arg)
+{
+	int	i;
+	int	open_braces;
+	int	close_braces;
+
+	i = 0;
+	open_braces = 0;
+	close_braces = 0;
+	while (arg[i])
+	{
+		if (arg[i] == '\\' || arg[i] == ';')
+			return (invalid_char_error(arg[i]), 2);
+		i++;
+	}
+	return (0);
+}
+
+int	syntax_checker(t_minishell *minishell)
+{
+	minishell->exit_status = verify_pipes_syntax(minishell);
+	if (minishell->exit_status == 2)
+		return (2);
+	minishell->status = verify_redir_syntax(minishell, ">");
+	if (minishell->status == 2)
+		return (2);
+	minishell->status = verify_redir_syntax(minishell, "<");
+	if (minishell->status == 2)
+		return (2);
+	minishell->status = check_invalid_character(minishell->command);
+	if (minishell->status == 2)
+		return (2);
 	return (0);
 }

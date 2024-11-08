@@ -1,46 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_free_matriz.c                                   :+:      :+:    :+:   */
+/*   ft_delete_chr_on_str.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/06 18:03:37 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/07 19:12:08 by gkomba           ###   ########.fr       */
+/*   Created: 2024/11/07 14:52:42 by gkomba            #+#    #+#             */
+/*   Updated: 2024/11/08 12:48:03 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include <stdio.h>
 
-char	*free_ptr(char *ptr)
-{
-	if (ptr)
-		free(ptr);
-	ptr = NULL;
-	return (NULL);
-}
-
-char	**ft_free_matriz(char **mat)
-{
-	size_t	i;
-
-	i = -1;
-	while (mat && mat[++i])
-		mat[i] = free_ptr(mat[i]);
-	free (mat);
-	mat = NULL;
-	return (NULL);
-}
-
-char	**ft_free_matriz2(char *matriz[MAX_ARGS])
+void	ft_delete_chr_on_str(char *str, char chr)
 {
 	int	i;
+	int	j;
 
 	i = 0;
-	while (matriz[i] != NULL && matriz[i][0] != '\0')
+	j = 0;
+	while (str[i])
 	{
-		matriz[i] = free_ptr(matriz[i]);
+		if (str[i] != chr)
+		{
+			str[j] = str[i];
+			j++;
+		}
 		i++;
 	}
-	return (NULL);
+	str[j] = '\0';
 }

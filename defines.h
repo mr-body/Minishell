@@ -1,43 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_matriz_len.c                                    :+:      :+:    :+:   */
+/*   defines.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/07 16:15:16 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/07 18:05:38 by gkomba           ###   ########.fr       */
+/*   Created: 2024/11/07 08:49:36 by gkomba            #+#    #+#             */
+/*   Updated: 2024/11/07 17:57:59 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#ifndef DEFINES_H
+# define DEIFINES_H
 
-int	ft_matriz_len(char **matriz)
-{
-	int	i;
+# define VERDE "\033[0;32m"
+# define AMARELO "\033[0;33m"
+# define VERMELHO "\033[0;31m"
+# define AZUL "\033[0;34m"
+# define RESET "\033[0m"
+# define CLEAR "\033[H\033[2J"
 
-	i = 0;
-	while (matriz[i])
-		i++;
-	return (i);
-}
+# define R_APPEND_O 42
+# define R_TRUNC_O 1337
+# define R_APPEND_I 21
+# define R_TRUNC_I 19
 
-int	ft_matriz_len2(char matriz[MAX_WORDS][MAX_WORD_LENGTH])
-{
-	int	i;
+# define INITIAL_ARG_COUNT 64
+# define INITIAL_TEMP_SIZE 1024
 
-	i = 0;
-	while (matriz[i][0])
-		i++;
-	return (i);
-}
-
-int	ft_matriz_len3(char *matriz[MAX_ARGS])
-{
-	int	i;
-
-	i = 0;
-	while (matriz[i] != NULL && matriz[i][0] != '\0')
-		i++;
-	return (i);
-}
+#endif
