@@ -6,11 +6,11 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 11:35:50 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/07 08:43:21 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/09 12:22:33 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../includes/minishell.h"
 
 int	verify_pipes_syntax(t_minishell *minishell)
 {
@@ -91,12 +91,8 @@ int	check_name_var_syntax(char *var)
 int	check_invalid_character(char *arg)
 {
 	int	i;
-	int	open_braces;
-	int	close_braces;
 
 	i = 0;
-	open_braces = 0;
-	close_braces = 0;
 	while (arg[i])
 	{
 		if (arg[i] == '\\' || arg[i] == ';')

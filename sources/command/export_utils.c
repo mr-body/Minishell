@@ -6,15 +6,14 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 18:09:37 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/06 18:13:57 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/09 12:34:00 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../../includes/minishell.h"
 
 char	*ft_get_env(char *var_name)
 {
-	extern char	**environ;
 	static char	new_env[700000];
 	static int	i;
 	char		*tmp;

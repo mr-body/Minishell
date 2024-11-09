@@ -6,11 +6,11 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 01:59:39 by waalexan          #+#    #+#             */
-/*   Updated: 2024/11/08 12:50:24 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/09 12:35:10 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../includes/minishell.h"
 
 static int	g_redsplay;
 
@@ -47,10 +47,16 @@ void	get_readline(t_minishell *minishell)
 		execute_command(minishell);
 }
 
-int	main(int ac, char **av)
+int	main(int argc, char **argv)
 {
 	t_minishell	minishell;
 
+	if (argc != 1)
+	{
+		ft_putstr_fd("Error: No arguments needed\n", 2);
+		exit(1);
+	}
+	(void)argv;
 	g_redsplay = 0;
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, handle_sigint);

@@ -1,33 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cd.c                                               :+:      :+:    :+:   */
+/*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/19 16:20:47 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/06 18:09:05 by gkomba           ###   ########.fr       */
+/*   Created: 2024/11/05 02:13:41 by waalexan          #+#    #+#             */
+/*   Updated: 2024/11/07 15:16:08 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#ifndef MINISHELL_H
+# define MINISHELL_H
 
-int	command_cd(char **prompt, t_minishell *minishell)
-{
-	char	*wdir;
+# include "../libft/libft.h"
+# include <fcntl.h>
+# include <readline/history.h>
+# include <readline/readline.h>
+# include <signal.h>
+# include <stdbool.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <unistd.h>
+# include <wait.h>
+# include "defines.h"
+# include "structs.h"
+# include "funtions.h"
 
-	if (prompt[1])
-	{
-		wdir = getenv("PWD");
-		change_old_pwd(wdir, minishell);
-		if (chdir(prompt[1]) != 0)
-		{
-			perror("cd error");
-			return (1);
-		}
-		wdir = getcwd(NULL, 0);
-		change_pwd(wdir, minishell);
-		wdir = free_ptr(wdir);
-	}
-	return (0);
-}
+#endif

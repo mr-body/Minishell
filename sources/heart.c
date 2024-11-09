@@ -6,11 +6,11 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 16:19:40 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/08 12:54:26 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/09 12:37:27 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../includes/minishell.h"
 
 int	exec_command(t_minishell *minishell)
 {
@@ -73,9 +73,6 @@ int	exec_command_pipe_aux(t_minishell *minishell, int num_commands)
 int	exec_command_pipe(t_minishell *minishell)
 {
 	int		num_commands;
-	int		i;
-	pid_t	pid;
-	int		redir;
 
 	minishell->is_stdin = 0;
 	minishell->raw_args = ft_big_split(minishell->command, '|');
@@ -98,8 +95,6 @@ int	execute_command(t_minishell *minishell)
 	if (data[0] == NULL)
 		return (ft_free_matriz(data), 0);
 	minishell->command = minishell->readline;
-	minishell->status = 0;
-	minishell->exit_status = 0;
 	minishell->redirect_command = minishell->readline;
 	if (minishell->readline[0] == '\n' || minishell->readline[0] == '\0')
 		return (ft_free_matriz(data), 0);
@@ -108,11 +103,12 @@ int	execute_command(t_minishell *minishell)
 	if (check_if_str_is_pipe(data) == 1)
 	{
 		ft_free_matriz(data);
-		exec_command_pipe(minishell);
+		minishell->exit_status = exec_command_pipe(minishell);
 	}
 	else
 	{
 		ft_free_matriz(data);
 		minishell->exit_status = exec_command(minishell);
 	}
+	return (0);
 }

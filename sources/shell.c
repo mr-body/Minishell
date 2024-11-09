@@ -6,11 +6,11 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 16:23:19 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/08 12:31:17 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/09 12:30:01 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../includes/minishell.h"
 
 int	shell_builtin(char **prompt, char **environ, int pipe,
 		t_minishell *minishell)
@@ -32,11 +32,11 @@ int	shell_builtin(char **prompt, char **environ, int pipe,
 	else if (ft_strncmp(prompt[0], "export", 6) == 0)
 		minishell->exit_status = command_export(prompt, pipe, minishell);
 	else if (ft_strncmp(prompt[0], "unset", 6) == 0)
-		minishell->exit_status = command_unset(prompt, pipe, minishell);
+		minishell->exit_status = command_unset(prompt, pipe);
 	return (minishell->exit_status);
 }
 
-char	*shell_binary(char **prompt, char **environ, int pipe)
+char	*shell_binary(char **prompt)
 {
 	char	*cmd_path;
 	char	**routes;
@@ -75,7 +75,7 @@ int	shell(char **prompt, int pipe, t_minishell *minishell)
 		return (shell_builtin(prompt, environ, pipe, minishell));
 	else
 	{
-		command = shell_binary(prompt, environ, pipe);
+		command = shell_binary(prompt);
 		if (command != NULL)
 			return (execve(command, prompt, environ));
 		command = free_ptr(command);

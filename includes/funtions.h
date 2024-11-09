@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 08:53:12 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/08 12:53:33 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/09 12:34:57 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	*handle_quotes(char *tmp);
 char	*expand_env_var(char *arg, char *tmp, char delimiter);
 char	*ft_get_env(char *var_name);
 char	**sort_env(char **environ);
-char	*shell_binary(char **prompt, char **environ, int pipe);
+char	*shell_binary(char **prompt);
 char	**ft_split_ms(const char *str, char delimiter);
 int		shell(char **prompt, int pipe, t_minishell *minishell);
 int		execute_command(t_minishell *minishell);
@@ -31,7 +31,7 @@ int		command_echo(char **prompt, int pipe, t_minishell *minishell);
 int		command_env(char **prompt, char **environ, int pipe,
 			t_minishell *minishell);
 int		command_pwd(char **prompt, int pipe, t_minishell *minishell);
-int		command_unset(char **prompt, int pipe, t_minishell *minishell);
+int		command_unset(char **prompt, int pipe);
 int		command_export(char **prompt, int pipe, t_minishell *minishell);
 int		is_builtin(char *cmd);
 int		shell_builtin(char **prompt, char **environ, int pipe,
@@ -66,7 +66,7 @@ void	change_old_pwd(char *old_pwd, t_minishell *minishell);
 void	execute_child_process_pipe(t_minishell *minishell, int i,
 			int num_commands);
 void	redir_append_o(t_minishell *minishell);
-int		redir_trunc_in(t_minishell *minishell);
+void	redir_trunc_in(t_minishell *minishell);
 void	redir_append_in(t_minishell *minishell);
 void	execute_child_process(t_minishell *minishell);
 void	ft_delete_quotes(char *str);

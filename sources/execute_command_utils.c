@@ -6,11 +6,11 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 17:03:07 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/06 18:06:39 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/09 12:27:26 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../includes/minishell.h"
 
 int	extract_command(t_minishell *minishell, int *redir, int *retrn)
 {
@@ -38,7 +38,7 @@ void	last_redir(t_minishell *minishell)
 
 	len = ft_matriz_len(minishell->raw_args->args);
 	if (ft_strchr(minishell->raw_args->args[len - 1], '>')
-		|| ft_strchr(minishell->raw_args->args[len - 1], '>>'))
+		|| ft_strchr(minishell->raw_args->args[len - 1], '>'))
 		minishell->last = 1;
 	else
 		minishell->last = 0;

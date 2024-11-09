@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../../includes/minishell.h"
 
 int	command_pwd(char **prompt, int pipe, t_minishell *minishell)
 {

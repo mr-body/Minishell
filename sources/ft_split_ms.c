@@ -6,11 +6,11 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 17:41:57 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/06 15:58:53 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/09 12:24:39 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../includes/minishell.h"
 
 int	count_words(const char *str, char delimiter)
 {
@@ -40,11 +40,9 @@ int	count_words(const char *str, char delimiter)
 char	**last_word(char **result, const char *str, int start, int *index)
 {
 	int	length;
-	int	j;
 	int	i;
 
 	length = 0;
-	j = 0;
 	i = *index;
 	length = ft_strlen(str) - start;
 	result[i] = (char *)malloc((length + 1) * sizeof(char));
@@ -61,7 +59,6 @@ int	ft_strcpy_ms_split(char **result, const char *str, int *iter,
 		t_split_ms_vars *var)
 {
 	int	length;
-	int	j;
 	int	idx;
 	int	st;
 	int	i;

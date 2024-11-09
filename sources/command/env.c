@@ -6,11 +6,11 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 16:20:32 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/06 18:14:32 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/09 12:30:17 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../../includes/minishell.h"
 
 int	check_env_syntax(char **prompt, int pipe)
 {
@@ -23,6 +23,7 @@ int	check_env_syntax(char **prompt, int pipe)
 		}
 		return (ft_putendl_fd("env: too many arguments", 2), 1);
 	}
+	return (0);
 }
 
 int	command_env(char **prompt, char **environ, int pipe, t_minishell *minishell)

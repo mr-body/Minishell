@@ -6,11 +6,11 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 14:15:03 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/08 12:58:38 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/09 12:26:37 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../includes/minishell.h"
 
 int	redir_trunc_o(t_minishell *minishell)
 {
@@ -59,10 +59,8 @@ void	redir_append_o(t_minishell *minishell)
 	minishell->is_redir = 1;
 }
 
-int	redir_trunc_in(t_minishell *minishell)
+void	redir_trunc_in(t_minishell *minishell)
 {
-	int	fd;
-
 	ft_memset(minishell->data2, 0, sizeof(minishell->data2));
 	split_redirect_command(minishell->redirect_command, minishell->data2, '<');
 	if (minishell->args)
@@ -81,7 +79,7 @@ int	redir_trunc_in(t_minishell *minishell)
 	minishell->is_stdin = 1;
 }
 
-void	inset_at_the_heredoc(t_minishell *minishell, t_redirect *var)
+void	inset_at_the_heredoc(t_redirect *var)
 {
 	char	*old_line;
 
@@ -119,7 +117,7 @@ void	redir_append_in(t_minishell *minishell)
 	var.l_delimiter = ft_strtrim(minishell->data2[ft_matriz_len3(minishell->data2)
 			- 1], " ");
 	var.temp_fd = open(var.temp_file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	inset_at_the_heredoc(minishell, &var);
+	inset_at_the_heredoc(&var);
 	ft_free_matriz2(minishell->data2);
 	var.l_delimiter = free_ptr(var.l_delimiter);
 	close(var.temp_fd);

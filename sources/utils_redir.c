@@ -6,11 +6,11 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 02:13:12 by waalexan          #+#    #+#             */
-/*   Updated: 2024/11/08 12:51:22 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/09 12:28:59 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../includes/minishell.h"
 
 int	return_redir_type(char curr_c, char next_c)
 {
@@ -40,7 +40,7 @@ void	verify_redir_is_in_qt(char *str, int *index, int *is_quote,
 		}
 		else if (str[*index] == *quote_type)
 			qt_flag = 0;
-		*index++;
+		*index = *index + 1;
 		*is_quote = qt_flag;
 	}
 }

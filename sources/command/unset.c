@@ -6,11 +6,11 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 16:20:52 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/06 18:28:44 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/09 12:29:32 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../../includes/minishell.h"
 
 void	unset_var(char **prpt)
 {
@@ -39,7 +39,7 @@ void	unset_var(char **prpt)
 	}
 }
 
-int	command_unset(char **prompt, int pipe, t_minishell *minishell)
+int	command_unset(char **prompt, int pipe)
 {
 	if (!prompt[1])
 		return (ft_putstr_fd("unset:  not a valid identifier\n", 1), 1);

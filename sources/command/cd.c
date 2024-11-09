@@ -1,27 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   util2.c                                            :+:      :+:    :+:   */
+/*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/07 12:23:40 by waalexan          #+#    #+#             */
-/*   Updated: 2024/11/08 12:50:05 by gkomba           ###   ########.fr       */
+/*   Created: 2024/10/19 16:20:47 by gkomba            #+#    #+#             */
+/*   Updated: 2024/11/06 18:09:05 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../includes/minishell.h"
 
-void	free_data(t_data *data)
+int	command_cd(char **prompt, t_minishell *minishell)
 {
-	int	i;
+	char	*wdir;
 
-	i = -1;
-	while (++i < data->count)
+	if (prompt[1])
 	{
-		free(data->args[i]);
+		wdir = getenv("PWD");
+		change_old_pwd(wdir, minishell);
+		if (chdir(prompt[1]) != 0)
+		{
+			perror("cd error");
+			return (1);
+		}
+		wdir = getcwd(NULL, 0);
+		change_pwd(wdir, minishell);
+		wdir = free_ptr(wdir);
 	}
-	free(data->args);
-	free(data->types);
-	free(data);
+	return (0);
 }

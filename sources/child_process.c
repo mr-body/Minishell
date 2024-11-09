@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../includes/minishell.h"
 
 static void	case_arg_at_the_first(t_minishell *minishell, int i,
 		int num_commands)
