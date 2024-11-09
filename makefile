@@ -27,13 +27,14 @@ SRCS = sources/minishell.c\
 OJBS = ${SRCS:.c=.o}
 LIBFT = libft
 CC = cc
+CFLAGS = -Wall -Wextra -Werror
 RM = rm -f
 
 all: ${NAME}
 
 ${NAME}: ${OJBS}
 	make -C ${LIBFT}
-	${CC} -o ${NAME} ${OJBS} -L${LIBFT} -lft -lreadline
+	${CC} ${CFLAGS} -o ${NAME} ${OJBS} -L${LIBFT} -lft -lreadline
 
 clean:
 	${RM} ${OJBS}

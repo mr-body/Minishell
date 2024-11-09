@@ -6,13 +6,13 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 02:04:03 by waalexan          #+#    #+#             */
-/*   Updated: 2024/11/09 16:52:35 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/09 17:13:46 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static void	set_type_quoter(t_util *var, char chr, char delimiter)
+static void	set_type_quoter(t_util *var, char chr)
 {
 	if (chr == '"' || chr == '\'')
 	{
@@ -90,7 +90,7 @@ t_data	*ft_big_split(char *str, char delimiter)
 		return (free(var.data), NULL);
 	while (*str)
 	{
-		set_type_quoter(&var, *str, delimiter);
+		set_type_quoter(&var, *str);
 		if (insert_at_the_matriz(&var, *str, delimiter) == -1)
 			return (free(var.data), NULL);
 		str++;
