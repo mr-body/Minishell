@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   child_process.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: waalexan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 15:57:35 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/09 14:45:13 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/09 15:36:26 by waalexan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static void handing_c(int signal)
+static void	handing_c(int signal)
 {
 	(void)signal;
-    write(STDOUT_FILENO, "\n", 1);
+	write(STDOUT_FILENO, "\n", 1);
 }
 
 static void	case_arg_at_the_first(t_minishell *minishell, int i,
@@ -79,12 +79,12 @@ void	execute_child_process_pipe(t_minishell *minishell, int i,
 	{
 		signal(SIGINT, handing_c);
 		signal(SIGINT, SIG_IGN);
-		if(WIFEXITED(minishell->status))
-			minishell->process_out = WEXITSTATUS(minishell->status);
-		else if(WIFSIGNALED(minishell->status))
-			minishell->process_out = 128 + WTERMSIG(minishell->status);
+		if (WIFEXITED(minishell->status))
+			minishell->process_out = ft_ctrl_c(WEXITSTATUS(minishell->status));
+		else if (WIFSIGNALED(minishell->status))
+			minishell->process_out = ft_ctrl_c(128 + WTERMSIG(minishell->status));
 		else
-			minishell->process_out = 1;
+			minishell->process_out = ft_ctrl_c(1);
 	}
 }
 
@@ -114,17 +114,15 @@ void	execute_child_process(t_minishell *minishell)
 		signal(SIGINT, handing_c);
 		waitpid(pid, &minishell->exit_status, 0);
 		signal(SIGINT, SIG_IGN);
-		if(WIFEXITED(minishell->exit_status))
-			minishell->process_out = WEXITSTATUS(minishell->exit_status);
-		else if(WIFSIGNALED(minishell->exit_status))
-			minishell->process_out = 128 + WTERMSIG(minishell->exit_status);
+		if (WIFEXITED(minishell->exit_status))
+			minishell->process_out = ft_ctrl_c(WEXITSTATUS(minishell->exit_status));
+		else if (WIFSIGNALED(minishell->exit_status))
+			minishell->process_out = ft_ctrl_c(128 + WTERMSIG(minishell->exit_status));
 		else
-			minishell->process_out = 1;
+			minishell->process_out = ft_ctrl_c(1);
 	}
-	if(minishell->exit_status == 256)
-		minishell->process_out = 127;
-	else if(minishell->exit_status == SIGINT)
-		minishell->process_out = 130;
+	if (minishell->exit_status == 256)
+		minishell->process_out = ft_ctrl_c(127);
+	else if (minishell->exit_status == SIGINT)
+		minishell->process_out = ft_ctrl_c(130);
 }
-	
-	
