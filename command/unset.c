@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: waalexan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 16:20:52 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/06 18:28:44 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/09 11:09:12 by waalexan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,12 @@ void	unset_var(char **prpt)
 int	command_unset(char **prompt, int pipe, t_minishell *minishell)
 {
 	if (!prompt[1])
-		return (ft_putstr_fd("unset:  not a valid identifier\n", 1), 1);
+		return (minishell->process_out = 1, 1);
 	unset_var(prompt);
 	if (pipe)
+	{
+		minishell->process_out = 0;
 		exit(0);
-	return (0);
+	}
+	return (minishell->process_out = 0, 0);
 }

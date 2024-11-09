@@ -6,7 +6,7 @@
 /*   By: waalexan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/08 13:02:16 by waalexan          #+#    #+#             */
-/*   Updated: 2024/11/08 13:08:14 by waalexan         ###   ########.fr       */
+/*   Updated: 2024/11/09 12:33:18 by waalexan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,17 @@ int	exec_command(t_minishell *minishell)
 		redir_trunc_in(minishell);
 	else if (redir == R_APPEND_I)
 		redir_append_in(minishell);
-	if (!minishell->args)
+	if (!minishell->args || minishell->not_flag == -1)
+	{
+		minishell->not_flag = 0;
 		return (0);
+	}
 	if (!is_builtin(minishell->args->args[0]))
 		execute_child_process(minishell);
 	else
 	{
 		if (shell(minishell->args->args, 0, minishell) == -1)
-			ft_print_command_error(minishell->args->args[0]);
+			ft_print_command_error(minishell->args->args[0], minishell);
 	}
 	free_data(minishell->args);
 	return (0);
@@ -62,7 +65,10 @@ int	exec_command_pipe_aux(t_minishell *minishell, int num_commands)
 		else if (var.redir == R_APPEND_I)
 			redir_append_in(minishell);
 		if (!minishell->args || minishell->not_flag == -1)
+		{
+			minishell->not_flag = 0;
 			return (ft_exit_process(minishell, num_commands), 1);
+		}
 		execute_child_process_pipe(minishell, var.i, num_commands);
 		free_data(minishell->args);
 		minishell->fd = 1;

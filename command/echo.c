@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: waalexan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 16:20:39 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/06 18:28:36 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/09 11:10:04 by waalexan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,18 +44,20 @@ int	command_echo(char **prompt, int pipe, t_minishell *minishell)
 		i++;
 	while (prompt[++i])
 	{
-		write(minishell->fd, prompt[i], ft_strlen(prompt[i]));
+		if (ft_strncmp(prompt[i], "?", 1) == 0)
+			ft_putnbr_fd(minishell->process_out, minishell->fd);
+		else
+			write(minishell->fd, prompt[i], ft_strlen(prompt[i]));
 		if (prompt[i + 1])
 			write(minishell->fd, " ", 1);
 	}
 	if (n_flag == 0)
-	{
 		write(minishell->fd, "\n", 1);
-	}
 	if (pipe)
 	{
 		ft_free_matriz(prompt);
+		minishell->process_out = 0;
 		exit(0);
 	}
-	return (0);
+	return (minishell->process_out = 0, 0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   funtions.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: waalexan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 08:53:12 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/08 12:53:33 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/09 11:20:19 by waalexan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,11 @@ int		check_if_str_is_pipe(char **matriz);
 int		check_name_var_syntax(char *var);
 int		extract_command(t_minishell *minishell, int *redir, int *retrn);
 int		check_invalid_character(char *arg);
-void	ft_print_syntax_error(void);
+void	ft_print_syntax_error(t_minishell *minishel);
 void	ft_exit_process(t_minishell *minishell, int nbr_cmds);
 void	close_fds(t_minishell *minishell, int nbr_cmds);
 void	open_fds(t_minishell *minishell, int nbr_cmds);
-void	ft_print_command_error(char *cmd);
+void	ft_print_command_error(char *cmd, t_minishell *minishel);
 void	free_data(t_data *data);
 void	ft_strtok(char *str, char *delimiter,
 			char result[MAX_WORDS][MAX_WORD_LENGTH]);
@@ -73,9 +73,9 @@ void	ft_delete_quotes(char *str);
 void	ft_in_quotes(char c, int *in_quotes);
 void	last_redir(t_minishell *minishell);
 void	set_to_env(char *value);
-void	invalid_char_error(char c);
-void	redir_syntax_error(char *str);
-void	pipe_syntax_error(char *str);
+void	invalid_char_error(char c, t_minishell *minishel);
+void	redir_syntax_error(char *str, t_minishell *minishel);
+void	pipe_syntax_error(char *str, t_minishell *minishel);
 
 void	split_redirect_command(char *command, char **data, char delimiter);
 #endif

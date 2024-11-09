@@ -6,7 +6,7 @@
 /*   By: waalexan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 14:15:03 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/08 13:10:01 by waalexan         ###   ########.fr       */
+/*   Updated: 2024/11/09 11:33:42 by waalexan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ int	redir_trunc_in(t_minishell *minishell)
 	ft_free_matriz2(minishell->data2);
 	if (minishell->fd < 0)
 	{
+		minishell->process_out = 1;
 		perror("minishell");
 		minishell->not_flag = -1;
 	}
