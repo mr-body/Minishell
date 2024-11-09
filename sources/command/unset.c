@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 16:20:52 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/09 12:29:32 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/09 14:42:35 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,19 @@ void	unset_var(char **prpt)
 	}
 }
 
-int	command_unset(char **prompt, int pipe)
+int	command_unset(char **prompt, int pipe, t_minishell *minishell)
 {
 	if (!prompt[1])
-		return (ft_putstr_fd("unset:  not a valid identifier\n", 1), 1);
+	{
+		minishell->process_out = 1;
+		return (1);
+	}
 	unset_var(prompt);
 	if (pipe)
+	{
+		minishell->process_out = 0;
 		exit(0);
+	}
+	minishell->process_out = 0;
 	return (0);
 }

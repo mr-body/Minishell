@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 16:20:32 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/09 12:30:17 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/09 14:28:18 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	command_env(char **prompt, char **environ, int pipe, t_minishell *minishell)
 	int	i;
 
 	if (check_env_syntax(prompt, pipe))
-		return (1);
+		return (minishell->process_out = 1, 1);
 	i = -1;
 	while (environ[++i])
 	{
@@ -46,5 +46,5 @@ int	command_env(char **prompt, char **environ, int pipe, t_minishell *minishell)
 		ft_free_matriz(prompt);
 		exit(0);
 	}
-	return (0);
+	return (minishell->process_out = 0, 0);
 }

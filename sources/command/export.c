@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: waalexan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 22:18:49 by waalexan          #+#    #+#             */
-/*   Updated: 2024/11/06 18:10:19 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/09 11:06:53 by waalexan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,8 @@ int	command_export(char **prompt, int pipe, t_minishell *minishell)
 	if (pipe)
 	{
 		ft_free_matriz(prompt);
+		minishell->process_out = 0;
 		exit(0);
 	}
-	return (0);
+	return (minishell->process_out = 0, 0);
 }

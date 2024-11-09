@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 16:23:19 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/09 12:30:01 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/09 14:43:11 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	shell_builtin(char **prompt, char **environ, int pipe,
 	else if (ft_strncmp(prompt[0], "export", 6) == 0)
 		minishell->exit_status = command_export(prompt, pipe, minishell);
 	else if (ft_strncmp(prompt[0], "unset", 6) == 0)
-		minishell->exit_status = command_unset(prompt, pipe);
+		minishell->exit_status = command_unset(prompt, pipe, minishell);
 	return (minishell->exit_status);
 }
 

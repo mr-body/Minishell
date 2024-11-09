@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 01:59:11 by waalexan          #+#    #+#             */
-/*   Updated: 2024/11/07 08:41:02 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/09 14:49:40 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	ft_print_command_error(char *cmd)
 	ft_putstr_fd(cmd, 2);
 	ft_putstr_fd(": command not found\n", 2);
 }
+
 
 void	ft_print_syntax_error(void)
 {

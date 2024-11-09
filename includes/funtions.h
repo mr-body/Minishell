@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 08:53:12 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/09 14:20:18 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/09 14:44:39 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int		command_echo(char **prompt, int pipe, t_minishell *minishell);
 int		command_env(char **prompt, char **environ, int pipe,
 			t_minishell *minishell);
 int		command_pwd(char **prompt, int pipe, t_minishell *minishell);
-int		command_unset(char **prompt, int pipe);
+int		command_unset(char **prompt, int pipe, t_minishell *minishell);
 int		command_export(char **prompt, int pipe, t_minishell *minishell);
 int		is_builtin(char *cmd);
 int		shell_builtin(char **prompt, char **environ, int pipe,

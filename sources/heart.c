@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/19 16:19:40 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/09 12:37:27 by gkomba           ###   ########.fr       */
+/*   Created: 2024/11/08 13:02:16 by waalexan          #+#    #+#             */
+/*   Updated: 2024/11/09 14:49:48 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,11 @@ int	exec_command(t_minishell *minishell)
 		redir_trunc_in(minishell);
 	else if (redir == R_APPEND_I)
 		redir_append_in(minishell);
-	if (!minishell->args)
+	if (!minishell->args || minishell->not_flag == -1)
+	{
+		minishell->not_flag = 0;
 		return (0);
+	}
 	if (!is_builtin(minishell->args->args[0]))
 		execute_child_process(minishell);
 	else
@@ -62,7 +65,10 @@ int	exec_command_pipe_aux(t_minishell *minishell, int num_commands)
 		else if (var.redir == R_APPEND_I)
 			redir_append_in(minishell);
 		if (!minishell->args || minishell->not_flag == -1)
+		{
+			minishell->not_flag = 0;
 			return (ft_exit_process(minishell, num_commands), 1);
+		}
 		execute_child_process_pipe(minishell, var.i, num_commands);
 		free_data(minishell->args);
 		minishell->fd = 1;
