@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: waalexan <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 08:46:29 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/09 10:27:05 by waalexan         ###   ########.fr       */
+/*   Updated: 2024/11/09 14:55:05 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ typedef struct s_minishell
 	int		is_stdin;
 	int		redir;
 	int		status;
-	int 	process_out;
+	int		process_out;
 	int		not_flag;
 	char	data[MAX_WORDS][MAX_WORD_LENGTH];
 	char	*data2[MAX_ARGS];
