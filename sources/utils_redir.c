@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 02:13:12 by waalexan          #+#    #+#             */
-/*   Updated: 2024/11/09 14:33:28 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/09 16:52:51 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,45 +25,56 @@ int	return_redir_type(char curr_c, char next_c)
 	return (0);
 }
 
-void	verify_redir_is_in_qt(char *str, int *index, int *is_quote,
-			int *quote_type)
+typedef struct s_utils_redir
 {
-	int		qt_flag;
+	int		data_idx;
+	int		is_quote;
+	int		is_redirect;
+	char	*current_arg;
+	int		index;
+}			t_utils_redir;
 
-	qt_flag = *is_quote;
-	if (str[*index] == '"' || str[*index] == '\'')
+int	verify_redir_is_in_qt(char *str, t_utils_redir *vars, int *quote_type)
+{
+	int	qt_flag;
+
+	qt_flag = vars->is_quote;
+	if (str[vars->index] == '"' || str[vars->index] == '\'')
 	{
 		if (!qt_flag)
 		{
 			qt_flag = 1;
-			*quote_type = (int)str[*index];
+			*quote_type = (int)str[vars->index];
 		}
-		else if (str[*index] == *quote_type)
+		else if (str[vars->index] == *quote_type)
 			qt_flag = 0;
-		*index += 1;
-		*is_quote = qt_flag;
+		vars->is_quote = qt_flag;
+		return (1);
 	}
+	return (0);
 }
 
 int	is_redir(char *str)
 {
-	int	i;
-	int	is_quote;
-	int	redirect;
-	int	quote_type;
+	int				redirect;
+	int				quote_type;
+	t_utils_redir	vars;
 
-	i = -1;
-	is_quote = 0;
-	redirect = 0;
-	while (str[++i])
+	ft_memset(&vars, 0, sizeof(t_utils_redir));
+	while (str[vars.index])
 	{
-		verify_redir_is_in_qt(str, &i, &is_quote, &quote_type);
-		if (!is_quote)
+		if (verify_redir_is_in_qt(str, &vars, &quote_type) == 1)
 		{
-			redirect = return_redir_type(str[i], str[i + 1]);
+			vars.index++;
+			continue ;
+		}
+		if (!vars.is_quote)
+		{
+			redirect = return_redir_type(str[vars.index], str[vars.index + 1]);
 			if (redirect)
 				return (redirect);
 		}
+		vars.index++;
 	}
 	return (0);
 }

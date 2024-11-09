@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 08:46:29 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/09 14:55:05 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/09 17:09:54 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ typedef struct redirect
 	int		fd;
 	char	*tmp;
 	char	*delimiter;
-	char	*l_delimiter;
+	char	*l_delimit;
 	char	*temp_file;
 	int		temp_fd;
 	char	*line;
@@ -94,6 +94,7 @@ typedef struct vars
 	char	*old_tmp;
 	char	*env_var_value;
 	char	*env_var_name;
+	int		expand;
 	int		braces;
 }			t_vars;
 
@@ -116,8 +117,7 @@ typedef struct s_minishell
 	int		status;
 	int		process_out;
 	int		not_flag;
-	char	data[MAX_WORDS][MAX_WORD_LENGTH];
-	char	*data2[MAX_ARGS];
+	char	*data[MAX_ARGS];
 }			t_minishell;
 
 #endif

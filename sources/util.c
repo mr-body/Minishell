@@ -6,13 +6,13 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 02:04:03 by waalexan          #+#    #+#             */
-/*   Updated: 2024/11/09 14:31:22 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/09 16:52:35 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static int	set_type_quoter(t_util *var, char chr, char delimiter)
+static void	set_type_quoter(t_util *var, char chr, char delimiter)
 {
 	if (chr == '"' || chr == '\'')
 	{
@@ -25,18 +25,7 @@ static int	set_type_quoter(t_util *var, char chr, char delimiter)
 		{
 			var->is_quote = 0;
 		}
-		if (delimiter == 32)
-		{
-			if (chr != var->type_quoter)
-				var->temp[var->temp_index++] = chr;
-		}
-		else
-		{
-			var->temp[var->temp_index++] = chr;
-		}
-		return (0);
 	}
-	return (1);
 }
 
 static int	insert_at_the_matriz(t_util *var, char chr, char delimiter)
@@ -101,11 +90,7 @@ t_data	*ft_big_split(char *str, char delimiter)
 		return (free(var.data), NULL);
 	while (*str)
 	{
-		if (!set_type_quoter(&var, *str, delimiter))
-		{
-			str++;
-			continue ;
-		}
+		set_type_quoter(&var, *str, delimiter);
 		if (insert_at_the_matriz(&var, *str, delimiter) == -1)
 			return (free(var.data), NULL);
 		str++;

@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 15:57:35 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/09 14:45:13 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/09 16:03:18 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ void	execute_child_process_pipe(t_minishell *minishell, int i,
 	else
 	{
 		signal(SIGINT, handing_c);
-		signal(SIGINT, SIG_IGN);
+		//signal(SIGINT, SIG_IGN);
 		if(WIFEXITED(minishell->status))
 			minishell->process_out = WEXITSTATUS(minishell->status);
 		else if(WIFSIGNALED(minishell->status))

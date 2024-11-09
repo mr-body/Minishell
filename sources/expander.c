@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 17:30:33 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/09 14:28:41 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/09 17:11:52 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static char	*get_env_name(char *arg, int *j, int *k)
 	*k = *j;
 	while (arg[*k] && (ft_isalnum(arg[*k]) || arg[*k] == '_'))
 	{
-		if (arg[*k] == '\"')
+		if (arg[*k] == '\"' || arg[*k] == '\'')
 			break ;
 		*k = *k + 1;
 	}
@@ -84,9 +84,10 @@ char	*expand_env_var(char *arg, char *tmp, char delimiter)
 
 	ft_memset(single_char, 0, 2);
 	ft_memset(&var, 0, sizeof(t_vars));
+	var.expand = allow_expand(arg);
 	while (arg[var.j])
 	{
-		if (arg[var.j] == '$' && delimiter != '\'')
+		if (arg[var.j] == '$' && var.expand == 1)
 		{
 			is_on_brace(arg, &var, "SUGAR");
 			var.env_var_name = get_env_name(arg, &var.j, &var.k);
@@ -102,6 +103,5 @@ char	*expand_env_var(char *arg, char *tmp, char delimiter)
 			var.j++;
 		}
 	}
-	ft_delete_chr_on_str(tmp, delimiter);
-	return (tmp);
+	return (ft_delete_chr_on_str(tmp, delimiter), tmp);
 }

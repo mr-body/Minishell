@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 11:35:50 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/09 14:36:52 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/09 14:57:37 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ int	verify_redir_syntax_one(t_minishell *minishell, char *redir_type)
 		&& return_redir_type(redir_type[0], redir_type[1]) != R_TRUNC_I)
 		return (0);
 	minishell->verify_syntax = ft_split_ms(minishell->redirect_command, ' ');
-	ft_print_matriz(minishell->verify_syntax);
 	while (minishell->verify_syntax[++i])
 	{
 		if (ft_strncmp(minishell->verify_syntax[i], redir_type,
@@ -70,7 +69,6 @@ int	verify_redir_syntax_two(t_minishell *minishell, char *redir_type)
 		&& return_redir_type(redir_type[0], redir_type[1]) != R_APPEND_O)
 		return (0);
 	minishell->verify_syntax = ft_split_ms(minishell->redirect_command, ' ');
-	ft_print_matriz(minishell->verify_syntax);
 	while (minishell->verify_syntax[++i])
 	{
 		if (ft_strncmp(minishell->verify_syntax[i], redir_type,

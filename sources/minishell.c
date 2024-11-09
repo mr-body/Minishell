@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 01:59:39 by waalexan          #+#    #+#             */
-/*   Updated: 2024/11/09 14:35:50 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/09 16:04:21 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ void	handle_sigint(int signal)
 void	get_readline(t_minishell *minishell)
 {
 	minishell->readline = readline(AMARELO "minishell" VERDE "# " RESET);
-	g_redsplay = 0;
 	if (!minishell->readline)
 	{
 		free(minishell->readline);
@@ -37,8 +36,7 @@ void	get_readline(t_minishell *minishell)
 	{
 		add_history(minishell->readline);
 	}
-	if (ft_strncmp(minishell->readline, "exit",
-			ft_strlen(minishell->readline)) == 0)
+	if (ft_strncmp(minishell->readline, "exit", 5) == 0)
 	{
 		free(minishell->readline);
 		exit(0);
@@ -57,14 +55,13 @@ int	main(int argc, char **argv)
 		exit(1);
 	}
 	(void)argv;
-	g_redsplay = 0;
-	signal(SIGQUIT, SIG_IGN);
-	signal(SIGINT, handle_sigint);
+	g_redsplay = 1;
 	ft_memset(&minishell, 0, sizeof(t_minishell));
 	increment_shell_level(&minishell);
 	while (1)
 	{
-		g_redsplay = 1;
+		signal(SIGQUIT, SIG_IGN);
+		signal(SIGINT, handle_sigint);
 		get_readline(&minishell);
 		while (waitpid(-1, &minishell.status, 0) > 0)
 			;
