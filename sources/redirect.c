@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: waalexan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 14:15:03 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/09 14:21:15 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/09 17:22:20 by waalexan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ void	redir_trunc_in(t_minishell *minishell)
 	ft_free_matriz2(minishell->data2);
 	if (minishell->fd < 0)
 	{
+		ft_ctrl_c(1);
 		perror("minishell");
 		minishell->not_flag = -1;
 	}
@@ -94,6 +95,9 @@ void	inset_at_the_heredoc(t_redirect *var)
 			break ;
 		var->tmp = ft_strdup("");
 		old_line = var->line;
+		if (!ft_strncmp(var->line, "$?", 2) || !ft_strncmp(var->line, "'$?'", 4)
+			|| !ft_strncmp(var->line, "\"$?\"", 4))
+			var->line = ft_itoa(ft_ctrl_c(-1));
 		var->line = expand_env_var(var->line, var->tmp, 0);
 		free_ptr(old_line);
 		write(var->temp_fd, var->line, ft_strlen(var->line));
@@ -125,7 +129,7 @@ void	redir_append_in(t_minishell *minishell)
 	close(var.temp_fd);
 	minishell->fd = open(var.temp_file, O_RDONLY);
 	if (minishell->fd < 0)
-		return (perror("Could not open temp file for reading"));
+		return (ft_ctrl_c(1), perror("Could not open temp file for reading"));
 	unlink(var.temp_file);
 	minishell->is_redir = 1;
 	minishell->is_stdin = 1;

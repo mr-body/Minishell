@@ -6,7 +6,7 @@
 /*   By: waalexan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 15:57:35 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/09 15:52:38 by waalexan         ###   ########.fr       */
+/*   Updated: 2024/11/09 16:33:20 by waalexan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ void	execute_child_process_pipe(t_minishell *minishell, int i,
 		else
 			minishell->process_out = 1;
 	}
+	ft_ctrl_c(minishell->process_out);
 }
 
 void	execute_child_process(t_minishell *minishell)
@@ -125,4 +126,5 @@ void	execute_child_process(t_minishell *minishell)
 		minishell->process_out = 127;
 	else if (minishell->exit_status == SIGINT)
 		minishell->process_out = 130;
+	ft_ctrl_c(minishell->process_out);
 }

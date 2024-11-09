@@ -1,3 +1,0 @@
-# Minishell
-
-# teste

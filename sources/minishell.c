@@ -6,7 +6,7 @@
 /*   By: waalexan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 01:59:39 by waalexan          #+#    #+#             */
-/*   Updated: 2024/11/09 15:53:26 by waalexan         ###   ########.fr       */
+/*   Updated: 2024/11/09 17:25:00 by waalexan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,21 @@
 
 static int	g_redsplay;
 
+int ft_ctrl_c(int value)
+{
+	static int status = 0;
+
+	if(value != -1)
+	{
+		status = value;
+	}
+	return (status);
+}
+
 void	handle_sigint(int signal)
 {
 	(void)signal;
+	ft_ctrl_c(130);
 	rl_replace_line("", 0);
 	write(1, "\n", 1);
 	rl_on_new_line();
@@ -27,7 +39,6 @@ void	handle_sigint(int signal)
 void	get_readline(t_minishell *minishell)
 {
 	minishell->readline = readline(AMARELO "minishell" VERDE "# " RESET);
-	g_redsplay = 0;
 	if (!minishell->readline)
 	{
 		free(minishell->readline);
@@ -37,8 +48,7 @@ void	get_readline(t_minishell *minishell)
 	{
 		add_history(minishell->readline);
 	}
-	if (ft_strncmp(minishell->readline, "exit",
-			ft_strlen(minishell->readline)) == 0)
+	if (ft_strncmp(minishell->readline, "exit", 5) == 0)
 	{
 		free(minishell->readline);
 		exit(0);
@@ -57,14 +67,13 @@ int	main(int argc, char **argv)
 		exit(1);
 	}
 	(void)argv;
-	g_redsplay = 0;
-	signal(SIGQUIT, SIG_IGN);
-	signal(SIGINT, handle_sigint);
+	g_redsplay = 1;
 	ft_memset(&minishell, 0, sizeof(t_minishell));
 	increment_shell_level(&minishell);
 	while (1)
 	{
-		g_redsplay = 1;
+		signal(SIGQUIT, SIG_IGN);
+		signal(SIGINT, handle_sigint);
 		get_readline(&minishell);
 		while (waitpid(-1, &minishell.status, 0) > 0)
 			;

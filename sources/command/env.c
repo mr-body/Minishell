@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: waalexan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 16:20:32 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/09 14:28:18 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/09 16:14:07 by waalexan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	command_env(char **prompt, char **environ, int pipe, t_minishell *minishell)
 	int	i;
 
 	if (check_env_syntax(prompt, pipe))
-		return (minishell->process_out = 1, 1);
+		return (ft_ctrl_c(1), 1);
 	i = -1;
 	while (environ[++i])
 	{
@@ -46,5 +46,5 @@ int	command_env(char **prompt, char **environ, int pipe, t_minishell *minishell)
 		ft_free_matriz(prompt);
 		exit(0);
 	}
-	return (minishell->process_out = 0, 0);
+	return (ft_ctrl_c(0), 0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_sms.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: waalexan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 01:59:11 by waalexan          #+#    #+#             */
-/*   Updated: 2024/11/09 14:55:16 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/09 16:36:50 by waalexan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void	ft_print_syntax_error(void)
 
 void	invalid_char_error(char c)
 {
+	ft_ctrl_c(2);
 	ft_putendl_fd("minishell: invalid character ", 2);
 	ft_putchar_fd(c, 2);
 	ft_putchar_fd('\n', 2);
@@ -33,6 +34,7 @@ void	invalid_char_error(char c)
 
 void	redir_syntax_error(char *str)
 {
+	ft_ctrl_c(2);
 	if (ft_strncmp(str, "SUGAR", ft_strlen(str)) == 0)
 	{
 		ft_putendl_fd("syntax error near unexpected token `newline'", 2);
@@ -45,6 +47,7 @@ void	redir_syntax_error(char *str)
 
 void	pipe_syntax_error(char *str)
 {
+	ft_ctrl_c(2);
 	if (ft_strncmp(str, "SUGAR", ft_strlen(str)) == 0)
 	{
 		ft_putendl_fd("syntax error near unexpected token `newline'", 2);

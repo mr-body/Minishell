@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: waalexan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 16:20:52 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/09 14:42:35 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/09 16:14:48 by waalexan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	command_unset(char **prompt, int pipe, t_minishell *minishell)
 {
 	if (!prompt[1])
 	{
-		minishell->process_out = 1;
+		ft_ctrl_c(1);
 		return (1);
 	}
 	unset_var(prompt);
@@ -52,6 +52,6 @@ int	command_unset(char **prompt, int pipe, t_minishell *minishell)
 		minishell->process_out = 0;
 		exit(0);
 	}
-	minishell->process_out = 0;
+	ft_ctrl_c(0);
 	return (0);
 }

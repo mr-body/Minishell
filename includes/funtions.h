@@ -6,7 +6,7 @@
 /*   By: waalexan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 08:53:12 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/09 15:28:59 by waalexan         ###   ########.fr       */
+/*   Updated: 2024/11/09 16:06:09 by waalexan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void	set_to_env(char *value);
 void	invalid_char_error(char c);
 void	redir_syntax_error(char *str);
 void	pipe_syntax_error(char *str);
-int ft_ctrl_c(int value);
+int		ft_ctrl_c(int value);
 
 void	split_redirect_command(char *command, char **data, char delimiter);
 #endif
