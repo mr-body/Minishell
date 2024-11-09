@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 08:53:12 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/09 12:34:57 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/09 14:20:18 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,9 @@ int		check_if_str_is_pipe(char **matriz);
 int		check_name_var_syntax(char *var);
 int		extract_command(t_minishell *minishell, int *redir, int *retrn);
 int		check_invalid_character(char *arg);
+int		return_redir_type(char curr_c, char next_c);
+int		check_redir_one(t_minishell *minishell, int i, char *redir_type);
+int		check_redir_two(t_minishell *minishell, int i, char *redir_type);
 void	ft_print_syntax_error(void);
 void	ft_exit_process(t_minishell *minishell, int nbr_cmds);
 void	close_fds(t_minishell *minishell, int nbr_cmds);

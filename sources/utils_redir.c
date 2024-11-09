@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 02:13:12 by waalexan          #+#    #+#             */
-/*   Updated: 2024/11/09 12:28:59 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/09 14:19:51 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	verify_redir_is_in_qt(char *str, int *index, int *is_quote,
 		}
 		else if (str[*index] == *quote_type)
 			qt_flag = 0;
-		*index = *index + 1;
+		*index += 1;
 		*is_quote = qt_flag;
 	}
 }
@@ -63,6 +63,50 @@ int	is_redir(char *str)
 			redirect = return_redir_type(str[i], str[i + 1]);
 			if (redirect)
 				return (redirect);
+		}
+	}
+	return (0);
+}
+
+int	check_redir_one(t_minishell *minishell, int i, char *redir_type)
+{
+	int	len;
+
+	len = ft_strlen(minishell->verify_syntax[i]);
+	if (len == 1)
+	{
+		if (minishell->verify_syntax[i + 1] == NULL)
+		{
+			redir_syntax_error("SUGAR");
+			return (ft_free_matriz(minishell->verify_syntax), 2);
+		}
+		if ((ft_strncmp(minishell->verify_syntax[i + 1], redir_type, 1) == 0)
+			|| ft_strncmp(minishell->verify_syntax[i + 1], "|", 1) == 0)
+		{
+			redir_syntax_error("PANCAKE");
+			return (ft_free_matriz(minishell->verify_syntax), 2);
+		}
+	}
+	return (0);
+}
+
+int	check_redir_two(t_minishell *minishell, int i, char *redir_type)
+{
+	int	len;
+
+	len = ft_strlen(minishell->verify_syntax[i]);
+	if (len == 2)
+	{
+		if (minishell->verify_syntax[i + 1] == NULL)
+		{
+			redir_syntax_error("SUGAR");
+			return (ft_free_matriz(minishell->verify_syntax), 2);
+		}
+		if ((ft_strncmp(minishell->verify_syntax[i + 1], redir_type, 1) == 0)
+			|| ft_strncmp(minishell->verify_syntax[i + 1], "|", 1) == 0)
+		{
+			redir_syntax_error("PANCAKE");
+			return (ft_free_matriz(minishell->verify_syntax), 2);
 		}
 	}
 	return (0);

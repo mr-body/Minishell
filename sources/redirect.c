@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 14:15:03 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/09 12:26:37 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/09 14:21:15 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,8 @@ void	inset_at_the_heredoc(t_redirect *var)
 	while (1)
 	{
 		var->line = readline("heredoc> ");
+		if (!var->line)
+			break ;
 		if (ft_strncmp(var->line, var->l_delimiter,
 				ft_strlen(var->l_delimiter)) == 0)
 			break ;
