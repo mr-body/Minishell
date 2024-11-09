@@ -6,7 +6,7 @@
 /*   By: waalexan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 16:20:47 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/09 11:04:12 by waalexan         ###   ########.fr       */
+/*   Updated: 2024/11/09 16:13:33 by waalexan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,11 @@ int	command_cd(char **prompt, t_minishell *minishell)
 		if (chdir(prompt[1]) != 0)
 		{
 			perror("cd error");
-			return (minishell->process_out = 1, 1);
+			return (ft_ctrl_c(1), 1);
 		}
 		wdir = getcwd(NULL, 0);
 		change_pwd(wdir, minishell);
 		wdir = free_ptr(wdir);
 	}
-	return (minishell->process_out = 0, 0);
+	return (ft_ctrl_c(0), 0);
 }

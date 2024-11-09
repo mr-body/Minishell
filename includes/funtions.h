@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 08:53:12 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/09 16:59:59 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/09 18:07:02 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ int		check_invalid_character(char *arg);
 int		return_redir_type(char curr_c, char next_c);
 int		check_redir_one(t_minishell *minishell, int i, char *redir_type);
 int		check_redir_two(t_minishell *minishell, int i, char *redir_type);
+int		ft_ctrl_c(int value);
 int		allow_expand(const char *str);
 void	ft_print_syntax_error(void);
 void	ft_exit_process(t_minishell *minishell, int nbr_cmds);
@@ -80,6 +81,8 @@ void	set_to_env(char *value);
 void	invalid_char_error(char c);
 void	redir_syntax_error(char *str);
 void	pipe_syntax_error(char *str);
-
+void	last_return(t_minishell *minishell, char *str, int pid);
+void	last_return_pipe(t_minishell *minishell);
 void	split_redirect_command(char *command, char **data, char delimiter);
+void	handing_c(int signal);
 #endif

@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 01:59:39 by waalexan          #+#    #+#             */
-/*   Updated: 2024/11/09 16:04:21 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/09 18:01:18 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,21 @@
 
 static int	g_redsplay;
 
+int	ft_ctrl_c(int value)
+{
+	static int	status = 0;
+
+	if (value != -1)
+	{
+		status = value;
+	}
+	return (status);
+}
+
 void	handle_sigint(int signal)
 {
 	(void)signal;
+	ft_ctrl_c(130);
 	rl_replace_line("", 0);
 	write(1, "\n", 1);
 	rl_on_new_line();

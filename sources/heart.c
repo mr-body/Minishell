@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/08 13:02:16 by waalexan          #+#    #+#             */
-/*   Updated: 2024/11/09 14:49:48 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/09 18:15:40 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,7 @@ int	exec_command(t_minishell *minishell)
 	else if (redir == R_APPEND_I)
 		redir_append_in(minishell);
 	if (!minishell->args || minishell->not_flag == -1)
-	{
-		minishell->not_flag = 0;
-		return (0);
-	}
+		return (minishell->not_flag = 0, 0);
 	if (!is_builtin(minishell->args->args[0]))
 		execute_child_process(minishell);
 	else
@@ -42,6 +39,13 @@ int	exec_command(t_minishell *minishell)
 	}
 	free_data(minishell->args);
 	return (0);
+}
+
+void	send_to_execute(t_minishell *minishell, t_heart var, int num_commands)
+{
+	execute_child_process_pipe(minishell, var.i, num_commands);
+	free_data(minishell->args);
+	minishell->fd = 1;
 }
 
 int	exec_command_pipe_aux(t_minishell *minishell, int num_commands)
@@ -65,20 +69,16 @@ int	exec_command_pipe_aux(t_minishell *minishell, int num_commands)
 		else if (var.redir == R_APPEND_I)
 			redir_append_in(minishell);
 		if (!minishell->args || minishell->not_flag == -1)
-		{
-			minishell->not_flag = 0;
-			return (ft_exit_process(minishell, num_commands), 1);
-		}
-		execute_child_process_pipe(minishell, var.i, num_commands);
-		free_data(minishell->args);
-		minishell->fd = 1;
+			return (minishell->not_flag = 0, ft_exit_process(minishell,
+					num_commands), 1);
+		send_to_execute(minishell, var, num_commands);
 	}
 	return (0);
 }
 
 int	exec_command_pipe(t_minishell *minishell)
 {
-	int		num_commands;
+	int	num_commands;
 
 	minishell->is_stdin = 0;
 	minishell->raw_args = ft_big_split(minishell->command, '|');
