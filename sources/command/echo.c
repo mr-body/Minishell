@@ -6,7 +6,7 @@
 /*   By: waalexan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 16:20:39 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/09 15:28:36 by waalexan         ###   ########.fr       */
+/*   Updated: 2024/11/09 15:53:06 by waalexan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	command_echo(char **prompt, int pipe, t_minishell *minishell)
 	while (prompt[++i])
 	{
 		if (ft_strncmp(prompt[i], "?", 1) == 0)
-			ft_putnbr_fd(ft_ctrl_c(-1), minishell->fd);
+			ft_putnbr_fd(minishell->process_out, minishell->fd);
 		else
 			write(minishell->fd, prompt[i], ft_strlen(prompt[i]));
 		if (prompt[i + 1])

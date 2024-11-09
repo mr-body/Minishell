@@ -6,7 +6,7 @@
 /*   By: waalexan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 15:57:35 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/09 15:36:26 by waalexan         ###   ########.fr       */
+/*   Updated: 2024/11/09 15:52:38 by waalexan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,11 +80,11 @@ void	execute_child_process_pipe(t_minishell *minishell, int i,
 		signal(SIGINT, handing_c);
 		signal(SIGINT, SIG_IGN);
 		if (WIFEXITED(minishell->status))
-			minishell->process_out = ft_ctrl_c(WEXITSTATUS(minishell->status));
+			minishell->process_out = WEXITSTATUS(minishell->status);
 		else if (WIFSIGNALED(minishell->status))
-			minishell->process_out = ft_ctrl_c(128 + WTERMSIG(minishell->status));
+			minishell->process_out = 128 + WTERMSIG(minishell->status);
 		else
-			minishell->process_out = ft_ctrl_c(1);
+			minishell->process_out = 1;
 	}
 }
 
@@ -115,14 +115,14 @@ void	execute_child_process(t_minishell *minishell)
 		waitpid(pid, &minishell->exit_status, 0);
 		signal(SIGINT, SIG_IGN);
 		if (WIFEXITED(minishell->exit_status))
-			minishell->process_out = ft_ctrl_c(WEXITSTATUS(minishell->exit_status));
+			minishell->process_out = WEXITSTATUS(minishell->exit_status);
 		else if (WIFSIGNALED(minishell->exit_status))
-			minishell->process_out = ft_ctrl_c(128 + WTERMSIG(minishell->exit_status));
+			minishell->process_out = 128 + WTERMSIG(minishell->exit_status);
 		else
-			minishell->process_out = ft_ctrl_c(1);
+			minishell->process_out = 1;
 	}
 	if (minishell->exit_status == 256)
-		minishell->process_out = ft_ctrl_c(127);
+		minishell->process_out = 127;
 	else if (minishell->exit_status == SIGINT)
-		minishell->process_out = ft_ctrl_c(130);
+		minishell->process_out = 130;
 }

@@ -6,24 +6,13 @@
 /*   By: waalexan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 01:59:39 by waalexan          #+#    #+#             */
-/*   Updated: 2024/11/09 15:29:10 by waalexan         ###   ########.fr       */
+/*   Updated: 2024/11/09 15:53:26 by waalexan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
 static int	g_redsplay;
-
-int ft_ctrl_c(int value)
-{
-	static int status = 0;
-	
-	if(value != -1)
-	{
-		status = value;
-	}
-	return status;
-}
 
 void	handle_sigint(int signal)
 {
@@ -33,7 +22,6 @@ void	handle_sigint(int signal)
 	rl_on_new_line();
 	if (g_redsplay)
 		rl_redisplay();
-	ft_ctrl_c(130);
 }
 
 void	get_readline(t_minishell *minishell)
