@@ -6,13 +6,13 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 17:41:57 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/09 12:24:39 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/10 16:46:47 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	count_words(const char *str, char delimiter)
+static int	count_words(const char *str, char delimiter)
 {
 	int	in_quotes;
 	int	count;
@@ -37,7 +37,7 @@ int	count_words(const char *str, char delimiter)
 	return (count);
 }
 
-char	**last_word(char **result, const char *str, int start, int *index)
+static char	**last_word(char **result, const char *str, int start, int *index)
 {
 	int	length;
 	int	i;
@@ -55,7 +55,7 @@ char	**last_word(char **result, const char *str, int start, int *index)
 	return (result);
 }
 
-int	ft_strcpy_ms_split(char **result, const char *str, int *iter,
+static int	ft_strcpy_ms_split(char **result, const char *str, int *iter,
 		t_split_ms_vars *var)
 {
 	int	length;

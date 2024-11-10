@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 16:23:19 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/09 14:43:11 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/10 14:35:54 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,7 @@ int	shell_builtin(char **prompt, char **environ, int pipe,
 		t_minishell *minishell)
 {
 	if (ft_strncmp(prompt[0], "exit", 4) == 0)
-	{
-		ft_putendl_fd("exit", 1);
-		prompt = ft_free_matriz(prompt);
-		exit(0);
-	}
+		minishell->exit_status = command_exit(prompt, pipe, minishell);
 	else if (ft_strncmp(prompt[0], "env", 3) == 0)
 		minishell->exit_status = command_env(prompt, environ, pipe, minishell);
 	else if (ft_strncmp(prompt[0], "cd", 2) == 0)

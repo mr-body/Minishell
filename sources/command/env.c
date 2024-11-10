@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: waalexan <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 16:20:32 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/09 16:14:07 by waalexan         ###   ########.fr       */
+/*   Updated: 2024/11/10 16:44:42 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	check_env_syntax(char **prompt, int pipe)
+static int	check_env_syntax(char **prompt, int pipe)
 {
 	if (prompt[1])
 	{

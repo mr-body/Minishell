@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 17:03:07 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/09 16:54:40 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/10 18:31:40 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void	last_redir(t_minishell *minishell)
 {
 	int	len;
 
+	printf("lol\n");
 	len = ft_matriz_len(minishell->raw_args->args);
 	if (ft_strchr(minishell->raw_args->args[len - 1], '>')
 		|| ft_strchr(minishell->raw_args->args[len - 1], '>'))

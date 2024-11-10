@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 02:04:03 by waalexan          #+#    #+#             */
-/*   Updated: 2024/11/09 17:13:46 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/10 18:40:22 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,21 +28,20 @@ static void	set_type_quoter(t_util *var, char chr)
 	}
 }
 
-static int	insert_at_the_matriz(t_util *var, char chr, char delimiter)
+static int	insert_at_the_matriz(t_util *var, char chr, char delimiter, char c)
 {
 	if (var->is_quote)
 	{
 		if (var->temp_index < INITIAL_TEMP_SIZE - 1)
 			var->temp[var->temp_index++] = chr;
 	}
-	else if (chr == delimiter)
+	else if (chr == delimiter && c != '>')
 	{
 		if (var->temp_index > 0)
 		{
 			var->temp[var->temp_index] = '\0';
 			var->data->types[var->data->count] = var->type_quoter;
-			var->new = expand_env_var(var->temp, ft_strdup(""),
-					var->type_quoter);
+			var->new = expander(var->temp, ft_strdup(""));
 			var->data->args[var->data->count] = var->new;
 			var->data->count++;
 			var->temp_index = 0;
@@ -62,7 +61,7 @@ static int	last_ajustes(t_util *var)
 	{
 		var->temp[var->temp_index] = '\0';
 		var->data->types[var->data->count] = var->type_quoter;
-		var->new = expand_env_var(var->temp, ft_strdup(""), var->type_quoter);
+		var->new = expander(var->temp, ft_strdup(""));
 		if (!var->new)
 		{
 			free_data(var->data);
@@ -78,6 +77,7 @@ static int	last_ajustes(t_util *var)
 t_data	*ft_big_split(char *str, char delimiter)
 {
 	t_util	var;
+	char	c;
 
 	ft_memset(&var, 0, sizeof(t_util));
 	var.data = malloc(sizeof(t_data));
@@ -88,12 +88,14 @@ t_data	*ft_big_split(char *str, char delimiter)
 	var.data->types = malloc(INITIAL_ARG_COUNT * sizeof(char));
 	if (!var.data->args || !var.data->types)
 		return (free(var.data), NULL);
-	while (*str)
+	c = '\0';
+	while (str[var.i])
 	{
-		set_type_quoter(&var, *str);
-		if (insert_at_the_matriz(&var, *str, delimiter) == -1)
+		set_type_quoter(&var, str[var.i]);
+		if (insert_at_the_matriz(&var, str[var.i], delimiter, c) == -1)
 			return (free(var.data), NULL);
-		str++;
+		c = str[var.i];
+		var.i++;
 	}
 	if (last_ajustes(&var) == -1)
 		return (free(var.data), NULL);

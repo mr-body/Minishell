@@ -6,13 +6,13 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/08 12:34:32 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/09 14:36:09 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/10 18:03:38 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	finalize_argument(t_split_redir_cmd *vars, char **data)
+static void	finalize_argument(t_split_redir_cmd *vars, char **data)
 {
 	if (vars->current_arg[0] != '\0')
 	{
@@ -32,7 +32,7 @@ void	finalize_argument(t_split_redir_cmd *vars, char **data)
 	}
 }
 
-int	in_quotes(t_split_redir_cmd *vars, char *command)
+static int	in_quotes(t_split_redir_cmd *vars, char *command)
 {
 	if (command[vars->i] == '"' || command[vars->i] == '\'')
 	{
@@ -43,7 +43,7 @@ int	in_quotes(t_split_redir_cmd *vars, char *command)
 	return (0);
 }
 
-void	save_curr_arg(t_split_redir_cmd *vars, char **data)
+static void	save_curr_arg(t_split_redir_cmd *vars, char **data)
 {
 	if (vars->is_redirect)
 	{
@@ -55,7 +55,7 @@ void	save_curr_arg(t_split_redir_cmd *vars, char **data)
 		ft_strcat_no_malloc(data[0], vars->current_arg);
 }
 
-void	split_redir(t_split_redir_cmd *vars, char *command, char **data,
+static void	split_redir(t_split_redir_cmd *vars, char *command, char **data,
 		char delimiter)
 {
 	while (command[vars->i] != '\0')
@@ -64,6 +64,8 @@ void	split_redir(t_split_redir_cmd *vars, char *command, char **data,
 			continue ;
 		if (!vars->in_quotes && command[vars->i] == delimiter)
 		{
+			if (ft_strchr(command, '|'))
+				ft_delete_chr_on_str(command, '|');
 			if (vars->current_arg[0] != '\0')
 			{
 				ft_strcat_no_malloc(data[0], vars->current_arg);

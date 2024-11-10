@@ -3,27 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: waalexan <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 16:20:39 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/09 16:08:22 by waalexan         ###   ########.fr       */
+/*   Updated: 2024/11/10 16:51:10 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	ft_is_only_n(char *str)
+static int	ft_is_only_n(char *str)
 {
 	int	i;
 
-	i = 0;
-	if (!str)
+	if (!str || str[0] != '-')
 		return (0);
-	if (str[0] != '-')
-		return (0);
-	if (str[0] == '-' && !str[1])
-		return (0);
-	i++;
+	i = 1;
 	while (str[i])
 	{
 		if (str[i] != 'n')
@@ -33,26 +28,32 @@ int	ft_is_only_n(char *str)
 	return (1);
 }
 
-int	command_echo(char **prompt, int pipe, t_minishell *minishell)
+static void	ft_print_echo(char **prompt, t_minishell *minishell)
 {
 	int	i;
 	int	n_flag;
 
-	i = 0;
-	n_flag = ft_is_only_n(prompt[1]);
-	if (n_flag == 1)
-		i++;
-	while (prompt[++i])
+	i = 1;
+	n_flag = 0;
+	while (prompt[i] && ft_is_only_n(prompt[i]))
 	{
-		if (ft_strncmp(prompt[i], "?", 1) == 0)
-			ft_putnbr_fd(ft_ctrl_c(-1), minishell->fd);
-		else
-			write(minishell->fd, prompt[i], ft_strlen(prompt[i]));
+		n_flag = 1;
+		i++;
+	}
+	while (prompt[i])
+	{
+		write(minishell->fd, prompt[i], ft_strlen(prompt[i]));
 		if (prompt[i + 1])
 			write(minishell->fd, " ", 1);
+		i++;
 	}
-	if (n_flag == 0)
+	if (!n_flag)
 		write(minishell->fd, "\n", 1);
+}
+
+int	command_echo(char **prompt, int pipe, t_minishell *minishell)
+{
+	ft_print_echo(prompt, minishell);
 	if (pipe)
 	{
 		ft_free_matriz(prompt);

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: waalexan <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 22:18:49 by waalexan          #+#    #+#             */
-/*   Updated: 2024/11/09 16:14:23 by waalexan         ###   ########.fr       */
+/*   Updated: 2024/11/10 16:45:20 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	export_var(char **prompt)
+static int	export_var(char **prompt)
 {
 	int		i;
 	char	*var;
@@ -30,7 +30,7 @@ int	export_var(char **prompt)
 	return (0);
 }
 
-int	export_print(void)
+static int	export_print(void)
 {
 	extern char	**environ;
 	int			i;

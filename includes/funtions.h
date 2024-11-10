@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 08:53:12 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/09 18:07:02 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/10 14:35:30 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,16 @@ t_data	*ft_big_split(char *str, char delimiter);
 char	**ft_extended(char **data);
 char	**ft_adjust_data(char **data, int *quotes);
 char	*handle_quotes(char *tmp);
-char	*expand_env_var(char *arg, char *tmp, char delimiter);
+char	*expander(char *arg, char *tmp);
 char	*ft_get_env(char *var_name);
 char	**sort_env(char **environ);
 char	*shell_binary(char **prompt);
+char	*get_last_return(char *tmp);
 char	**ft_split_ms(const char *str, char delimiter);
+char	*join_single_char(char *tmp, char chr);
 int		shell(char **prompt, int pipe, t_minishell *minishell);
 int		execute_command(t_minishell *minishell);
 int		command_cd(char **prompt, t_minishell *minishell);
-int		command_exit(char **prompt, t_minishell *minishell);
 int		command_echo(char **prompt, int pipe, t_minishell *minishell);
 int		command_env(char **prompt, char **environ, int pipe,
 			t_minishell *minishell);
@@ -56,6 +57,7 @@ int		check_redir_one(t_minishell *minishell, int i, char *redir_type);
 int		check_redir_two(t_minishell *minishell, int i, char *redir_type);
 int		ft_ctrl_c(int value);
 int		allow_expand(const char *str);
+int		command_exit(char **prompt, int pipe, t_minishell *minishell);
 void	ft_print_syntax_error(void);
 void	ft_exit_process(t_minishell *minishell, int nbr_cmds);
 void	close_fds(t_minishell *minishell, int nbr_cmds);
@@ -85,4 +87,5 @@ void	last_return(t_minishell *minishell, char *str, int pid);
 void	last_return_pipe(t_minishell *minishell);
 void	split_redirect_command(char *command, char **data, char delimiter);
 void	handing_c(int signal);
+void	is_on_brace(char *arg, t_vars *var, char *str);
 #endif

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: waalexan <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 16:20:52 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/09 16:14:48 by waalexan         ###   ########.fr       */
+/*   Updated: 2024/11/10 16:45:41 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	unset_var(char **prpt)
+static void	unset_var(char **prpt)
 {
 	t_unset		var;
 	extern char	**environ;

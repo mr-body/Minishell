@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 14:15:03 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/09 17:37:13 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/10 18:40:13 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void	redir_trunc_in(t_minishell *minishell)
 	minishell->is_stdin = 1;
 }
 
-void	inset_at_the_heredoc(t_redirect *var)
+static void	inset_at_the_heredoc(t_redirect *var)
 {
 	char	*old_line;
 
@@ -98,7 +98,7 @@ void	inset_at_the_heredoc(t_redirect *var)
 		if (!ft_strncmp(var->line, "$?", 2) || !ft_strncmp(var->line, "'$?'", 4)
 			|| !ft_strncmp(var->line, "\"$?\"", 4))
 			var->line = ft_itoa(ft_ctrl_c(-1));
-		var->line = expand_env_var(var->line, var->tmp, 0);
+		var->line = expander(var->line, var->tmp);
 		free_ptr(old_line);
 		write(var->temp_fd, var->line, ft_strlen(var->line));
 		write(var->temp_fd, "\n", 1);

@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/08 13:02:16 by waalexan          #+#    #+#             */
-/*   Updated: 2024/11/09 18:15:40 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/10 18:39:43 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,14 +41,15 @@ int	exec_command(t_minishell *minishell)
 	return (0);
 }
 
-void	send_to_execute(t_minishell *minishell, t_heart var, int num_commands)
+static void	send_to_execute(t_minishell *minishell, t_heart var,
+		int num_commands)
 {
 	execute_child_process_pipe(minishell, var.i, num_commands);
 	free_data(minishell->args);
 	minishell->fd = 1;
 }
 
-int	exec_command_pipe_aux(t_minishell *minishell, int num_commands)
+static int	exec_command_pipe_aux(t_minishell *minishell, int num_commands)
 {
 	t_heart	var;
 

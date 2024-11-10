@@ -2,6 +2,7 @@ NAME = minishell
 SRCS = sources/minishell.c\
 		sources/parser_redir.c\
 		sources/expander.c\
+		sources/expander_utils.c\
 		sources/quote_utils.c\
 		sources/syntax_checker.c\
 		sources/child_process.c\
@@ -23,6 +24,7 @@ SRCS = sources/minishell.c\
 		sources/command/export_utils.c\
 		sources/command/unset.c\
 		sources/command/env.c\
+		sources/command/exit.c\
 
 OJBS = ${SRCS:.c=.o}
 LIBFT = libft
