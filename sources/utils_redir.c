@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 02:13:12 by waalexan          #+#    #+#             */
-/*   Updated: 2024/11/09 16:52:51 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/12 10:39:32 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,15 +24,6 @@ int	return_redir_type(char curr_c, char next_c)
 		return (R_TRUNC_I);
 	return (0);
 }
-
-typedef struct s_utils_redir
-{
-	int		data_idx;
-	int		is_quote;
-	int		is_redirect;
-	char	*current_arg;
-	int		index;
-}			t_utils_redir;
 
 int	verify_redir_is_in_qt(char *str, t_utils_redir *vars, int *quote_type)
 {
@@ -89,13 +80,13 @@ int	check_redir_one(t_minishell *minishell, int i, char *redir_type)
 		if (minishell->verify_syntax[i + 1] == NULL)
 		{
 			redir_syntax_error("SUGAR");
-			return (ft_free_matriz(minishell->verify_syntax), 2);
+			return (2);
 		}
 		if ((ft_strncmp(minishell->verify_syntax[i + 1], redir_type, 1) == 0)
 			|| ft_strncmp(minishell->verify_syntax[i + 1], "|", 1) == 0)
 		{
 			redir_syntax_error("PANCAKE");
-			return (ft_free_matriz(minishell->verify_syntax), 2);
+			return (2);
 		}
 	}
 	return (0);
@@ -111,13 +102,13 @@ int	check_redir_two(t_minishell *minishell, int i, char *redir_type)
 		if (minishell->verify_syntax[i + 1] == NULL)
 		{
 			redir_syntax_error("SUGAR");
-			return (ft_free_matriz(minishell->verify_syntax), 2);
+			return (2);
 		}
 		if ((ft_strncmp(minishell->verify_syntax[i + 1], redir_type, 1) == 0)
 			|| ft_strncmp(minishell->verify_syntax[i + 1], "|", 1) == 0)
 		{
 			redir_syntax_error("PANCAKE");
-			return (ft_free_matriz(minishell->verify_syntax), 2);
+			return (2);
 		}
 	}
 	return (0);

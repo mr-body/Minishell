@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 11:35:50 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/09 14:57:37 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/12 17:12:32 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,13 +48,15 @@ int	verify_redir_syntax_one(t_minishell *minishell, char *redir_type)
 		&& return_redir_type(redir_type[0], redir_type[1]) != R_TRUNC_I)
 		return (0);
 	minishell->verify_syntax = ft_split_ms(minishell->redirect_command, ' ');
+	if (redir_is_not_followed_by_pipe(minishell->verify_syntax))
+		return (ft_free_matriz(minishell->verify_syntax), 2);
 	while (minishell->verify_syntax[++i])
 	{
 		if (ft_strncmp(minishell->verify_syntax[i], redir_type,
 				ft_strlen(redir_type)) == 0)
 		{
 			if (check_redir_one(minishell, i, redir_type) == 2)
-				return (2);
+				return (ft_free_matriz(minishell->verify_syntax), 2);
 		}
 	}
 	return (ft_free_matriz(minishell->verify_syntax), 0);
@@ -69,13 +71,15 @@ int	verify_redir_syntax_two(t_minishell *minishell, char *redir_type)
 		&& return_redir_type(redir_type[0], redir_type[1]) != R_APPEND_O)
 		return (0);
 	minishell->verify_syntax = ft_split_ms(minishell->redirect_command, ' ');
+	if (redir_is_not_followed_by_pipe(minishell->verify_syntax))
+		return (ft_free_matriz(minishell->verify_syntax), 2);
 	while (minishell->verify_syntax[++i])
 	{
 		if (ft_strncmp(minishell->verify_syntax[i], redir_type,
 				ft_strlen(redir_type)) == 0)
 		{
 			if (check_redir_two(minishell, i, redir_type) == 2)
-				return (2);
+				return (ft_free_matriz(minishell->verify_syntax), 2);
 		}
 	}
 	return (ft_free_matriz(minishell->verify_syntax), 0);
@@ -88,15 +92,20 @@ int	check_name_var_syntax(char *var)
 	i = 0;
 	if (ft_isdigit(var[i]) || var[i] == '=')
 	{
-		ft_putendl_fd("export: not a valid identifier", 2);
-		return (1);
+		ft_putstr_fd("export: ", 2);
+		ft_putstr_fd(var, 2);
+		ft_putendl_fd(" :not a valid identifier", 2);
+		return (ft_ctrl_c(1), 1);
 	}
 	while (var[i] && var[i] != '=')
 	{
-		if (!ft_isalnum(var[i]) && var[i] != '_')
+		if (!ft_isalnum(var[i]) && var[i] != '_' && var[i] != '"'
+			&& var[i] != '\'')
 		{
-			ft_putendl_fd("export: not a valid identifier", 2);
-			return (1);
+			ft_putstr_fd("export: ", 2);
+			ft_putstr_fd(var, 2);
+			ft_putendl_fd(" :not a valid identifier", 2);
+			return (ft_ctrl_c(1), 1);
 		}
 		i++;
 	}

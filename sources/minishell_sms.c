@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_sms.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: waalexan <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 01:59:11 by waalexan          #+#    #+#             */
-/*   Updated: 2024/11/09 16:36:50 by waalexan         ###   ########.fr       */
+/*   Updated: 2024/11/12 10:20:46 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	redir_syntax_error(char *str)
 	}
 	else if (ft_strncmp(str, "PANCAKE", ft_strlen(str)) == 0)
 	{
-		ft_putendl_fd("syntax error near unexpected token `|'", 2);
+		ft_putendl_fd("syntax error near unexpected token", 2);
 	}
 }
 

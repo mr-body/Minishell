@@ -6,12 +6,21 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 08:46:29 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/09 17:09:54 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/12 10:39:45 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STRUCTS_H
 # define STRUCTS_H
+
+typedef struct s_utils_redir
+{
+	int		data_idx;
+	int		is_quote;
+	int		is_redirect;
+	char	*current_arg;
+	int		index;
+}			t_utils_redir;
 
 typedef struct s_split_redir_cmd
 {

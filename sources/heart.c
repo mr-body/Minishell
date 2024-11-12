@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/08 13:02:16 by waalexan          #+#    #+#             */
-/*   Updated: 2024/11/10 18:39:43 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/12 16:42:40 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,12 @@ int	exec_command(t_minishell *minishell)
 	else if (redir == R_APPEND_I)
 		redir_append_in(minishell);
 	if (!minishell->args || minishell->not_flag == -1)
+	{
+		minishell->not_flag = 0;
+		printf("hell\n");
+		free_data(minishell->args);
 		return (minishell->not_flag = 0, 0);
+	}
 	if (!is_builtin(minishell->args->args[0]))
 		execute_child_process(minishell);
 	else

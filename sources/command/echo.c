@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 16:20:39 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/10 16:51:10 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/12 17:13:37 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,10 @@ int	command_echo(char **prompt, int pipe, t_minishell *minishell)
 	if (pipe)
 	{
 		ft_free_matriz(prompt);
+		ft_ctrl_c(0);
 		minishell->process_out = 0;
 		exit(0);
 	}
+	ft_ctrl_c(0);
 	return (minishell->process_out = 0, 0);
 }

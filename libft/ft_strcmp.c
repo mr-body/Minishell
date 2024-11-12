@@ -1,32 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_delete_chr_on_str.c                             :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/07 14:52:42 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/12 17:12:13 by gkomba           ###   ########.fr       */
+/*   Created: 2024/11/12 16:05:07 by gkomba            #+#    #+#             */
+/*   Updated: 2024/11/12 17:13:43 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_delete_chr_on_str(char *str, char chr)
+int	ft_strcmp(char *s1, char *s2)
 {
 	int	i;
-	int	j;
 
 	i = 0;
-	j = 0;
-	while (str[i])
-	{
-		if (str[i] != chr)
-		{
-			str[j] = str[i];
-			j++;
-		}
+	while ((s1[i] != '\0' || s2[i] != '\0') && s1[i] == s2[i])
 		i++;
-	}
-	str[j] = '\0';
+	return (s1[i] - s2[i]);
 }

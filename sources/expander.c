@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 17:30:33 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/10 16:46:19 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/12 17:14:18 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,6 @@ static char	*expand_last_return(t_vars *var, char *tmp)
 
 static char	*expand_env_var(char *arg, char *tmp, t_vars *var)
 {
-	char	single_char[2];
-
-	ft_memset(single_char, 0, 2);
 	while (arg[var->j])
 	{
 		if (arg[var->j] == '$' && arg[var->j + 1] == '?' && var->expand == 1)
