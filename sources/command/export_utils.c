@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 18:09:37 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/09 12:34:00 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/12 16:59:56 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ char	**sort_env(char **environ)
 		j = 0;
 		while (j < argc - 1 - i)
 		{
-			if (strcmp(environ[j], environ[j + 1]) > 0)
+			if (ft_strcmp(environ[j], environ[j + 1]) > 0)
 			{
 				temp = environ[j];
 				environ[j] = environ[j + 1];

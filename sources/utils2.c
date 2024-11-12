@@ -1,32 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_delete_chr_on_str.c                             :+:      :+:    :+:   */
+/*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/07 14:52:42 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/12 17:12:13 by gkomba           ###   ########.fr       */
+/*   Created: 2024/11/12 10:41:08 by gkomba            #+#    #+#             */
+/*   Updated: 2024/11/12 17:13:50 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../includes/minishell.h"
 
-void	ft_delete_chr_on_str(char *str, char chr)
+int	redir_is_not_followed_by_pipe(char **matriz)
 {
 	int	i;
-	int	j;
 
 	i = 0;
-	j = 0;
-	while (str[i])
+	while (matriz[i])
 	{
-		if (str[i] != chr)
+		if (ft_strncmp(matriz[i], "<|", 2) == 0)
 		{
-			str[j] = str[i];
-			j++;
+			redir_syntax_error("PANCAKE");
+			return (1);
+		}
+		else if (ft_strncmp(matriz[i], "<<|", 3) == 0)
+		{
+			redir_syntax_error("PANCAKE");
+			return (1);
 		}
 		i++;
 	}
-	str[j] = '\0';
+	return (0);
 }

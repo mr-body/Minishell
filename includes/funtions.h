@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 08:53:12 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/10 14:35:30 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/12 14:33:54 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ int		check_redir_two(t_minishell *minishell, int i, char *redir_type);
 int		ft_ctrl_c(int value);
 int		allow_expand(const char *str);
 int		command_exit(char **prompt, int pipe, t_minishell *minishell);
+int		redir_is_not_followed_by_pipe(char **matriz);
 void	ft_print_syntax_error(void);
 void	ft_exit_process(t_minishell *minishell, int nbr_cmds);
 void	close_fds(t_minishell *minishell, int nbr_cmds);
@@ -86,6 +87,9 @@ void	pipe_syntax_error(char *str);
 void	last_return(t_minishell *minishell, char *str, int pid);
 void	last_return_pipe(t_minishell *minishell);
 void	split_redirect_command(char *command, char **data, char delimiter);
+void	redir_append_in_case_one(t_minishell *minishell, t_redirect var);
+void	redir_trunc_in_case_one(t_minishell *minishell, char *command);
 void	handing_c(int signal);
 void	is_on_brace(char *arg, t_vars *var, char *str);
+void	inset_at_the_heredoc(t_redirect *var);
 #endif

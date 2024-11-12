@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 16:23:19 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/10 14:35:54 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/12 15:33:40 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,17 +39,16 @@ char	*shell_binary(char **prompt)
 	int		i;
 
 	routes = ft_split(getenv("PATH"), ':');
+	if (routes == NULL)
+		return (NULL);
 	if (access(prompt[0], X_OK) == 0)
 		cmd_path = prompt[0];
 	else
 	{
 		i = -1;
-		while (routes[++i])
+		while (routes[++i] != NULL)
 		{
-			if (prompt[0] == NULL)
-				return (NULL);
-			else
-				cmd_path = ft_strcat(routes[i], prompt[0], '/');
+			cmd_path = ft_strcat(routes[i], prompt[0], '/');
 			if (access(cmd_path, X_OK) == 0)
 				break ;
 			cmd_path = free_ptr(cmd_path);

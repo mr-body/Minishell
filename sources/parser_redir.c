@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/08 12:34:32 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/10 18:03:38 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/12 17:13:09 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,20 @@ static void	save_curr_arg(t_split_redir_cmd *vars, char **data)
 	if (vars->is_redirect)
 	{
 		vars->data_idx++;
+		if (data[vars->data_idx] != NULL)
+		{
+			free(data[vars->data_idx]);
+			data[vars->data_idx] = NULL;
+		}
 		data[vars->data_idx] = (char *)malloc(ft_strlen(vars->current_arg) + 1);
+		if (!data[vars->data_idx])
+			return ;
 		ft_strcpy(data[vars->data_idx], vars->current_arg);
+		vars->is_redirect = false;
 	}
 	else
 		ft_strcat_no_malloc(data[0], vars->current_arg);
+	vars->current_arg[0] = '\0';
 }
 
 static void	split_redir(t_split_redir_cmd *vars, char *command, char **data,

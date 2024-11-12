@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 14:15:03 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/10 18:40:13 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/12 17:14:37 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,24 +63,32 @@ void	redir_trunc_in(t_minishell *minishell)
 {
 	ft_memset(minishell->data, 0, sizeof(minishell->data));
 	split_redirect_command(minishell->redirect_command, minishell->data, '<');
+	if (ft_matriz_len3(minishell->data) == 0)
+	{
+		ft_free_matriz2(minishell->data);
+		redir_trunc_in_case_one(minishell, minishell->redirect_command);
+		return ;
+	}
 	if (minishell->args)
 		free_data(minishell->args);
 	minishell->args = net_args(minishell->data[0]);
 	minishell->fd_type = 1;
 	minishell->fd = open(minishell->data[ft_matriz_len3(minishell->data) - 1],
 			O_RDONLY);
-	ft_free_matriz2(minishell->data);
 	if (minishell->fd < 0)
 	{
+		free_data(minishell->args);
+		ft_free_matriz2(minishell->data);
 		ft_ctrl_c(1);
-		perror("minishell");
+		ft_putendl_fd("minishell: No such file or directory", 2);
 		minishell->not_flag = -1;
 	}
+	ft_free_matriz2(minishell->data);
 	minishell->is_redir = 1;
 	minishell->is_stdin = 1;
 }
 
-static void	inset_at_the_heredoc(t_redirect *var)
+void	inset_at_the_heredoc(t_redirect *var)
 {
 	char	*old_line;
 
@@ -89,23 +97,24 @@ static void	inset_at_the_heredoc(t_redirect *var)
 	{
 		var->line = readline("heredoc> ");
 		if (!var->line)
+		{
+			free(var->line);
 			break ;
-		if (ft_strncmp(var->line, var->l_delimit,
-				ft_strlen(var->l_delimit)) == 0)
+		}
+		if (ft_strcmp(var->line, var->l_delimit) == 0)
+		{
+			printf("heredoc");
+			free(var->line);
 			break ;
+		}
 		var->tmp = ft_strdup("");
 		old_line = var->line;
-		if (!ft_strncmp(var->line, "$?", 2) || !ft_strncmp(var->line, "'$?'", 4)
-			|| !ft_strncmp(var->line, "\"$?\"", 4))
-			var->line = ft_itoa(ft_ctrl_c(-1));
 		var->line = expander(var->line, var->tmp);
 		free_ptr(old_line);
 		write(var->temp_fd, var->line, ft_strlen(var->line));
 		write(var->temp_fd, "\n", 1);
 		var->line = free_ptr(var->line);
 	}
-	if (var->line)
-		var->line = free_ptr(var->line);
 }
 
 void	redir_append_in(t_minishell *minishell)
@@ -116,6 +125,12 @@ void	redir_append_in(t_minishell *minishell)
 	var.temp_file = "/tmp/heredoc.tmp";
 	ft_memset(minishell->data, 0, sizeof(minishell->data));
 	split_redirect_command(minishell->redirect_command, minishell->data, '<');
+	if (ft_matriz_len3(minishell->data) == 0)
+	{
+		ft_free_matriz2(minishell->data);
+		redir_append_in_case_one(minishell, var);
+		return ;
+	}
 	if (minishell->args)
 		free_data(minishell->args);
 	minishell->args = net_args(minishell->data[0]);
