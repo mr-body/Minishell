@@ -16,6 +16,7 @@ SRCS = sources/minishell.c\
 		sources/ft_big_split.c\
 		sources/utils1.c\
 		sources/utils2.c\
+		sources/utils3.c\
 		sources/utils_pipe.c\
 		sources/utils_redir.c\
 		sources/command/echo.c\
@@ -27,6 +28,7 @@ SRCS = sources/minishell.c\
 		sources/command/env.c\
 		sources/command/exit.c\
 		sources/redirect_case_one.c\
+		sources/redirect_aux.c\
 
 OJBS = ${SRCS:.c=.o}
 LIBFT = libft

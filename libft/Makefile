@@ -6,6 +6,7 @@ SRCS = ft_strlen.c\
 	ft_strlcat.c\
 	ft_isalpha.c\
 	ft_isdigit.c\
+	ft_isspace.c\
 	ft_isalnum.c\
 	ft_isascii.c\
 	ft_isprint.c\

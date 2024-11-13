@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 17:41:57 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/10 16:46:47 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/13 17:30:07 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ static int	count_words(const char *str, char delimiter)
 		count++;
 	return (count);
 }
+
+// echo "ola mundo" em c
 
 static char	**last_word(char **result, const char *str, int start, int *index)
 {

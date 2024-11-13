@@ -6,18 +6,20 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 08:53:12 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/12 14:33:54 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/13 18:57:27 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FUNTIONS_H
 # define FUNTIONS_H
 
+int	exxp(const char *s);
+
 t_data	*net_args(char *prompt);
 t_data	*ft_big_split(char *str, char delimiter);
+char	*quote_scanner(const char *input);
 char	**ft_extended(char **data);
 char	**ft_adjust_data(char **data, int *quotes);
-char	*handle_quotes(char *tmp);
 char	*expander(char *arg, char *tmp);
 char	*ft_get_env(char *var_name);
 char	**sort_env(char **environ);
@@ -25,6 +27,7 @@ char	*shell_binary(char **prompt);
 char	*get_last_return(char *tmp);
 char	**ft_split_ms(const char *str, char delimiter);
 char	*join_single_char(char *tmp, char chr);
+char	*operator_quotes_and(const char *str, int swift);
 int		shell(char **prompt, int pipe, t_minishell *minishell);
 int		execute_command(t_minishell *minishell);
 int		command_cd(char **prompt, t_minishell *minishell);
@@ -37,13 +40,11 @@ int		command_export(char **prompt, int pipe, t_minishell *minishell);
 int		is_builtin(char *cmd);
 int		shell_builtin(char **prompt, char **environ, int pipe,
 			t_minishell *minishell);
-int		check_quotes(char *str, char quote_type);
 int		ft_find_little_str(char *str, char *little);
 int		is_redir(char *str);
 int		redir_trunc_o(t_minishell *minishell);
 int		exec_command_pipe(t_minishell *minishell);
 int		exec_command(t_minishell *minishell);
-int		unbalanced_quotes(char *str);
 int		ft_is_only(char *str, char c);
 int		verify_pipes_syntax(t_minishell *minishell);
 int		verify_redir_syntax(t_minishell *minishell, char *redir_type);
@@ -56,10 +57,17 @@ int		return_redir_type(char curr_c, char next_c);
 int		check_redir_one(t_minishell *minishell, int i, char *redir_type);
 int		check_redir_two(t_minishell *minishell, int i, char *redir_type);
 int		ft_ctrl_c(int value);
+int		in_quotes(t_split_redir_cmd *vars, char *command);
 int		allow_expand(const char *str);
 int		command_exit(char **prompt, int pipe, t_minishell *minishell);
 int		redir_is_not_followed_by_pipe(char **matriz);
+int		redir_trunc_o_aux(t_minishell *minishell);
+int		redir_append_o_aux(t_minishell *minishell);
+int		redir_trunc_in_aux(t_minishell *minishell);
+int		redir_append_in_aux(t_minishell *minishell, t_redirect *var);
+int		validate_command(char *input);
 void	ft_print_syntax_error(void);
+void	ft_delete_quotes_on_matriz(char **prompt);
 void	ft_exit_process(t_minishell *minishell, int nbr_cmds);
 void	close_fds(t_minishell *minishell, int nbr_cmds);
 void	open_fds(t_minishell *minishell, int nbr_cmds);
@@ -77,7 +85,6 @@ void	redir_append_o(t_minishell *minishell);
 void	redir_trunc_in(t_minishell *minishell);
 void	redir_append_in(t_minishell *minishell);
 void	execute_child_process(t_minishell *minishell);
-void	ft_delete_quotes(char *str);
 void	ft_in_quotes(char c, int *in_quotes);
 void	last_redir(t_minishell *minishell);
 void	set_to_env(char *value);
@@ -87,9 +94,13 @@ void	pipe_syntax_error(char *str);
 void	last_return(t_minishell *minishell, char *str, int pid);
 void	last_return_pipe(t_minishell *minishell);
 void	split_redirect_command(char *command, char **data, char delimiter);
-void	redir_append_in_case_one(t_minishell *minishell, t_redirect var);
-void	redir_trunc_in_case_one(t_minishell *minishell, char *command);
+void	redir_append_in_case_one(t_minishell *minishell, t_redirect *var);
+void	redir_trunc_in_case_one(t_minishell *minishell);
+void	redir_trunc_o_case_one(t_minishell *minishell);
+void	redir_append_o_case_one(t_minishell *minishell);
 void	handing_c(int signal);
 void	is_on_brace(char *arg, t_vars *var, char *str);
 void	inset_at_the_heredoc(t_redirect *var);
+void	quote_scanner_command(char *input);
+void	ft_prompt_sms(char c);
 #endif

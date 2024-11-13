@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 01:59:39 by waalexan          #+#    #+#             */
-/*   Updated: 2024/11/10 18:40:32 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/13 18:49:07 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,29 +32,73 @@ void	handle_sigint(int signal)
 		rl_redisplay();
 }
 
-// static char	*get_input(t_mini *ms, const char *prompt)
-// {
-// 	char	*input;
+int	is_new_prompt(t_minishell *minishell)
+{
+	if (ft_strcmp(minishell->readline, "gkomba") == 0)
+	{
+		minishell->gkomba = 1;
+		minishell->waalexan = 0;
+		minishell->ms = 0;
+		return (ft_prompt_sms('g'), 0);
+	}
+	else if (ft_strcmp(minishell->readline, "waalexan") == 0)
+	{
+		minishell->waalexan = 1;
+		minishell->gkomba = 0;
+		minishell->ms = 0;
+		return (ft_prompt_sms('w'), 0);
+	}
+	else if (ft_strcmp(minishell->readline, "ms") == 0
+		&& (minishell->waalexan == 1 || minishell->gkomba == 1))
+	{
+		minishell->ms = 1;
+		minishell->waalexan = 0;
+		minishell->gkomba = 0;
+		return (ft_prompt_sms('m'), 0);
+	}
+	return (1);
+}
 
-// 	input = readline (prompt);
-// 	if (input && input[0])
-// 		add_history (input);
-// 	else if (!input)
-// 		exit_handler (ms, EXIT_MSG, 0);
-// 	return (input);
-// }
+int	ft_prompt(t_minishell *minishell)
+{
+	if (minishell->gkomba)
+	{
+		minishell->readline = readline(AMARELO "gkomba" VERDE "🧐> " RESET);
+		minishell->waalexan = 0;
+		minishell->ms = 0;
+		return (1);
+	}
+	else if (minishell->waalexan)
+	{
+		minishell->readline = readline(AMARELO "Waalexan" VERDE "😎> " RESET);
+		minishell->gkomba = 0;
+		minishell->ms = 0;
+		return (1);
+	}
+	else if (minishell->ms)
+	{
+		minishell->readline = readline(AMARELO "minishell" VERDE "# " RESET);
+		minishell->waalexan = 0;
+		minishell->gkomba = 0;
+		return (0);
+	}
+	return (1);
+}
 
 static void	get_readline(t_minishell *minishell)
 {
-	minishell->readline = readline(AMARELO "minishell" VERDE "# " RESET);
+	ft_prompt(minishell);
 	if (!minishell->readline)
 	{
 		free(minishell->readline);
 		ft_putendl_fd("exit", 1);
 		exit(0);
 	}
-	if (minishell->readline)
+	if (is_new_prompt(minishell) == 0)
+		return ;
+	else if (minishell->readline && !ft_is_only(minishell->readline, '\n'))
 		add_history(minishell->readline);
+	
 	execute_command(minishell);
 }
 
@@ -71,6 +115,7 @@ int	main(int argc, char **argv)
 	ft_ctrl_c(1);
 	ft_memset(&minishell, 0, sizeof(t_minishell));
 	increment_shell_level(&minishell);
+	minishell.ms = 1;
 	while (1)
 	{
 		signal(SIGQUIT, SIG_IGN);
@@ -82,40 +127,3 @@ int	main(int argc, char **argv)
 	}
 	return (0);
 }
-
-// static char	*get_input(t_mini *ms, const char *prompt)
-// {
-// 	char	*input;
-
-// 	input = readline (prompt);
-// 	if (input && input[0])
-// 		add_history (input);
-// 	else if (!input)
-// 		exit_handler (ms, EXIT_MSG, 0);
-// 	return (input);
-// }
-
-// static t_mini	ft_init(int argc, char *argv[], char **envp)
-// {
-// 	t_mini				ms;
-// 	struct sigaction	sa;
-
-// 	(void) argv;
-// 	ft_bzero (&ms, sizeof (t_mini));
-// 	if (argc > 1)
-// 		exit_handler (&ms, "Usage: ./minishell", 1);
-// 	ft_bzero (&sa, sizeof (sa));
-// 	sa.sa_flags = SA_SIGINFO;
-// 	sa.sa_sigaction = ft_sa_handler;
-// 	sigaction (SIGINT, &sa, NULL);
-// 	signal(SIGQUIT, SIG_IGN);
-// 	ms.envp = ft_matdup (envp);
-// 	if (!envp)
-// 		exit_handler (&ms, "Can't allocate memory to environment variables", 1);
-// 	ms.prompt = ft_strdup("minishell > ");
-// 	if (!ms.prompt)
-// 		exit_handler (&ms, "Can't allocate memory to prompt name", 1);
-// 	return (ms);
-// }
-
-// ms.input = get_input (&ms, ms.prompt);

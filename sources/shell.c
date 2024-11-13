@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 16:23:19 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/12 15:33:40 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/13 13:59:17 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ char	*shell_binary(char **prompt)
 	int		i;
 
 	routes = ft_split(getenv("PATH"), ':');
-	if (routes == NULL)
+	if (routes == NULL || !validate_command(prompt[0]))
 		return (NULL);
 	if (access(prompt[0], X_OK) == 0)
 		cmd_path = prompt[0];
@@ -72,7 +72,10 @@ int	shell(char **prompt, int pipe, t_minishell *minishell)
 	{
 		command = shell_binary(prompt);
 		if (command != NULL)
+		{
+			ft_delete_quotes_on_matriz(prompt);
 			return (execve(command, prompt, environ));
+		}
 		command = free_ptr(command);
 	}
 	return (-1);

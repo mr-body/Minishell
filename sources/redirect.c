@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 14:15:03 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/12 17:14:37 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/13 17:31:46 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ int	redir_trunc_o(t_minishell *minishell)
 	int	i;
 	int	fd;
 
+	if (redir_trunc_o_aux(minishell))
+		return (0);
 	ft_memset(minishell->data, 0, sizeof(minishell->data));
 	split_redirect_command(minishell->redirect_command, minishell->data, '>');
 	if (minishell->args)
@@ -41,6 +43,8 @@ void	redir_append_o(t_minishell *minishell)
 	int	i;
 	int	fd;
 
+	if (redir_append_o_aux(minishell))
+		return ;
 	ft_memset(minishell->data, 0, sizeof(minishell->data));
 	split_redirect_command(minishell->redirect_command, minishell->data, '>');
 	if (minishell->args)
@@ -61,14 +65,10 @@ void	redir_append_o(t_minishell *minishell)
 
 void	redir_trunc_in(t_minishell *minishell)
 {
+	if (redir_trunc_in_aux(minishell))
+		return ;
 	ft_memset(minishell->data, 0, sizeof(minishell->data));
 	split_redirect_command(minishell->redirect_command, minishell->data, '<');
-	if (ft_matriz_len3(minishell->data) == 0)
-	{
-		ft_free_matriz2(minishell->data);
-		redir_trunc_in_case_one(minishell, minishell->redirect_command);
-		return ;
-	}
 	if (minishell->args)
 		free_data(minishell->args);
 	minishell->args = net_args(minishell->data[0]);
@@ -103,7 +103,6 @@ void	inset_at_the_heredoc(t_redirect *var)
 		}
 		if (ft_strcmp(var->line, var->l_delimit) == 0)
 		{
-			printf("heredoc");
 			free(var->line);
 			break ;
 		}
@@ -111,8 +110,7 @@ void	inset_at_the_heredoc(t_redirect *var)
 		old_line = var->line;
 		var->line = expander(var->line, var->tmp);
 		free_ptr(old_line);
-		write(var->temp_fd, var->line, ft_strlen(var->line));
-		write(var->temp_fd, "\n", 1);
+		ft_putendl_fd(var->line, var->temp_fd);
 		var->line = free_ptr(var->line);
 	}
 }
@@ -123,14 +121,10 @@ void	redir_append_in(t_minishell *minishell)
 
 	var.line = NULL;
 	var.temp_file = "/tmp/heredoc.tmp";
+	if (redir_append_in_aux(minishell, &var))
+		return ;
 	ft_memset(minishell->data, 0, sizeof(minishell->data));
 	split_redirect_command(minishell->redirect_command, minishell->data, '<');
-	if (ft_matriz_len3(minishell->data) == 0)
-	{
-		ft_free_matriz2(minishell->data);
-		redir_append_in_case_one(minishell, var);
-		return ;
-	}
 	if (minishell->args)
 		free_data(minishell->args);
 	minishell->args = net_args(minishell->data[0]);

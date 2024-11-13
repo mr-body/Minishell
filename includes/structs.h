@@ -6,12 +6,21 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 08:46:29 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/12 10:39:45 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/13 17:50:51 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STRUCTS_H
 # define STRUCTS_H
+
+typedef struct s_quotes
+{
+	int		len;
+	char	*output;
+	char	current_quote;
+	int		read_pos;
+	int		write_pos;
+}			t_quotes;
 
 typedef struct s_utils_redir
 {
@@ -116,6 +125,9 @@ typedef struct s_minishell
 	t_data	*raw_args;
 	t_data	*args;
 	int		fd;
+	int		gkomba;
+	int		ms;
+	int		waalexan;
 	int		last;
 	int		fd_type;
 	int		*pipe_fds;

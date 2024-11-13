@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/08 12:34:32 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/12 17:13:09 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/13 11:16:55 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,17 +32,6 @@ static void	finalize_argument(t_split_redir_cmd *vars, char **data)
 	}
 }
 
-static int	in_quotes(t_split_redir_cmd *vars, char *command)
-{
-	if (command[vars->i] == '"' || command[vars->i] == '\'')
-	{
-		vars->in_quotes = !vars->in_quotes;
-		vars->i++;
-		return (1);
-	}
-	return (0);
-}
-
 static void	save_curr_arg(t_split_redir_cmd *vars, char **data)
 {
 	if (vars->is_redirect)
@@ -64,6 +53,20 @@ static void	save_curr_arg(t_split_redir_cmd *vars, char **data)
 	vars->current_arg[0] = '\0';
 }
 
+static void	cat_arg(t_split_redir_cmd *vars, char *data, char *command)
+{
+	if (ft_strchr(command, '|'))
+		ft_delete_chr_on_str(command, '|');
+	if (vars->current_arg[0] != '\0')
+	{
+		ft_strcat_no_malloc(data, vars->current_arg);
+		ft_strcat_no_malloc(data, " ");
+		vars->current_arg[0] = '\0';
+		return ;
+	}
+	return ;
+}
+
 static void	split_redir(t_split_redir_cmd *vars, char *command, char **data,
 		char delimiter)
 {
@@ -73,14 +76,7 @@ static void	split_redir(t_split_redir_cmd *vars, char *command, char **data,
 			continue ;
 		if (!vars->in_quotes && command[vars->i] == delimiter)
 		{
-			if (ft_strchr(command, '|'))
-				ft_delete_chr_on_str(command, '|');
-			if (vars->current_arg[0] != '\0')
-			{
-				ft_strcat_no_malloc(data[0], vars->current_arg);
-				ft_strcat_no_malloc(data[0], " ");
-				vars->current_arg[0] = '\0';
-			}
+			cat_arg(vars, data[0], command);
 			vars->is_redirect = 1;
 			vars->i++;
 			continue ;

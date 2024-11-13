@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 22:18:49 by waalexan          #+#    #+#             */
-/*   Updated: 2024/11/12 17:02:03 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/13 11:57:56 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,8 @@ static int	export_var(char **prompt)
 		if (check_name_var_syntax(prompt[i]))
 			return (ft_ctrl_c(1), 1);
 		var = ft_strdup(prompt[i]);
-		printf("var: %s", var);
-		printf("======\n");
-		printf("prompt[i]: %s\n", prompt[i]);
-		printf("======\n");
 		ft_delete_chr_on_str(var, '\'');
 		ft_delete_chr_on_str(var, '\"');
-		printf("var: %s", var);
-		printf("======\n");
 		set_to_env(ft_get_env(var));
 		free(var);
 	}

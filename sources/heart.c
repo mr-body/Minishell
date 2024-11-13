@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/08 13:02:16 by waalexan          #+#    #+#             */
-/*   Updated: 2024/11/12 16:42:40 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/13 18:57:41 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,20 +29,20 @@ int	exec_command(t_minishell *minishell)
 	else if (redir == R_APPEND_I)
 		redir_append_in(minishell);
 	if (!minishell->args || minishell->not_flag == -1)
-	{
-		minishell->not_flag = 0;
-		printf("hell\n");
-		free_data(minishell->args);
-		return (minishell->not_flag = 0, 0);
-	}
+		return (free_data(minishell->args), minishell->not_flag = 0, 0);
 	if (!is_builtin(minishell->args->args[0]))
 		execute_child_process(minishell);
 	else
 	{
 		if (shell(minishell->args->args, 0, minishell) == -1)
+		{
+			if (minishell->args)
+				free_data(minishell->args);
 			ft_print_command_error(minishell->args->args[0]);
+		}
 	}
-	free_data(minishell->args);
+	// if (minishell->args)
+	// 	free_data(minishell->args);
 	return (0);
 }
 
@@ -112,6 +112,7 @@ int	execute_command(t_minishell *minishell)
 		return (ft_free_matriz(data), 0);
 	if (syntax_checker(minishell) == 2)
 		return (ft_free_matriz(data), 1);
+	exxp(minishell->readline);
 	if (check_if_str_is_pipe(data) == 1)
 	{
 		ft_free_matriz(data);

@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 16:20:39 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/12 17:13:37 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/13 17:15:44 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ static int	ft_is_only_n(char *str)
 {
 	int	i;
 
+	quote_scanner_command(str);
 	if (!str || str[0] != '-')
 		return (0);
 	i = 1;
@@ -30,8 +31,9 @@ static int	ft_is_only_n(char *str)
 
 static void	ft_print_echo(char **prompt, t_minishell *minishell)
 {
-	int	i;
-	int	n_flag;
+	int		i;
+	int		n_flag;
+	char	*old_line;
 
 	i = 1;
 	n_flag = 0;
@@ -42,6 +44,9 @@ static void	ft_print_echo(char **prompt, t_minishell *minishell)
 	}
 	while (prompt[i])
 	{
+		old_line = prompt[i];
+		prompt[i] = quote_scanner(prompt[i]);
+		free_ptr(old_line);
 		write(minishell->fd, prompt[i], ft_strlen(prompt[i]));
 		if (prompt[i + 1])
 			write(minishell->fd, " ", 1);
