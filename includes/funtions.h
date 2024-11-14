@@ -6,14 +6,14 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 08:53:12 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/13 18:57:27 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/14 10:58:46 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FUNTIONS_H
 # define FUNTIONS_H
 
-int	exxp(const char *s);
+int		exxp(const char *s);
 
 t_data	*net_args(char *prompt);
 t_data	*ft_big_split(char *str, char delimiter);
@@ -58,7 +58,7 @@ int		check_redir_one(t_minishell *minishell, int i, char *redir_type);
 int		check_redir_two(t_minishell *minishell, int i, char *redir_type);
 int		ft_ctrl_c(int value);
 int		in_quotes(t_split_redir_cmd *vars, char *command);
-int		allow_expand(const char *str);
+int		allow_expand(char *str);
 int		command_exit(char **prompt, int pipe, t_minishell *minishell);
 int		redir_is_not_followed_by_pipe(char **matriz);
 int		redir_trunc_o_aux(t_minishell *minishell);
@@ -66,6 +66,9 @@ int		redir_append_o_aux(t_minishell *minishell);
 int		redir_trunc_in_aux(t_minishell *minishell);
 int		redir_append_in_aux(t_minishell *minishell, t_redirect *var);
 int		validate_command(char *input);
+int		validate_sintax(char *input);
+int		ft_prompt(t_minishell *minishell);
+int		is_new_prompt(t_minishell *minishell);
 void	ft_print_syntax_error(void);
 void	ft_delete_quotes_on_matriz(char **prompt);
 void	ft_exit_process(t_minishell *minishell, int nbr_cmds);
@@ -103,4 +106,5 @@ void	is_on_brace(char *arg, t_vars *var, char *str);
 void	inset_at_the_heredoc(t_redirect *var);
 void	quote_scanner_command(char *input);
 void	ft_prompt_sms(char c);
+void	clean(t_minishell *minishell);
 #endif
