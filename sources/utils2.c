@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 10:41:08 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/13 18:01:33 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/14 11:05:36 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,8 @@ void	ft_prompt_sms(char c)
 	if (c == 'g')
 		ft_putendl_fd(AZUL "gkomba >> Welcome Human 🪐" RESET, 1);
 	else if (c == 'w')
-		ft_putendl_fd( VERDE "waalexa >> Now. Waalexan is on control 🌍" RESET, 1);
+		ft_putendl_fd(VERDE "waalexa >> Now. Waalexan is on control 🌍" RESET,
+			1);
 	else if (c == 'm')
 		ft_putendl_fd(AMARELO "minishell >> Welcome to minishell 🌌" RESET, 1);
 }

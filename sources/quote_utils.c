@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 10:39:46 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/13 16:59:06 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/14 10:22:41 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ void	quote_scanner_command(char *input)
 	current_quote = 0;
 	read_pos = 0;
 	write_pos = 0;
+	if (ft_count_chr_occurrency_str(input, '\'') == 1)
+		return ;
 	while (input[read_pos] != '\0')
 	{
 		if ((input[read_pos] == '\'' || input[read_pos] == '"')

@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 02:13:12 by waalexan          #+#    #+#             */
-/*   Updated: 2024/11/13 18:53:43 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/14 10:56:42 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ int	check_redir_one(t_minishell *minishell, int i, char *redir_type)
 			return (2);
 		}
 		if ((ft_strncmp(minishell->verify_syntax[i + 1], redir_type, 1) == 0)
-			|| ft_strncmp(minishell->verify_syntax[i + 1], "|", 1) == 0 || ft_strncmp(minishell->verify_syntax[i + 1], "<", 1) == 0)
+			|| ft_strncmp(minishell->verify_syntax[i + 1], "|", 1) == 0)
 		{
 			redir_syntax_error("PANCAKE");
 			return (2);
@@ -105,7 +105,7 @@ int	check_redir_two(t_minishell *minishell, int i, char *redir_type)
 			return (2);
 		}
 		if ((ft_strncmp(minishell->verify_syntax[i + 1], redir_type, 1) == 0)
-			|| ft_strncmp(minishell->verify_syntax[i + 1], "|", 1) == 0 || ft_strncmp(minishell->verify_syntax[i + 1], ">", 1) == 0)
+			|| ft_strncmp(minishell->verify_syntax[i + 1], "|", 1) == 0)
 		{
 			redir_syntax_error("PANCAKE");
 			return (2);

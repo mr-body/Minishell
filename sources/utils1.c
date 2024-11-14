@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   util2.c                                            :+:      :+:    :+:   */
+/*   utils1.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 01:59:11 by waalexan          #+#    #+#             */
-/*   Updated: 2024/11/09 18:08:13 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/14 10:53:21 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,28 +30,6 @@ void	free_data(t_data *data)
 	free(data->args);
 	free(data->types);
 	free(data);
-}
-
-int	allow_expand(const char *str)
-{
-	int	i;
-	int	aspas_simples;
-	int	aspas_duplas;
-
-	i = 0;
-	aspas_simples = 0;
-	aspas_duplas = 0;
-	while (str[i] != '\0')
-	{
-		if (str[i] == '\'' && !aspas_duplas)
-			aspas_simples = !aspas_simples;
-		else if (str[i] == '"' && !aspas_simples)
-			aspas_duplas = !aspas_duplas;
-		if (str[i] == '$' && !aspas_simples && (aspas_duplas || !aspas_duplas))
-			return (1);
-		i++;
-	}
-	return (0);
 }
 
 void	last_return(t_minishell *minishell, char *str, int pid)
@@ -88,4 +66,31 @@ void	last_return_pipe(t_minishell *minishell)
 		minishell->process_out = 128 + WTERMSIG(minishell->status);
 	else
 		minishell->process_out = 1;
+}
+
+int	is_new_prompt(t_minishell *minishell)
+{
+	if (ft_strcmp(minishell->readline, "gkomba") == 0)
+	{
+		minishell->gkomba = 1;
+		minishell->waalexan = 0;
+		minishell->ms = 0;
+		return (ft_prompt_sms('g'), 0);
+	}
+	else if (ft_strcmp(minishell->readline, "waalexan") == 0)
+	{
+		minishell->waalexan = 1;
+		minishell->gkomba = 0;
+		minishell->ms = 0;
+		return (ft_prompt_sms('w'), 0);
+	}
+	else if (ft_strcmp(minishell->readline, "ms") == 0
+		&& (minishell->waalexan == 1 || minishell->gkomba == 1))
+	{
+		minishell->ms = 1;
+		minishell->waalexan = 0;
+		minishell->gkomba = 0;
+		return (ft_prompt_sms('m'), 0);
+	}
+	return (1);
 }

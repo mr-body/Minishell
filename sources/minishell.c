@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 01:59:39 by waalexan          #+#    #+#             */
-/*   Updated: 2024/11/13 18:49:07 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/14 10:56:38 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,59 +32,6 @@ void	handle_sigint(int signal)
 		rl_redisplay();
 }
 
-int	is_new_prompt(t_minishell *minishell)
-{
-	if (ft_strcmp(minishell->readline, "gkomba") == 0)
-	{
-		minishell->gkomba = 1;
-		minishell->waalexan = 0;
-		minishell->ms = 0;
-		return (ft_prompt_sms('g'), 0);
-	}
-	else if (ft_strcmp(minishell->readline, "waalexan") == 0)
-	{
-		minishell->waalexan = 1;
-		minishell->gkomba = 0;
-		minishell->ms = 0;
-		return (ft_prompt_sms('w'), 0);
-	}
-	else if (ft_strcmp(minishell->readline, "ms") == 0
-		&& (minishell->waalexan == 1 || minishell->gkomba == 1))
-	{
-		minishell->ms = 1;
-		minishell->waalexan = 0;
-		minishell->gkomba = 0;
-		return (ft_prompt_sms('m'), 0);
-	}
-	return (1);
-}
-
-int	ft_prompt(t_minishell *minishell)
-{
-	if (minishell->gkomba)
-	{
-		minishell->readline = readline(AMARELO "gkomba" VERDE "🧐> " RESET);
-		minishell->waalexan = 0;
-		minishell->ms = 0;
-		return (1);
-	}
-	else if (minishell->waalexan)
-	{
-		minishell->readline = readline(AMARELO "Waalexan" VERDE "😎> " RESET);
-		minishell->gkomba = 0;
-		minishell->ms = 0;
-		return (1);
-	}
-	else if (minishell->ms)
-	{
-		minishell->readline = readline(AMARELO "minishell" VERDE "# " RESET);
-		minishell->waalexan = 0;
-		minishell->gkomba = 0;
-		return (0);
-	}
-	return (1);
-}
-
 static void	get_readline(t_minishell *minishell)
 {
 	ft_prompt(minishell);
@@ -98,7 +45,6 @@ static void	get_readline(t_minishell *minishell)
 		return ;
 	else if (minishell->readline && !ft_is_only(minishell->readline, '\n'))
 		add_history(minishell->readline);
-	
 	execute_command(minishell);
 }
 

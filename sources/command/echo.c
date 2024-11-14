@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 16:20:39 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/13 17:15:44 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/14 10:20:32 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ static int	ft_is_only_n(char *str)
 
 	quote_scanner_command(str);
 	if (!str || str[0] != '-')
+		return (0);
+	if (str[1] != 'n')
 		return (0);
 	i = 1;
 	while (str[i])
@@ -37,7 +39,7 @@ static void	ft_print_echo(char **prompt, t_minishell *minishell)
 
 	i = 1;
 	n_flag = 0;
-	while (prompt[i] && ft_is_only_n(prompt[i]))
+	while (prompt[i] && ft_is_only_n(prompt[i]) == 1)
 	{
 		n_flag = 1;
 		i++;

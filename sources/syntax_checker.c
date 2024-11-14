@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 11:35:50 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/12 17:12:32 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/14 10:36:20 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,9 @@ int	check_name_var_syntax(char *var)
 
 int	syntax_checker(t_minishell *minishell)
 {
+	minishell->status = validate_sintax(minishell->command);
+	if (minishell->status == 2)
+		return (2);
 	minishell->exit_status = verify_pipes_syntax(minishell);
 	if (minishell->exit_status == 2)
 		return (2);
