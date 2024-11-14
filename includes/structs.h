@@ -6,12 +6,18 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 08:46:29 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/13 17:50:51 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/14 11:18:52 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STRUCTS_H
 # define STRUCTS_H
+
+typedef struct s_sintax
+{
+	int	i;
+	int	state;
+}		t_sintax;
 
 typedef struct s_quotes
 {

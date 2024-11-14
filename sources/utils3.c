@@ -6,17 +6,11 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 18:47:59 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/14 11:10:34 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/14 11:18:40 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-typedef struct s_sintax
-{
-	int	i;
-	int	state;
-}		t_sintax;
 
 int	redir_sintx(char *input, t_sintax *sintax)
 {
