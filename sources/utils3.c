@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 18:47:59 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/14 10:56:46 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/14 11:10:34 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ int	ft_prompt(t_minishell *minishell)
 	}
 	else if (minishell->ms)
 	{
-		minishell->readline = readline(AMARELO "minishell" VERDE "# " RESET);
+		minishell->readline = readline("minishell# ");
 		minishell->waalexan = 0;
 		minishell->gkomba = 0;
 		return (0);

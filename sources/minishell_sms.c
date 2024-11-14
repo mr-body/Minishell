@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 01:59:11 by waalexan          #+#    #+#             */
-/*   Updated: 2024/11/12 10:20:46 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/14 11:12:20 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,6 @@ void	ft_print_command_error(char *cmd)
 void	ft_print_syntax_error(void)
 {
 	ft_putendl_fd("minishell: syntax error: quote", 2);
-}
-
-void	invalid_char_error(char c)
-{
-	ft_ctrl_c(2);
-	ft_putendl_fd("minishell: invalid character ", 2);
-	ft_putchar_fd(c, 2);
-	ft_putchar_fd('\n', 2);
 }
 
 void	redir_syntax_error(char *str)

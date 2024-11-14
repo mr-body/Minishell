@@ -6,20 +6,16 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 08:53:12 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/14 10:58:46 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/14 11:15:27 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FUNTIONS_H
 # define FUNTIONS_H
 
-int		exxp(const char *s);
-
 t_data	*net_args(char *prompt);
 t_data	*ft_big_split(char *str, char delimiter);
 char	*quote_scanner(const char *input);
-char	**ft_extended(char **data);
-char	**ft_adjust_data(char **data, int *quotes);
 char	*expander(char *arg, char *tmp);
 char	*ft_get_env(char *var_name);
 char	**sort_env(char **environ);
@@ -27,7 +23,6 @@ char	*shell_binary(char **prompt);
 char	*get_last_return(char *tmp);
 char	**ft_split_ms(const char *str, char delimiter);
 char	*join_single_char(char *tmp, char chr);
-char	*operator_quotes_and(const char *str, int swift);
 int		shell(char **prompt, int pipe, t_minishell *minishell);
 int		execute_command(t_minishell *minishell);
 int		command_cd(char **prompt, t_minishell *minishell);
@@ -40,7 +35,6 @@ int		command_export(char **prompt, int pipe, t_minishell *minishell);
 int		is_builtin(char *cmd);
 int		shell_builtin(char **prompt, char **environ, int pipe,
 			t_minishell *minishell);
-int		ft_find_little_str(char *str, char *little);
 int		is_redir(char *str);
 int		redir_trunc_o(t_minishell *minishell);
 int		exec_command_pipe(t_minishell *minishell);
@@ -76,8 +70,6 @@ void	close_fds(t_minishell *minishell, int nbr_cmds);
 void	open_fds(t_minishell *minishell, int nbr_cmds);
 void	ft_print_command_error(char *cmd);
 void	free_data(t_data *data);
-void	ft_strtok(char *str, char *delimiter,
-			char result[MAX_WORDS][MAX_WORD_LENGTH]);
 void	set_to_env(char *value);
 void	increment_shell_level(t_minishell *minishell);
 void	change_pwd(char *curr_pwd, t_minishell *minishell);
@@ -91,7 +83,6 @@ void	execute_child_process(t_minishell *minishell);
 void	ft_in_quotes(char c, int *in_quotes);
 void	last_redir(t_minishell *minishell);
 void	set_to_env(char *value);
-void	invalid_char_error(char c);
 void	redir_syntax_error(char *str);
 void	pipe_syntax_error(char *str);
 void	last_return(t_minishell *minishell, char *str, int pid);
