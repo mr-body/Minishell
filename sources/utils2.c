@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 10:41:08 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/14 11:05:36 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/15 12:13:48 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,30 +45,6 @@ int	in_quotes(t_split_redir_cmd *vars, char *command)
 	return (0);
 }
 
-int	validate_command(char *input)
-{
-	int	len;
-	int	i;
-
-	i = 1;
-	len = ft_strlen(input);
-	if ((input[0] == '"' && input[len - 1] == '"') || (input[0] == '\''
-			&& input[len - 1] == '\''))
-	{
-		while (i < len - 1)
-		{
-			if (ft_isspace(input[i]))
-			{
-				return (0);
-			}
-			i++;
-		}
-		quote_scanner_command(input);
-		return (1);
-	}
-	return (1);
-}
-
 void	ft_prompt_sms(char c)
 {
 	if (c == 'g')
@@ -79,3 +55,4 @@ void	ft_prompt_sms(char c)
 	else if (c == 'm')
 		ft_putendl_fd(AMARELO "minishell >> Welcome to minishell 🌌" RESET, 1);
 }
+

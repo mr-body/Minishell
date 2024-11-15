@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 18:47:59 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/14 17:39:27 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/15 12:17:17 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,4 +100,29 @@ int	ft_prompt(t_minishell *minishell)
 		return (0);
 	}
 	return (1);
+}
+
+int	unclosed_quotes(const char *str)
+{
+	int	single_quotes;
+	int	double_quotes;
+	int	i;
+
+	single_quotes = 0;
+	double_quotes = 0;
+	i = -1;
+	while (str[++i] != '\0')
+	{
+		if (str[i] == '\'' && !double_quotes)
+			single_quotes = !single_quotes;
+		else if (str[i] == '\"' && !single_quotes)
+			double_quotes = !double_quotes;
+	}
+	if (single_quotes || double_quotes)
+	{
+		ft_putendl_fd("syntax error: unexpected end of file", 2);
+		ft_ctrl_c(2);
+		return (1);
+	}
+	return (0);
 }

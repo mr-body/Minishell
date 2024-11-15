@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/08 13:02:16 by waalexan          #+#    #+#             */
-/*   Updated: 2024/11/14 17:20:52 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/15 12:17:54 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,27 +92,6 @@ int	exec_command_pipe(t_minishell *minishell)
 	return (0);
 }
 
-int	unclosed_quotes(const char *str)
-{
-	int	single_quotes;
-	int	double_quotes;
-	int	i;
-
-	single_quotes = 0;
-	double_quotes = 0;
-	i = -1;
-	while (str[++i] != '\0')
-	{
-		if (str[i] == '\'' && !double_quotes)
-			single_quotes = !single_quotes;
-		else if (str[i] == '\"' && !single_quotes)
-			double_quotes = !double_quotes;
-	}
-	if (single_quotes || double_quotes)
-		return (1);
-	return (0);
-}
-
 int	execute_command(t_minishell *minishell)
 {
 	char	**data;
@@ -120,8 +99,7 @@ int	execute_command(t_minishell *minishell)
 	minishell->fd = STDOUT_FILENO;
 	minishell->fd_type = 1;
 	if (unclosed_quotes(minishell->readline) == 1)
-		return (ft_putendl_fd("syntax error: unexpected end of file", 2),
-			ft_ctrl_c(2), 1);
+		return (1);
 	data = ft_split_ms(minishell->readline, ' ');
 	if (data[0] == NULL)
 		return (ft_free_matriz(data), 0);

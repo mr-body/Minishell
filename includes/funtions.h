@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 08:53:12 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/14 11:15:27 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/15 12:14:15 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ int		validate_command(char *input);
 int		validate_sintax(char *input);
 int		ft_prompt(t_minishell *minishell);
 int		is_new_prompt(t_minishell *minishell);
+int		unclosed_quotes(const char *str);
 void	ft_print_syntax_error(void);
 void	ft_delete_quotes_on_matriz(char **prompt);
 void	ft_exit_process(t_minishell *minishell, int nbr_cmds);
