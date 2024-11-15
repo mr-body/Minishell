@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 18:47:59 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/14 11:18:40 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/14 17:39:27 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ int	redir_sintx(char *input, t_sintax *sintax)
 
 int	pipe_sintx(char *input, t_sintax *sintax)
 {
+	
 	if (sintax->state == 2)
 		return (pipe_syntax_error("SUGAR"), 2);
 	sintax->state = 2;
@@ -38,12 +39,12 @@ int	pipe_sintx(char *input, t_sintax *sintax)
 
 int	validate_sintax_aux(char *input, t_sintax *sintax)
 {
-	if (input[sintax->i] == '<' || input[sintax->i] == '>')
+	if ((input[sintax->i] == '<' || input[sintax->i] == '>') && !sintax->in_quotes)
 	{
 		if (redir_sintx(input, sintax) == 2)
 			return (2);
 	}
-	else if (input[sintax->i] == '|')
+	else if ((input[sintax->i] == '|') && !sintax->in_quotes)
 	{
 		if (pipe_sintx(input, sintax) == 2)
 			return (2);
@@ -63,6 +64,7 @@ int	validate_sintax(char *input)
 	ft_memset(&sintax, 0, sizeof(t_sintax));
 	while (input[sintax.i])
 	{
+		ft_in_quotes(input[sintax.i], &sintax.in_quotes);
 		if (ft_isspace(input[sintax.i]))
 		{
 			sintax.i++;

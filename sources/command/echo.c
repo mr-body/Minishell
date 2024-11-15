@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 16:20:39 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/14 10:20:32 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/14 17:15:09 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ static int	ft_is_only_n(char *str)
 {
 	int	i;
 
-	quote_scanner_command(str);
 	if (!str || str[0] != '-')
 		return (0);
 	if (str[1] != 'n')

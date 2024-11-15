@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   child_process.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: waalexan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 15:57:35 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/09 18:07:53 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/14 13:29:06 by waalexan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ void	execute_child_process_pipe(t_minishell *minishell, int i,
 	if (pid == 0)
 	{
 		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
 		if (!minishell->last && minishell->is_stdin)
 			case_arg_at_the_last(minishell, i, num_commands);
 		else if (!minishell->last && !minishell->is_stdin)
@@ -70,9 +71,7 @@ void	execute_child_process_pipe(t_minishell *minishell, int i,
 	else if (pid < 0)
 		perror("fork error: ");
 	else
-	{
 		last_return_pipe(minishell);
-	}
 	ft_ctrl_c(minishell->process_out);
 }
 
@@ -86,6 +85,7 @@ void	execute_child_process(t_minishell *minishell)
 	else if (pid == 0)
 	{
 		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
 		if (minishell->fd_type == 0)
 			dup2(minishell->fd, STDOUT_FILENO);
 		else

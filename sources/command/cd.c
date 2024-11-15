@@ -22,7 +22,6 @@ int	command_cd(char **prompt, t_minishell *minishell)
 		change_old_pwd(wdir, minishell);
 		ft_delete_chr_on_str(prompt[1], '\'');
 		ft_delete_chr_on_str(prompt[1], '\"');
-		printf("prompt[1]: %s\n", prompt[1]);
 		if (chdir(prompt[1]) != 0)
 		{
 			perror("cd error");

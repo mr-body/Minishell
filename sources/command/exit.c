@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: waalexan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 14:26:22 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/10 16:50:50 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/14 13:28:05 by waalexan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,24 @@ static int	check_exit_syntax(char **prompt)
 		return (0);
 }
 
+void	get_exit(char **prompt)
+{
+	int	i;
+
+	i = 0;
+	if (prompt[1])
+	{
+		i = ft_atoi(prompt[1]);
+		ft_free_matriz(prompt);
+		exit(i);
+	}
+	else
+	{
+		ft_free_matriz(prompt);
+		exit(i);
+	}
+}
+
 static int	ft_exit(char *planet, char **prompt, int pipe,
 		t_minishell *minishell)
 {
@@ -38,8 +56,7 @@ static int	ft_exit(char *planet, char **prompt, int pipe,
 			return (ft_free_matriz(prompt), minishell->process_out = 0,
 				ft_ctrl_c(0), 0);
 		ft_putendl_fd("exit", 1);
-		ft_free_matriz(prompt);
-		exit(0);
+		get_exit(prompt);
 	}
 	else if (ft_strncmp(planet, "SATURNO", ft_strlen(planet)) == 0)
 	{
