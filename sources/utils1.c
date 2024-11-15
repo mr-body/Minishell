@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 01:59:11 by waalexan          #+#    #+#             */
-/*   Updated: 2024/11/15 12:12:36 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/15 12:55:35 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,32 @@ int	is_new_prompt(t_minishell *minishell)
 		minishell->waalexan = 0;
 		minishell->gkomba = 0;
 		return (ft_prompt_sms('m'), 0);
+	}
+	return (1);
+}
+
+int	ft_prompt(t_minishell *minishell)
+{
+	if (minishell->gkomba)
+	{
+		minishell->readline = readline(AMARELO "gkomba" VERDE "🧐> " RESET);
+		minishell->waalexan = 0;
+		minishell->ms = 0;
+		return (1);
+	}
+	else if (minishell->waalexan)
+	{
+		minishell->readline = readline(AMARELO "Waalexan" VERDE "😎> " RESET);
+		minishell->gkomba = 0;
+		minishell->ms = 0;
+		return (1);
+	}
+	else if (minishell->ms)
+	{
+		minishell->readline = readline("minishell# ");
+		minishell->waalexan = 0;
+		minishell->gkomba = 0;
+		return (0);
 	}
 	return (1);
 }

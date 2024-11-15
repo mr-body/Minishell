@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 17:03:07 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/15 12:12:52 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/15 12:55:54 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ void	last_redir(t_minishell *minishell)
 	else
 		minishell->last = 0;
 }
+
 int	validate_command(char *input)
 {
 	int	len;

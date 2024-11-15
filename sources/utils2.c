@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 10:41:08 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/15 12:13:48 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/15 12:56:06 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,4 +55,3 @@ void	ft_prompt_sms(char c)
 	else if (c == 'm')
 		ft_putendl_fd(AMARELO "minishell >> Welcome to minishell 🌌" RESET, 1);
 }
-
