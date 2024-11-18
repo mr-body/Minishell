@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   child_process.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: waalexan <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 15:57:35 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/14 13:29:06 by waalexan         ###   ########.fr       */
+/*   Updated: 2024/11/18 10:48:39 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ void	execute_child_process_pipe(t_minishell *minishell, int i,
 		perror("fork error: ");
 	else
 		last_return_pipe(minishell);
-	ft_ctrl_c(minishell->process_out);
 }
 
 int ft_is_binary(char **prompt)

@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 08:46:29 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/14 17:01:51 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/18 10:41:35 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,6 +147,7 @@ typedef struct s_minishell
 	int		process_out;
 	int		not_flag;
 	char	*data[MAX_ARGS];
+	int		pid_child;
 }			t_minishell;
 
 #endif
