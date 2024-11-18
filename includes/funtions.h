@@ -15,6 +15,7 @@
 
 t_data	*net_args(char *prompt);
 t_data	*ft_big_split(char *str, char delimiter);
+void	handle_sigint(int signal);
 char	*quote_scanner(const char *input);
 char	*expander(char *arg, char *tmp);
 char	*ft_get_env(char *var_name);

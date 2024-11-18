@@ -126,6 +126,7 @@ typedef struct vars
 typedef struct s_minishell
 {
 	char	*readline;
+	int		heredoc;
 	char	*command;
 	char	**verify_syntax;
 	char	*redirect_command;
