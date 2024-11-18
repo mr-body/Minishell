@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   child_process.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: waalexan <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 15:57:35 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/14 13:29:06 by waalexan         ###   ########.fr       */
+/*   Updated: 2024/11/18 10:48:39 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,10 @@ static void	case_arg_at_the_last(t_minishell *minishell, int i,
 void	execute_child_process_pipe(t_minishell *minishell, int i,
 		int num_commands)
 {
-	int	pid;
+	//int	pid;
 
-	pid = fork();
-	if (pid == 0)
+	minishell->pid_child = fork();
+	if (minishell->pid_child == 0)
 	{
 		signal(SIGINT, SIG_DFL);
 		signal(SIGQUIT, SIG_DFL);
@@ -68,11 +68,10 @@ void	execute_child_process_pipe(t_minishell *minishell, int i,
 			exit(1);
 		}
 	}
-	else if (pid < 0)
+	else if (minishell->pid_child < 0)
 		perror("fork error: ");
 	else
 		last_return_pipe(minishell);
-	ft_ctrl_c(minishell->process_out);
 }
 
 void	execute_child_process(t_minishell *minishell)

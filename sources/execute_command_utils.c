@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 17:03:07 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/15 12:55:54 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/18 10:52:24 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,4 +106,6 @@ void	last_return_pipe(t_minishell *minishell)
 		minishell->process_out = 128 + WTERMSIG(minishell->status);
 	else
 		minishell->process_out = 1;
+	printf("status: %d\n", minishell->status);
+	ft_ctrl_c(minishell->status);
 }

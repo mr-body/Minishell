@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 01:59:39 by waalexan          #+#    #+#             */
-/*   Updated: 2024/11/14 10:56:38 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/18 10:47:47 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,13 +62,18 @@ int	main(int argc, char **argv)
 	ft_memset(&minishell, 0, sizeof(t_minishell));
 	increment_shell_level(&minishell);
 	minishell.ms = 1;
+	minishell.pid_child = 0;
 	while (1)
 	{
 		signal(SIGQUIT, SIG_IGN);
 		signal(SIGINT, handle_sigint);
 		get_readline(&minishell);
+		printf("mini: %d\n", minishell.pid_child);
+		// while (waitpid(minishell.pid_child, &minishell.status, 0) > 0)
+			// ;
 		while (waitpid(-1, &minishell.status, 0) > 0)
 			;
+		minishell.pid_child = 0;
 		free(minishell.readline);
 	}
 	return (0);

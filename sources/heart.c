@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/08 13:02:16 by waalexan          #+#    #+#             */
-/*   Updated: 2024/11/18 10:26:11 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/18 12:42:13 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ int	execute_command(t_minishell *minishell)
 		return (ft_free_matriz(data), 0);
 	minishell->command = minishell->readline;
 	minishell->redirect_command = minishell->readline;
-	if (minishell->readline[0] == '\n' || minishell->readline[0] == '\0')
+	if (minishell->readline[0] == '\n' || minishell->readline[0] == '\0' || minishell->readline[0] == '\t')
 		return (ft_free_matriz(data), 0);
 	if (syntax_checker(minishell) == 2)
 		return (ft_free_matriz(data), 1);
