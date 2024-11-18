@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 14:15:03 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/13 17:31:46 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/18 10:25:26 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,6 @@ void	redir_trunc_in(t_minishell *minishell)
 			O_RDONLY);
 	if (minishell->fd < 0)
 	{
-		free_data(minishell->args);
 		ft_free_matriz2(minishell->data);
 		ft_ctrl_c(1);
 		ft_putendl_fd("minishell: No such file or directory", 2);
