@@ -1,0 +1,10 @@
+total 88
+-rw-r--r-- 1 waalexan 2024_luanda     0 Nov 20 15:30 fil2
+-rw-r--r-- 1 waalexan 2024_luanda     0 Nov 20 15:51 file
+-rw-r--r-- 1 waalexan 2024_luanda     0 Nov 20 15:30 file1
+-rw-r--r-- 1 waalexan 2024_luanda   184 Nov 20 15:31 file3
+drwxr-xr-x 2 waalexan 2024_luanda  4096 Nov 18 14:42 includes
+drwxr-xr-x 2 waalexan 2024_luanda  4096 Nov 20 15:29 libft
+-rw-r--r-- 1 waalexan 2024_luanda  1211 Nov 19 22:30 makefile
+-rwxr-xr-x 1 waalexan 2024_luanda 66504 Nov 20 15:40 minishell
+drwxr-xr-x 3 waalexan 2024_luanda  4096 Nov 20 15:40 sources

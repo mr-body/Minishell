@@ -67,8 +67,6 @@ int	main(int argc, char **argv)
 		signal(SIGQUIT, SIG_IGN);
 		signal(SIGINT, handle_sigint);
 		get_readline(&minishell);
-		while (waitpid(-1, &minishell.status, 0) > 0)
-			;
 		free(minishell.readline);
 	}
 	return (0);
