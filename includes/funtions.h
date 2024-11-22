@@ -15,6 +15,7 @@
 
 t_data	*net_args(char *prompt);
 t_data	*ft_big_split(char *str, char delimiter);
+void	handle_sigint(int signal);
 char	*quote_scanner(const char *input);
 char	*expander(char *arg, char *tmp);
 char	*ft_get_env(char *var_name);
@@ -36,7 +37,6 @@ int		is_builtin(char *cmd);
 int		shell_builtin(char **prompt, char **environ, int pipe,
 			t_minishell *minishell);
 int		is_redir(char *str);
-int		redir_trunc_o(t_minishell *minishell);
 int		exec_command_pipe(t_minishell *minishell);
 int		exec_command(t_minishell *minishell);
 int		ft_is_only(char *str, char c);
@@ -77,9 +77,10 @@ void	change_pwd(char *curr_pwd, t_minishell *minishell);
 void	change_old_pwd(char *old_pwd, t_minishell *minishell);
 void	execute_child_process_pipe(t_minishell *minishell, int i,
 			int num_commands);
-void	redir_append_o(t_minishell *minishell);
-void	redir_trunc_in(t_minishell *minishell);
-void	redir_append_in(t_minishell *minishell);
+void	redir_append_o(t_minishell *minishell, int type);
+void	redir_trunc_in(t_minishell *minishell, int type);
+void	redir_append_in(t_minishell *minishell, int type);
+int		redir_trunc_o(t_minishell *minishell, int type);
 void	execute_child_process(t_minishell *minishell);
 void	ft_in_quotes(char c, int *in_quotes);
 void	last_redir(t_minishell *minishell);
@@ -95,8 +96,9 @@ void	redir_trunc_o_case_one(t_minishell *minishell);
 void	redir_append_o_case_one(t_minishell *minishell);
 void	handing_c(int signal);
 void	is_on_brace(char *arg, t_vars *var, char *str);
-void	inset_at_the_heredoc(t_redirect *var);
 void	quote_scanner_command(char *input);
 void	ft_prompt_sms(char c);
+void	ft_strtok(char *str, char *delimiter,
+			char result[MAX_WORDS][MAX_WORD_LENGTH]);
 void	clean(t_minishell *minishell);
 #endif

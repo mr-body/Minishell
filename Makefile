@@ -29,20 +29,21 @@ SRCS = sources/minishell.c\
 		sources/command/exit.c\
 		sources/redirect_case_one.c\
 		sources/redirect_aux.c\
+		sources/new_redirect.c\
 
 
-LDFLAGS = -fsanitize=address
+#LDFLAGS = -fsanitize=address
 OJBS = ${SRCS:.c=.o}
 LIBFT = libft
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g
+CFLAGS = -Wall -Wextra -Werror #-fsanitize=address -g
 RM = rm -f
 
 all: ${NAME}
 
 ${NAME}: ${OJBS}
 	make -C ${LIBFT}
-	${CC} ${CFLAGS} -o ${NAME} ${LDFLAGS} ${OJBS} -L${LIBFT} -lft -lreadline
+	${CC} ${CFLAGS} -o ${NAME} ${OJBS} -L${LIBFT} -lft -lreadline
 
 clean:
 	${RM} ${OJBS}
