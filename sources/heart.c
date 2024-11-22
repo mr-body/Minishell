@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/08 13:02:16 by waalexan          #+#    #+#             */
-/*   Updated: 2024/11/22 09:27:01 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/22 10:31:07 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,9 +122,15 @@ int	exec_command_pipe(t_minishell *minishell)
 			if (!minishell->args || minishell->not_flag == -1)
 			{
 				exit(130);
+				free_data(minishell->args);
 			}
 			if (shell(minishell->args->args, 1, minishell) == -1)
+			{
 				ft_print_command_error(minishell->args->args[0]);
+				free_data(minishell->args);
+				exit(127);
+			}
+			free_data(minishell->args);
 		}
 		else
 		{
@@ -137,6 +143,7 @@ int	exec_command_pipe(t_minishell *minishell)
 			last_return(minishell, "PANCAKE", pid);
 		}
 	}
+	free_data(minishell->raw_args);
 	return (0);
 }
 

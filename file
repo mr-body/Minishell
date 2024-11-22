@@ -1,0 +1,13 @@
+total 80
+-rw-r--r-- 1 gkomba 2024_luanda     0 Nov 22 10:42 file
+drwxr-xr-x 2 gkomba 2024_luanda  4096 Nov 22 09:25 includes
+drwxr-xr-x 2 gkomba 2024_luanda  4096 Nov 22 09:34 libft
+-rw-r--r-- 1 gkomba 2024_luanda  1210 Nov 22 09:25 Makefile
+-rwxr-xr-x 1 gkomba 2024_luanda 62408 Nov 22 10:41 minishell
+drwxr-xr-x 3 gkomba 2024_luanda  4096 Nov 22 10:41 sources
+file
+includes
+libft
+Makefile
+minishell
+sources

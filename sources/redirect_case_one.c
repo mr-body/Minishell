@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 11:58:48 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/13 11:00:01 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/22 14:55:50 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,13 +60,16 @@ void	redir_append_o_case_one(t_minishell *minishell)
 	return ;
 }
 
-void	redir_trunc_in_case_one(t_minishell *minishell)
+void	redir_trunc_in_case_one(t_minishell *minishell, int one)
 {
 	char	**tmp;
 	char	*tmp2;
 
 	tmp = ft_split_ms(minishell->redirect_command, '<');
-	tmp2 = ft_strtrim(tmp[0], " ");
+	if (one == 1)
+		tmp2 = ft_strtrim(tmp[1], " ");
+	else
+		tmp2 = ft_strtrim(tmp[0], " ");
 	minishell->fd = open(tmp2, O_RDONLY);
 	free_ptr(tmp2);
 	if (minishell->fd < 0)
@@ -85,12 +88,15 @@ void	redir_trunc_in_case_one(t_minishell *minishell)
 	return ;
 }
 
-void	redir_append_in_case_one(t_minishell *minishell, t_redirect *var)
+void	redir_append_in_case_one(t_minishell *minishell, t_redirect *var, int one)
 {
 	char	**tmp;
 
 	tmp = ft_split_ms(minishell->redirect_command, '<');
-	var->l_delimit = ft_strtrim(tmp[0], " ");
+	if (one == 1)
+		var->l_delimit = ft_strtrim(tmp[1], " ");
+	else
+		var->l_delimit = ft_strtrim(tmp[0], " ");
 	ft_free_matriz(tmp);
 	var->temp_fd = open(var->temp_file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	inset_at_the_heredoc(var);

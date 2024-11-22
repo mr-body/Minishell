@@ -6,54 +6,16 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 15:57:35 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/18 10:48:39 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/22 09:29:37 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	ft_is_binary(char **prompt)
-{
-	char	*cmd_path;
-	char	**routes;
-	int		i;
-	int		flg;
-
-	flg = 0;
-	routes = ft_split(getenv("PATH"), ':');
-	if (access(prompt[0], X_OK) == 0)
-		flg = 1;
-	else
-	{
-		i = -1;
-		while (routes[++i] != NULL)
-		{
-			cmd_path = ft_strcat(routes[i], prompt[0], '/');
-			if (access(cmd_path, X_OK) == 0)
-			{
-				flg = 1;
-				break ;
-			}
-			cmd_path = free_ptr(cmd_path);
-		}
-	}
-	if (cmd_path == NULL)
-		return (0);
-	routes = ft_free_matriz(routes);
-	return (flg);
-}
-
 void	execute_child_process(t_minishell *minishell)
 {
 	pid_t	pid;
-	int		flg;
 
-	flg = 0;
-	if (!is_builtin(minishell->args->args[0])
-		&& !ft_is_binary(minishell->args->args))
-	{
-		flg = 1;
-	}
 	pid = fork();
 	if (pid < 0)
 		perror("fork error: ");
@@ -68,13 +30,11 @@ void	execute_child_process(t_minishell *minishell)
 		if (shell(minishell->args->args, 0, minishell) == -1)
 		{
 			ft_print_command_error(minishell->args->args[0]);
-			exit(EXIT_FAILURE);
+			exit(127);
 		}
 		close(minishell->fd);
 	}
 	else
 		last_return(minishell, "SUGAR", pid);
 	last_return(minishell, "PANCAKE", pid);
-	if (flg)
-		ft_ctrl_c(127);
 }
