@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 11:58:48 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/22 15:15:36 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/22 16:43:09 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,8 @@ void	redir_trunc_in_case_one(t_minishell *minishell, int one)
 	return ;
 }
 
-void	redir_append_in_case_one(t_minishell *minishell, t_redirect *var, int one)
+void	redir_append_in_case_one(t_minishell *minishell, t_redirect *var,
+		int one)
 {
 	char	**tmp;
 
@@ -98,14 +99,10 @@ void	redir_append_in_case_one(t_minishell *minishell, t_redirect *var, int one)
 	else
 		var->l_delimit = ft_strtrim(tmp[0], " ");
 	ft_free_matriz(tmp);
-	var->temp_fd = open(var->temp_file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	inset_at_the_heredoc(minishell, var);
 	var->l_delimit = free_ptr(var->l_delimit);
-	minishell->fd = open(var->temp_file, O_RDONLY);
 	if (minishell->fd < 0)
 		return (ft_ctrl_c(1), perror("Could not open temp file for reading"));
-	close(var->temp_fd);
-	unlink(var->temp_file);
 	minishell->is_redir = 1;
 	minishell->is_stdin = 1;
 	minishell->not_flag = -1;

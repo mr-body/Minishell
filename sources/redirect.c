@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 14:15:03 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/22 15:20:02 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/22 16:43:34 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,11 +110,6 @@ void	close_ctrl_c2(int signal)
 	g_ctrl_c = 1;
 }
 
-void	ignore_signal(int signal)
-{
-	(void)signal;
-}
-
 void	inset_at_the_heredoc(t_minishell *minishell, t_redirect *var)
 {
 	char		string[700];
@@ -122,7 +117,7 @@ void	inset_at_the_heredoc(t_minishell *minishell, t_redirect *var)
 	int			byte;
 
 	signal(SIGINT, close_ctrl_c2);
-	signal(SIGQUIT, ignore_signal);
+	signal(SIGQUIT, SIG_IGN);
 	g_ctrl_c = 0;
 	while (1)
 	{

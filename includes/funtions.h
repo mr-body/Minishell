@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 08:53:12 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/22 15:55:42 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/22 16:39:22 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,8 @@ void	pipe_syntax_error(char *str);
 void	last_return(t_minishell *minishell, char *str, int pid);
 void	last_return_pipe(t_minishell *minishell);
 void	split_redirect_command(char *command, char **data, char delimiter);
-void	redir_append_in_case_one(t_minishell *minishell, t_redirect *var, int one);
+void	redir_append_in_case_one(t_minishell *minishell, t_redirect *var,
+			int one);
 void	redir_trunc_in_case_one(t_minishell *minishell, int one);
 void	redir_trunc_o_case_one(t_minishell *minishell);
 void	redir_append_o_case_one(t_minishell *minishell);

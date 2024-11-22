@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 10:30:29 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/22 16:06:51 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/22 16:39:53 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,8 @@ int	redir_append_o_aux(t_minishell *minishell)
 	return (0);
 }
 
-char **ft_allow_case_one(char **redir_matrix, int *one)
+char	**ft_allow_case_one(char **redir_matrix, int *one)
 {
-
 	if (ft_is_only(redir_matrix[0], ' ') == 1)
 	{
 		*one = 1;
