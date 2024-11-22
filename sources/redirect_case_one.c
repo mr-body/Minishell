@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 11:58:48 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/22 14:55:50 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/22 15:15:36 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ void	redir_append_in_case_one(t_minishell *minishell, t_redirect *var, int one)
 		var->l_delimit = ft_strtrim(tmp[0], " ");
 	ft_free_matriz(tmp);
 	var->temp_fd = open(var->temp_file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	inset_at_the_heredoc(var);
+	inset_at_the_heredoc(minishell, var);
 	var->l_delimit = free_ptr(var->l_delimit);
 	minishell->fd = open(var->temp_file, O_RDONLY);
 	if (minishell->fd < 0)

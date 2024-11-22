@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 16:23:19 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/22 12:39:31 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/22 15:55:21 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,12 +58,7 @@ char	*shell_binary(char **prompt)
 			cmd_path = free_ptr(cmd_path);
 		}
 	}
-	if (cmd_path == NULL)
-		return (ft_free_matriz(routes), NULL);
-	routes = ft_free_matriz(routes);
-	if (cmd_path == NULL)
-		printf("cmd_path is NULL\n");
-	return (cmd_path);
+	return (return_cmd_path(cmd_path, routes));
 }
 
 int	shell(char **prompt, int pipe, t_minishell *minishell)
@@ -112,23 +107,4 @@ int	is_builtin(char *cmd)
 	else if (ft_strcmp(cmd, "unset") == 0)
 		return (1);
 	return (0);
-}
-
-
-void	epur_str(char *str)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	j = 0;
-	while (str[i])
-	{
-		if (str[i] == ' ' && str[i + 1] == ' ')
-			i++;
-		str[j] = str[i];
-		i++;
-		j++;
-	}
-	str[j] = '\0';
 }

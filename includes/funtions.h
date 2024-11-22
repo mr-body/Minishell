@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 08:53:12 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/22 13:19:16 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/22 15:55:42 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ char	*shell_binary(char **prompt);
 char	*get_last_return(char *tmp);
 char	**ft_split_ms(const char *str, char delimiter);
 char	*join_single_char(char *tmp, char chr);
+char	*return_cmd_path(char *cmd_path, char **routes);
 int		shell(char **prompt, int pipe, t_minishell *minishell);
 int		execute_command(t_minishell *minishell);
 int		command_cd(char **prompt, t_minishell *minishell);
@@ -101,5 +102,5 @@ void	ft_prompt_sms(char c);
 void	ft_strtok(char *str, char *delimiter,
 			char result[MAX_WORDS][MAX_WORD_LENGTH]);
 void	clean(t_minishell *minishell);
-void	inset_at_the_heredoc(t_redirect *var);
+void	inset_at_the_heredoc(t_minishell *minishell, t_redirect *var);
 #endif

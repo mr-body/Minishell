@@ -6,11 +6,19 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 01:59:11 by waalexan          #+#    #+#             */
-/*   Updated: 2024/11/18 14:36:38 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/22 15:55:29 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+char	*return_cmd_path(char *cmd_path, char **routes)
+{
+	if (cmd_path == NULL)
+		return (ft_free_matriz(routes), NULL);
+	routes = ft_free_matriz(routes);
+	return (cmd_path);
+}
 
 void	handing_c(int signal)
 {

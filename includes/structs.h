@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 08:46:29 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/18 10:41:35 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/22 15:18:02 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ typedef struct redirect
 	char	*temp_file;
 	int		temp_fd;
 	char	*line;
+	int		type;
+	int		fd_in;
 }			t_redirect;
 
 typedef struct increment_shell_level
