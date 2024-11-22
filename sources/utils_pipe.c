@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 02:12:13 by waalexan          #+#    #+#             */
-/*   Updated: 2024/11/07 14:14:11 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/18 13:02:46 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ void	close_fds(t_minishell *minishell, int nbr_cmds)
 {
 	int	i;
 
+	if (!minishell->pipe_fds)
+		return ;
 	i = 0;
 	while (i < 2 * (nbr_cmds - 1))
 	{

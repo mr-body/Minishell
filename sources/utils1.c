@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 01:59:11 by waalexan          #+#    #+#             */
-/*   Updated: 2024/11/15 12:55:35 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/18 14:36:38 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ void	free_data(t_data *data)
 {
 	int	i;
 
+	if (!data)
+		return ;
 	i = -1;
 	while (++i < data->count)
 	{

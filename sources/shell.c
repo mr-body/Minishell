@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 16:23:19 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/14 17:25:54 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/18 15:08:44 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,9 @@ char	*shell_binary(char **prompt)
 	if (cmd_path == NULL)
 		return (ft_free_matriz(routes), NULL);
 	routes = ft_free_matriz(routes);
+	printf("cmd_path: %s\n", cmd_path);
+	if (cmd_path == NULL)
+		printf("cmd_path is NULL\n");
 	return (cmd_path);
 }
 
@@ -95,19 +98,19 @@ int	is_builtin(char *cmd)
 {
 	if (!cmd)
 		return (0);
-	if (ft_strncmp(cmd, "exit", ft_strlen(cmd)) == 0)
+	if (ft_strcmp(cmd, "exit") == 0)
 		return (1);
-	else if (ft_strncmp(cmd, "env", 3) == 0)
+	else if (ft_strcmp(cmd, "env") == 0)
 		return (1);
-	else if (ft_strncmp(cmd, "cd", 2) == 0)
+	else if (ft_strcmp(cmd, "cd") == 0)
 		return (1);
-	else if (ft_strncmp(cmd, "echo", 4) == 0)
+	else if (ft_strcmp(cmd, "echo") == 0)
 		return (1);
-	else if (ft_strncmp(cmd, "pwd", 3) == 0)
+	else if (ft_strcmp(cmd, "pwd") == 0)
 		return (1);
-	else if (ft_strncmp(cmd, "export", 6) == 0)
+	else if (ft_strcmp(cmd, "export") == 0)
 		return (1);
-	else if (ft_strncmp(cmd, "unset", 5) == 0)
+	else if (ft_strcmp(cmd, "unset") == 0)
 		return (1);
 	return (0);
 }

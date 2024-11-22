@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/08 13:02:16 by waalexan          #+#    #+#             */
-/*   Updated: 2024/11/15 12:17:54 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/18 15:12:11 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,15 @@ int	exec_command_pipe(t_minishell *minishell)
 	return (0);
 }
 
+int	whitespace_and_syntax(t_minishell *minishell, char **data)
+{
+	if (minishell->readline[0] == '\n' || minishell->readline[0] == '\0' || minishell->readline[0] == '\t')
+		return (ft_free_matriz(data), 1);
+	if (syntax_checker(minishell) == 2)
+		return (ft_free_matriz(data), 2);
+	return (0);
+}
+
 int	execute_command(t_minishell *minishell)
 {
 	char	**data;
@@ -105,10 +114,8 @@ int	execute_command(t_minishell *minishell)
 		return (ft_free_matriz(data), 0);
 	minishell->command = minishell->readline;
 	minishell->redirect_command = minishell->readline;
-	if (minishell->readline[0] == '\n' || minishell->readline[0] == '\0')
-		return (ft_free_matriz(data), 0);
-	if (syntax_checker(minishell) == 2)
-		return (ft_free_matriz(data), 1);
+	if (whitespace_and_syntax(minishell, data) != 0)
+		return (0);
 	if (check_if_str_is_pipe(data) == 1)
 	{
 		ft_free_matriz(data);
