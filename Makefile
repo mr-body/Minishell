@@ -36,7 +36,7 @@ SRCS = sources/minishell.c\
 OJBS = ${SRCS:.c=.o}
 LIBFT = libft
 CC = cc
-CFLAGS = #-Wall -Wextra -Werror #-fsanitize=address -g
+CFLAGS = -Wall -Wextra -Werror #-fsanitize=address -g
 RM = rm -f
 
 all: ${NAME}
