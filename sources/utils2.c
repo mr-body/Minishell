@@ -55,3 +55,19 @@ void	ft_prompt_sms(char c)
 	else if (c == 'm')
 		ft_putendl_fd(AMARELO "minishell >> Welcome to minishell 🌌" RESET, 1);
 }
+
+int	whitespace_and_syntax(t_minishell *minishell, char **data)
+{
+	if (minishell->readline[0] == '\n' || minishell->readline[0] == '\0'
+		|| minishell->readline[0] == '\t')
+		return (ft_free_matriz(data), 1);
+	if (syntax_checker(minishell) == 2)
+		return (ft_free_matriz(data), 2);
+	return (0);
+}
+
+void	close_minishell_fd(int fd1, int fd2)
+{
+	dup2(fd1, fd2);
+	close(fd1);
+}

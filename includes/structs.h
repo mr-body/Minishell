@@ -49,10 +49,10 @@ typedef struct s_split_redir_cmd
 
 typedef struct redirect
 {
-	int		fd;
+	int		fd[2];
 	char	*tmp;
 	char	*delimiter;
-	char	*l_delimit;
+	char	*l;
 	char	*temp_file;
 	int		temp_fd;
 	char	*line;

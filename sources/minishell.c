@@ -32,6 +32,34 @@ void	handle_sigint(int signal)
 		rl_redisplay();
 }
 
+int	execute_command(t_minishell *minishell)
+{
+	char	**data;
+
+	minishell->fd = STDOUT_FILENO;
+	minishell->fd_type = 1;
+	if (unclosed_quotes(minishell->readline) == 1)
+		return (1);
+	data = ft_split_ms(minishell->readline, ' ');
+	if (data[0] == NULL)
+		return (ft_free_matriz(data), 0);
+	minishell->command = minishell->readline;
+	minishell->redirect_command = minishell->readline;
+	if (whitespace_and_syntax(minishell, data) != 0)
+		return (0);
+	if (check_if_str_is_pipe(data) == 1)
+	{
+		ft_free_matriz(data);
+		minishell->exit_status = exec_command_pipe(minishell);
+	}
+	else
+	{
+		ft_free_matriz(data);
+		minishell->exit_status = exec_command(minishell);
+	}
+	return (0);
+}
+
 static void	get_readline(t_minishell *minishell)
 {
 	ft_prompt(minishell);

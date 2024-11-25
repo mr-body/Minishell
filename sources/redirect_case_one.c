@@ -95,12 +95,12 @@ void	redir_append_in_case_one(t_minishell *minishell, t_redirect *var,
 
 	tmp = ft_split_ms(minishell->redirect_command, '<');
 	if (one == 1)
-		var->l_delimit = ft_strtrim(tmp[1], " ");
+		var->l = ft_strtrim(tmp[1], " ");
 	else
-		var->l_delimit = ft_strtrim(tmp[0], " ");
+		var->l = ft_strtrim(tmp[0], " ");
 	ft_free_matriz(tmp);
 	inset_at_the_heredoc(minishell, var);
-	var->l_delimit = free_ptr(var->l_delimit);
+	var->l = free_ptr(var->l);
 	if (minishell->fd < 0)
 		return (ft_ctrl_c(1), perror("Could not open temp file for reading"));
 	minishell->is_redir = 1;

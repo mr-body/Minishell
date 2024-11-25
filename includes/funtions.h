@@ -82,6 +82,7 @@ void	redir_append_o(t_minishell *minishell, int type);
 void	redir_trunc_in(t_minishell *minishell, int type);
 void	redir_append_in(t_minishell *minishell, int type);
 int		redir_trunc_o(t_minishell *minishell, int type);
+int		whitespace_and_syntax(t_minishell *minishell, char **data);
 void	execute_child_process(t_minishell *minishell);
 void	ft_in_quotes(char c, int *in_quotes);
 void	last_redir(t_minishell *minishell);
@@ -104,4 +105,6 @@ void	ft_strtok(char *str, char *delimiter,
 			char result[MAX_WORDS][MAX_WORD_LENGTH]);
 void	clean(t_minishell *minishell);
 void	inset_at_the_heredoc(t_minishell *minishell, t_redirect *var);
+void	close_ctrl_c2(int signal);
+void	close_minishell_fd(int fd1, int fd2);
 #endif

@@ -14,10 +14,15 @@
 
 int	g_ctrl_c;
 
-int	redir_trunc_o(t_minishell *minishell, int type)
+typedef struct s_local_data
 {
 	int	i;
 	int	fd;
+}	t_local_data;
+
+int	redir_trunc_o(t_minishell *minishell, int type)
+{
+	t_local_data	var;
 
 	if (redir_trunc_o_aux(minishell))
 		return (0);
@@ -27,28 +32,26 @@ int	redir_trunc_o(t_minishell *minishell, int type)
 		free_data(minishell->args);
 	minishell->args = net_args(minishell->data[0]);
 	minishell->fd_type = 0;
-	i = 0;
-	while (++i < (ft_matriz_len3(minishell->data) - 1))
+	var.i = 0;
+	while (++var.i < (ft_matriz_len3(minishell->data) - 1))
 	{
-		fd = open(minishell->data[i], O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		close(fd);
+		var.fd = open(minishell->data[var.i], O_WRONLY
+				| O_CREAT | O_TRUNC, 0644);
+		close(var.fd);
 	}
 	minishell->fd = open(minishell->data[ft_matriz_len3(minishell->data) - 1],
 			O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (type == 1)
 	{
-		dup2(minishell->fd, STDOUT_FILENO);
-		close(minishell->fd);
+		close_minishell_fd(minishell->fd, STDOUT_FILENO);
 	}
 	ft_free_matriz2(minishell->data);
-	minishell->is_redir = 1;
-	return (0);
+	return (minishell->is_redir = 1, 0);
 }
 
 void	redir_append_o(t_minishell *minishell, int type)
 {
-	int	i;
-	int	fd;
+	t_local_data	var;
 
 	if (redir_append_o_aux(minishell))
 		return ;
@@ -58,18 +61,18 @@ void	redir_append_o(t_minishell *minishell, int type)
 		free_data(minishell->args);
 	minishell->args = net_args(minishell->data[0]);
 	minishell->fd_type = 0;
-	i = 0;
-	while (++i < (ft_matriz_len3(minishell->data) - 1))
+	var.i = 0;
+	while (++var.i < (ft_matriz_len3(minishell->data) - 1))
 	{
-		fd = open(minishell->data[i], O_WRONLY | O_CREAT | O_APPEND, 0644);
-		close(fd);
+		var.fd = open(minishell->data[var.i], O_WRONLY
+				| O_CREAT | O_APPEND, 0644);
+		close(var.fd);
 	}
 	minishell->fd = open(minishell->data[ft_matriz_len3(minishell->data) - 1],
 			O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (type == 1)
 	{
-		dup2(minishell->fd, STDOUT_FILENO);
-		close(minishell->fd);
+		close_minishell_fd(minishell->fd, STDOUT_FILENO);
 	}
 	ft_free_matriz2(minishell->data);
 	minishell->is_redir = 1;
@@ -96,8 +99,7 @@ void	redir_trunc_in(t_minishell *minishell, int type)
 	}
 	if (type == 1)
 	{
-		dup2(minishell->fd, STDIN_FILENO);
-		close(minishell->fd);
+		close_minishell_fd(minishell->fd, STDIN_FILENO);
 	}
 	ft_free_matriz2(minishell->data);
 	minishell->is_redir = 1;
@@ -110,15 +112,20 @@ void	close_ctrl_c2(int signal)
 	g_ctrl_c = 1;
 }
 
+void	control_center(void)
+{
+	signal(SIGINT, close_ctrl_c2);
+	signal(SIGQUIT, SIG_IGN);
+	g_ctrl_c = 0;
+}
+
 void	inset_at_the_heredoc(t_minishell *minishell, t_redirect *var)
 {
 	char		string[700];
 	char		*tmp;
 	int			byte;
 
-	signal(SIGINT, close_ctrl_c2);
-	signal(SIGQUIT, SIG_IGN);
-	g_ctrl_c = 0;
+	control_center();
 	while (1)
 	{
 		byte = read(0, string, 700);
@@ -133,7 +140,7 @@ void	inset_at_the_heredoc(t_minishell *minishell, t_redirect *var)
 			break ;
 		if (string[byte - 1] == '\n')
 			string[byte - 1] = '\0';
-		if (strcmp(string, var->l_delimit) == 0)
+		if (strcmp(string, var->l) == 0)
 			break ;
 		tmp = expander(string, ft_strdup(""));
 		ft_putendl_fd(tmp, var->fd_in);
@@ -144,10 +151,8 @@ void	inset_at_the_heredoc(t_minishell *minishell, t_redirect *var)
 void	redir_append_in(t_minishell *minishell, int type)
 {
 	t_redirect	var;
-	
-	int			fd[2];
 
-	pipe(fd);
+	pipe(var.fd);
 	if (redir_append_in_aux(minishell, &var))
 		return ;
 	ft_memset(minishell->data, 0, sizeof(minishell->data));
@@ -155,20 +160,19 @@ void	redir_append_in(t_minishell *minishell, int type)
 	if (minishell->args)
 		free_data(minishell->args);
 	minishell->args = net_args(minishell->data[0]);
-	var.l_delimit = ft_strtrim(minishell->data[ft_matriz_len3(minishell->data) - 1],
+	var.l = ft_strtrim(minishell->data[ft_matriz_len3(minishell->data) - 1],
 			" ");
-	var.fd_in = fd[1];
+	var.fd_in = var.fd[1];
 	var.type = type;
 	inset_at_the_heredoc(minishell, &var);
-	close(fd[1]);
+	close(var.fd[1]);
 	if (type == 1)
 	{
-		dup2(fd[0], STDIN_FILENO);
-		close(fd[0]);
+		close_minishell_fd(var.fd[0], STDIN_FILENO);
 	}
-	minishell->fd = fd[0];
+	minishell->fd = var.fd[0];
 	minishell->is_redir = 1;
 	minishell->is_stdin = 1;
-	free_ptr(var.l_delimit);
+	free_ptr(var.l);
 	ft_free_matriz2(minishell->data);
 }
