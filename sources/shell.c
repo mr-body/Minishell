@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 16:23:19 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/22 15:55:21 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/26 15:50:44 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ char	*shell_binary(char **prompt)
 	{
 		if (routes)
 			routes = ft_free_matriz(routes);
-		return (NULL);
+		return (prompt[0]);
 	}
 	if (access(prompt[0], X_OK) == 0)
 		cmd_path = prompt[0];

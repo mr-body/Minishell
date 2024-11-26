@@ -17,6 +17,7 @@ SRCS = sources/minishell.c\
 		sources/utils1.c\
 		sources/utils2.c\
 		sources/utils3.c\
+		sources/utils4.c\
 		sources/utils_pipe.c\
 		sources/utils_redir.c\
 		sources/command/echo.c\
@@ -29,7 +30,6 @@ SRCS = sources/minishell.c\
 		sources/command/exit.c\
 		sources/redirect_case_one.c\
 		sources/redirect_aux.c\
-		sources/new_redirect.c\
 
 
 #LDFLAGS = -fsanitize=address

@@ -6,12 +6,29 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 08:46:29 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/22 15:18:02 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/26 13:44:07 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STRUCTS_H
 # define STRUCTS_H
+
+typedef struct s_local_data
+{
+	int	i;
+	int	fd;
+}	t_local_data;
+
+typedef struct s_pipe_data
+{
+	int		num_commands;
+	int		fd[2];
+	int		prev_fd;
+	int		in_fd;
+	int		out_fd;
+	int		i;
+	pid_t	pid;
+}	t_pipe_data;
 
 typedef struct s_sintax
 {

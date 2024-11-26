@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils2.c                                           :+:      :+:    :+:   */
+/*   new_redirect.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 10:41:08 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/15 12:56:06 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/26 14:38:11 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@ void	verif_redir(t_minishell *minishell)
 	int	retrn;
 
 	redir = 0;
+	if (minishell->args)
+		free_data(minishell->args);
 	if (extract_command(minishell, &redir, &retrn) != 0)
-	{
 		exit(1);
-	}
 	if (redir == R_TRUNC_O)
 		redir_trunc_o(minishell, 0);
 	else if (redir == R_APPEND_O)

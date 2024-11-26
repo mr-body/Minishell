@@ -6,17 +6,11 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 14:15:03 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/22 16:43:34 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/26 15:59:12 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-typedef struct s_local_data
-{
-	int	i;
-	int	fd;
-}	t_local_data;
 
 int	redir_trunc_o(t_minishell *minishell, int type)
 {
@@ -132,6 +126,7 @@ void	redir_append_in(t_minishell *minishell, int type)
 	t_redirect	var;
 
 	pipe(var.fd);
+	var.fd_in = var.fd[1];
 	if (redir_append_in_aux(minishell, &var))
 		return ;
 	ft_memset(minishell->data, 0, sizeof(minishell->data));
@@ -146,9 +141,7 @@ void	redir_append_in(t_minishell *minishell, int type)
 	inset_at_the_heredoc(minishell, &var);
 	close(var.fd[1]);
 	if (type == 1)
-	{
 		close_minishell_fd(var.fd[0], STDIN_FILENO);
-	}
 	minishell->fd = var.fd[0];
 	minishell->is_redir = 1;
 	minishell->is_stdin = 1;

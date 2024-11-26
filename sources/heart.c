@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/08 13:02:16 by waalexan          #+#    #+#             */
-/*   Updated: 2024/11/22 15:57:13 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/11/26 15:39:21 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,17 +24,6 @@ int	exec_command(t_minishell *minishell)
 	}
 	return (clean(minishell), 0);
 }
-
-typedef struct s_pipe_data
-{
-	int		num_commands;
-	int		fd[2];
-	int		prev_fd;
-	int		in_fd;
-	int		out_fd;
-	int		i;
-	pid_t	pid;
-}	t_pipe_data;
 
 static void	pipe_opt_one(t_minishell *minishell, t_pipe_data *var,
 t_heart *var_header)
@@ -121,9 +110,7 @@ int	exec_command_pipe(t_minishell *minishell)
 			pipe_opt_two(minishell, &var_header);
 		}
 		else
-		{
 			pipe_opt_three(minishell, &var);
-		}
 	}
 	free_data(minishell->raw_args);
 	return (0);
