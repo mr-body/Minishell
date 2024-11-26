@@ -12,8 +12,6 @@
 
 #include "../includes/minishell.h"
 
-int	g_ctrl_c;
-
 typedef struct s_local_data
 {
 	int	i;
@@ -106,36 +104,17 @@ void	redir_trunc_in(t_minishell *minishell, int type)
 	minishell->is_stdin = 1;
 }
 
-void	close_ctrl_c2(int signal)
-{
-	(void)signal;
-	g_ctrl_c = 1;
-}
-
-void	control_center(void)
-{
-	signal(SIGINT, close_ctrl_c2);
-	signal(SIGQUIT, SIG_IGN);
-	g_ctrl_c = 0;
-}
-
 void	inset_at_the_heredoc(t_minishell *minishell, t_redirect *var)
 {
 	char		string[700];
 	char		*tmp;
 	int			byte;
 
+	(void)minishell;
 	control_center();
 	while (1)
 	{
 		byte = read(0, string, 700);
-		if (g_ctrl_c)
-		{
-			minishell->not_flag = -1;
-			if (var->type)
-				exit(130);
-			break ;
-		}
 		if (byte == 0)
 			break ;
 		if (string[byte - 1] == '\n')

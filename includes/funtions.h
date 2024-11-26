@@ -105,6 +105,7 @@ void	ft_strtok(char *str, char *delimiter,
 			char result[MAX_WORDS][MAX_WORD_LENGTH]);
 void	clean(t_minishell *minishell);
 void	inset_at_the_heredoc(t_minishell *minishell, t_redirect *var);
-void	close_ctrl_c2(int signal);
+void	control_center(void);
 void	close_minishell_fd(int fd1, int fd2);
+void	verif_redir(t_minishell *minishell);
 #endif

@@ -45,6 +45,7 @@ int	execute_command(t_minishell *minishell)
 		return (ft_free_matriz(data), 0);
 	minishell->command = minishell->readline;
 	minishell->redirect_command = minishell->readline;
+	minishell->args = net_args(minishell->command);
 	if (whitespace_and_syntax(minishell, data) != 0)
 		return (0);
 	if (check_if_str_is_pipe(data) == 1)

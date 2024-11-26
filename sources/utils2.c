@@ -65,9 +65,3 @@ int	whitespace_and_syntax(t_minishell *minishell, char **data)
 		return (ft_free_matriz(data), 2);
 	return (0);
 }
-
-void	close_minishell_fd(int fd1, int fd2)
-{
-	dup2(fd1, fd2);
-	close(fd1);
-}

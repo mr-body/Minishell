@@ -14,26 +14,11 @@
 
 int	exec_command(t_minishell *minishell)
 {
-	int	redir;
-	int	retrn;
-
-	redir = 0;
-	if (extract_command(minishell, &redir, &retrn) != 0)
-		return (retrn);
-	if (redir == R_TRUNC_O)
-		redir_trunc_o(minishell, 0);
-	else if (redir == R_APPEND_O)
-		redir_append_o(minishell, 0);
-	else if (redir == R_TRUNC_I)
-		redir_trunc_in(minishell, 0);
-	else if (redir == R_APPEND_I)
-		redir_append_in(minishell, 0);
-	if (!minishell->args || minishell->not_flag == -1)
-		return (free_data(minishell->args), minishell->not_flag = 0, 0);
 	if (!is_builtin(minishell->args->args[0]))
 		execute_child_process(minishell);
 	else
 	{
+		verif_redir(minishell);
 		if (shell(minishell->args->args, 0, minishell) == -1)
 			ft_print_command_error(minishell->args->args[0]);
 	}

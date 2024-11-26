@@ -21,6 +21,7 @@ void	execute_child_process(t_minishell *minishell)
 		perror("fork error: ");
 	else if (pid == 0)
 	{
+		verif_redir(minishell);
 		signal(SIGINT, SIG_DFL);
 		signal(SIGQUIT, SIG_DFL);
 		if (minishell->fd_type == 0)
