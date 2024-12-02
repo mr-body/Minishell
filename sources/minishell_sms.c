@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 01:59:11 by waalexan          #+#    #+#             */
-/*   Updated: 2024/11/14 11:12:20 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/12/02 13:20:34 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,18 @@
 
 void	ft_print_command_error(char *cmd)
 {
-	ft_putstr_fd(cmd, 2);
-	ft_putstr_fd(": command not found\n", 2);
+	if (ft_strchr(cmd, '/'))
+	{
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(cmd, 2);
+		ft_putendl_fd(": No such file or directory", 2);
+	}
+	else
+	{
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(cmd, 2);
+		ft_putendl_fd(": command not found", 2);
+	}
 }
 
 void	ft_print_syntax_error(void)

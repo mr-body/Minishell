@@ -30,6 +30,7 @@ SRCS = sources/minishell.c\
 		sources/command/exit.c\
 		sources/redirect_case_one.c\
 		sources/redirect_aux.c\
+		sources/prompt_utils.c\
 
 
 #LDFLAGS = -fsanitize=address

@@ -1,0 +1,161 @@
+change_env_vars.c:		var.name = ft_strjoin("SHLVL=", var.shell_level);
+change_env_vars.c:	name = ft_strjoin("PWD=", curr_pwd);
+change_env_vars.c:	name = ft_strjoin("OLDPWD=", old_pwd);
+execute_command_utils.c:	if (ft_strchr(minishell->raw_args->args[len - 1], '>')
+execute_command_utils.c:		|| ft_strchr(minishell->raw_args->args[len - 1], '>'))
+execute_command_utils.c:	len = ft_strlen(input);
+execute_command_utils.c:void	last_return(t_minishell *minishell, char *str, int pid)
+execute_command_utils.c:	if (ft_strncmp(str, "SUGAR", ft_strlen(str)) == 0)
+execute_command_utils.c:	else if (ft_strncmp(str, "PANCAKE", ft_strlen(str)) == 0)
+expander.c:	env_var_name = ft_substr(arg, *j, *k - *j);
+expander.c:		tmp = ft_strjoin(tmp, env_var_value);
+expander_utils.c:void	is_on_brace(char *arg, t_vars *var, char *str)
+expander_utils.c:	if (ft_strncmp(str, "SUGAR", ft_strlen(str)) == 0)
+expander_utils.c:	else if (ft_strncmp(str, "PANCAKE", ft_strlen(str)) == 0)
+expander_utils.c:	tmp = ft_strjoin(tmp, return_value);
+expander_utils.c:	tmp = ft_strjoin(tmp, single_char);
+expander_utils.c:int	allow_expand(char *str)
+expander_utils.c:	if (ft_count_chr_occurrency_str(str, '\'') == 1
+expander_utils.c:		|| ft_count_chr_occurrency_str(str, '"') == 1)
+expander_utils.c:	while (str[i] != '\0')
+expander_utils.c:		if (str[i] == '\'' && !aspas_duplas)
+expander_utils.c:		else if (str[i] == '"' && !aspas_simples)
+expander_utils.c:		if (str[i] == '$' && !aspas_simples && (aspas_duplas || !aspas_duplas))
+ft_big_split.c:			var->new = expander(var->temp, ft_strdup(""));
+ft_big_split.c:		var->new = expander(var->temp, ft_strdup(""));
+ft_big_split.c:t_data	*ft_big_split(char *str, char delimiter)
+ft_big_split.c:	while (str[var.i])
+ft_big_split.c:		set_type_quoter(&var, str[var.i]);
+ft_big_split.c:		if (insert_at_the_matriz(&var, str[var.i], delimiter, c) == -1)
+ft_big_split.c:		c = str[var.i];
+ft_split_ms.c:static int	count_words(const char *str, char delimiter)
+ft_split_ms.c:	while (str[i])
+ft_split_ms.c:		if (str[i] == '"' || str[i] == '\'')
+ft_split_ms.c:		if (!in_quotes && str[i] == delimiter)
+ft_split_ms.c:			if (i > 0 && str[i - 1] != delimiter)
+ft_split_ms.c:	if (i > 0 && str[i - 1] != delimiter)
+ft_split_ms.c:static char	**last_word(char **result, const char *str, int start, int *index)
+ft_split_ms.c:	length = ft_strlen(str) - start;
+ft_split_ms.c:	ft_strcpy(result[i], str + start);
+ft_split_ms.c:static int	ft_strcpy_ms_split(char **result, const char *str, int *iter,
+ft_split_ms.c:	ft_strncpy(result[idx], str + st, length);
+ft_split_ms.c:static char	**ft_alloc_splited_str(char **result, const char *str,
+ft_split_ms.c:	while (str[++i])
+ft_split_ms.c:		ft_in_quotes(str[i], &in_quotes);
+ft_split_ms.c:		if (!in_quotes && str[i] == delimiter)
+ft_split_ms.c:				if (ft_strcpy_ms_split(result, str, &i, var) == 1)
+ft_split_ms.c:char	**ft_split_ms(const char *str, char delimiter)
+ft_split_ms.c:	word_count = count_words(str, delimiter);
+ft_split_ms.c:	if (str == NULL)
+ft_split_ms.c:	result = ft_alloc_splited_str(result, str, delimiter, &vars);
+ft_split_ms.c:		result = last_word(result, str, vars.start, &vars.index);
+minishell.c:	char	string[700];
+minishell.c:	ft_putstr_fd(interface, 1);
+minishell.c:	byte = read(0, string, 700);
+minishell.c:	if (byte > 0 && string[byte - 1] == '\n')
+minishell.c:		string[byte - 1] = '\0';
+minishell.c:		string[byte] = '\0';
+minishell.c:	ft_strncpy(result, string, byte + 1);
+minishell.c:int	ft_check_last_pipe(char *str)
+minishell.c:	i = ft_strlen(str);
+minishell.c:		if (str[i] == '|')
+minishell.c:		else if (str[i] == 32 || str[i] == 9)
+minishell.c:		minishell->readline = ft_strjoin(minishell->readline, herepipe);
+minishell.c:	if (check_if_str_is_pipe(data) == 1)
+minishell.c:		ft_putstr_fd("Error: No arguments needed\n", 2);
+minishell_sms.c:	if (ft_strchr(cmd, '/'))
+minishell_sms.c:		ft_putstr_fd("minishell: ", 2);
+minishell_sms.c:		ft_putstr_fd(cmd, 2);
+minishell_sms.c:		ft_putstr_fd("minishell: ", 2);
+minishell_sms.c:		ft_putstr_fd(cmd, 2);
+minishell_sms.c:void	redir_syntax_error(char *str)
+minishell_sms.c:	if (ft_strncmp(str, "SUGAR", ft_strlen(str)) == 0)
+minishell_sms.c:	else if (ft_strncmp(str, "PANCAKE", ft_strlen(str)) == 0)
+minishell_sms.c:void	pipe_syntax_error(char *str)
+minishell_sms.c:	if (ft_strncmp(str, "SUGAR", ft_strlen(str)) == 0)
+minishell_sms.c:	else if (ft_strncmp(str, "PANCAKE", ft_strlen(str)) == 0)
+parser_redir.c:			data[vars->data_idx] = malloc(ft_strlen(vars->current_arg) + 1);
+parser_redir.c:			ft_strcpy(data[vars->data_idx], vars->current_arg);
+parser_redir.c:			ft_strcat_no_malloc(data[0], vars->current_arg);
+parser_redir.c:			ft_strcat_no_malloc(data[0], " ");
+parser_redir.c:		data[vars->data_idx] = (char *)malloc(ft_strlen(vars->current_arg) + 1);
+parser_redir.c:		ft_strcpy(data[vars->data_idx], vars->current_arg);
+parser_redir.c:		ft_strcat_no_malloc(data[0], vars->current_arg);
+parser_redir.c:	if (ft_strchr(command, '|'))
+parser_redir.c:		ft_delete_chr_on_str(command, '|');
+parser_redir.c:		ft_strcat_no_malloc(data, vars->current_arg);
+parser_redir.c:		ft_strcat_no_malloc(data, " ");
+parser_redir.c:		ft_strncat(vars->current_arg, &command[vars->i], 1);
+parser_redir.c:	vars.current_arg = (char *)malloc(sizeof(char) * ft_strlen(command) + 1);
+parser_redir.c:	data[0] = (char *)malloc(sizeof(char) * ft_strlen(command) + 1);
+quote_utils.c:		ft_delete_chr_on_str(prompt[i], '\'');
+quote_utils.c:		ft_delete_chr_on_str(prompt[i], '\"');
+quote_utils.c:	if (ft_count_chr_occurrency_str(input, '\'') == 1)
+quote_utils.c:	vars.len = ft_strlen(input);
+redirect.c:	char		string[700];
+redirect.c:		byte = read(0, string, 700);
+redirect.c:		if (string[byte - 1] == '\n')
+redirect.c:			string[byte - 1] = '\0';
+redirect.c:		if (strcmp(string, var->l) == 0)
+redirect.c:		tmp = expander(string, ft_strdup(""));
+redirect.c:	var.l = ft_strtrim(minishell->data[ft_matriz_len3(minishell->data) - 1],
+redirect_case_one.c:	tmp2 = ft_strtrim(tmp[0], " ");
+redirect_case_one.c:	tmp2 = ft_strtrim(tmp[0], " ");
+redirect_case_one.c:		tmp2 = ft_strtrim(tmp[1], " ");
+redirect_case_one.c:		tmp2 = ft_strtrim(tmp[0], " ");
+redirect_case_one.c:		var->l = ft_strtrim(tmp[1], " ");
+redirect_case_one.c:		var->l = ft_strtrim(tmp[0], " ");
+shell.c:	if (ft_strncmp(prompt[0], "exit", 4) == 0)
+shell.c:	else if (ft_strncmp(prompt[0], "env", 3) == 0)
+shell.c:	else if (ft_strncmp(prompt[0], "cd", 2) == 0)
+shell.c:	else if (ft_strncmp(prompt[0], "echo", 4) == 0)
+shell.c:	else if (ft_strncmp(prompt[0], "pwd", 3) == 0)
+shell.c:	else if (ft_strncmp(prompt[0], "export", 6) == 0)
+shell.c:	else if (ft_strncmp(prompt[0], "unset", 6) == 0)
+shell.c:			cmd_path = ft_strcat(routes[i], prompt[0], '/');
+shell.c:	if (ft_strcmp(cmd, "exit") == 0)
+shell.c:	else if (ft_strcmp(cmd, "env") == 0)
+shell.c:	else if (ft_strcmp(cmd, "cd") == 0)
+shell.c:	else if (ft_strcmp(cmd, "echo") == 0)
+shell.c:	else if (ft_strcmp(cmd, "pwd") == 0)
+shell.c:	else if (ft_strcmp(cmd, "export") == 0)
+shell.c:	else if (ft_strcmp(cmd, "unset") == 0)
+syntax_checker.c:		if (ft_strncmp(minishell->verify_syntax[i], "|", 1) == 0)
+syntax_checker.c:				if (ft_strncmp(minishell->verify_syntax[i + 1], "|", 1) == 0)
+syntax_checker.c:		if (ft_strncmp(minishell->verify_syntax[i], redir_type,
+syntax_checker.c:				ft_strlen(redir_type)) == 0)
+syntax_checker.c:		if (ft_strncmp(minishell->verify_syntax[i], redir_type,
+syntax_checker.c:				ft_strlen(redir_type)) == 0)
+syntax_checker.c:		ft_putstr_fd("export: ", 2);
+syntax_checker.c:		ft_putstr_fd(var, 2);
+syntax_checker.c:			ft_putstr_fd("export: ", 2);
+syntax_checker.c:			ft_putstr_fd(var, 2);
+utils1.c:	if (ft_strcmp(minishell->readline, "gkomba") == 0)
+utils1.c:	else if (ft_strcmp(minishell->readline, "waalexan") == 0)
+utils1.c:	else if (ft_strcmp(minishell->readline, "ms") == 0
+utils2.c:		if (ft_strncmp(matriz[i], "<|", 2) == 0)
+utils2.c:		else if (ft_strncmp(matriz[i], "<<|", 3) == 0)
+utils3.c:int	unclosed_quotes(const char *str)
+utils3.c:	while (str[++i] != '\0')
+utils3.c:		if (str[i] == '\'' && !double_quotes)
+utils3.c:		else if (str[i] == '\"' && !single_quotes)
+utils_pipe.c:int	ft_is_only(char *str, char c)
+utils_pipe.c:	if (!str)
+utils_pipe.c:	while (str[i])
+utils_pipe.c:		if (str[i] != c)
+utils_pipe.c:int	check_if_str_is_pipe(char **matriz)
+utils_pipe.c:		if (ft_strchr_quote(matriz[i], '|') == 0)
+utils_redir.c:int	verify_redir_is_in_qt(char *str, t_utils_redir *vars, int *quote_type)
+utils_redir.c:	if (str[vars->index] == '"' || str[vars->index] == '\'')
+utils_redir.c:			*quote_type = (int)str[vars->index];
+utils_redir.c:		else if (str[vars->index] == *quote_type)
+utils_redir.c:int	is_redir(char *str)
+utils_redir.c:	while (str[vars.index])
+utils_redir.c:		if (verify_redir_is_in_qt(str, &vars, &quote_type) == 1)
+utils_redir.c:			redirect = return_redir_type(str[vars.index], str[vars.index + 1]);
+utils_redir.c:	len = ft_strlen(minishell->verify_syntax[i]);
+utils_redir.c:		if ((ft_strncmp(minishell->verify_syntax[i + 1], redir_type, 1) == 0)
+utils_redir.c:			|| ft_strncmp(minishell->verify_syntax[i + 1], "|", 1) == 0)
+utils_redir.c:	len = ft_strlen(minishell->verify_syntax[i]);
+utils_redir.c:		if ((ft_strncmp(minishell->verify_syntax[i + 1], redir_type, 1) == 0)
+utils_redir.c:			|| ft_strncmp(minishell->verify_syntax[i + 1], "|", 1) == 0)

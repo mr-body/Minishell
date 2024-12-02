@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 10:41:08 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/15 12:56:06 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/12/02 15:04:04 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,17 +43,6 @@ int	in_quotes(t_split_redir_cmd *vars, char *command)
 		return (1);
 	}
 	return (0);
-}
-
-void	ft_prompt_sms(char c)
-{
-	if (c == 'g')
-		ft_putendl_fd(AZUL "gkomba >> Welcome Human 🪐" RESET, 1);
-	else if (c == 'w')
-		ft_putendl_fd(VERDE "waalexa >> Now. Waalexan is on control 🌍" RESET,
-			1);
-	else if (c == 'm')
-		ft_putendl_fd(AMARELO "minishell >> Welcome to minishell 🌌" RESET, 1);
 }
 
 int	whitespace_and_syntax(t_minishell *minishell, char **data)

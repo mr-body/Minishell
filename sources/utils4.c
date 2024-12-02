@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   new_redirect.c                                     :+:      :+:    :+:   */
+/*   utils4.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 10:41:08 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/26 14:38:11 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/12/02 15:06:16 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,37 @@ void	control_center(void)
 {
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_IGN);
+}
+
+int	invalid_path(char *path)
+{
+	int	i;
+
+	i = 0;
+	while (path[i])
+	{
+		if (path[i] == '/' && path[i + 1] == '/')
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+int	ft_check_last_pipe(char *str)
+{
+	int	i;
+	int	fg;
+
+	i = ft_strlen(str);
+	fg = 0;
+	while (0 <= i--)
+	{
+		if (str[i] == '|')
+			fg++;
+		else if (str[i] == 32 || str[i] == 9)
+			continue ;
+		else
+			break ;
+	}
+	return (fg);
 }

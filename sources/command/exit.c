@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: waalexan <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 14:26:22 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/14 13:28:05 by waalexan         ###   ########.fr       */
+/*   Updated: 2024/12/02 13:48:50 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,11 @@ static int	check_exit_syntax(char **prompt)
 		return (1);
 	else if (prompt[1])
 	{
+		if (prompt[1][0] == '-' && ft_isdigit(prompt[1][1]))
+			return (1);
 		if (ft_isdigit(prompt[1][0]) && prompt[2] == NULL)
 			return (1);
-		if (!ft_isdigit(prompt[1][0]))
+		if (!ft_isdigit(prompt[1][0]) && prompt[1][0] != '-')
 			return (2);
 		else
 			return (0);

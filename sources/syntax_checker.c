@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 11:35:50 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/15 12:16:28 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/12/02 14:01:28 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,16 +22,13 @@ int	verify_pipes_syntax(t_minishell *minishell)
 	{
 		if (ft_strncmp(minishell->verify_syntax[i], "|", 1) == 0)
 		{
-			if (minishell->verify_syntax[i + 1] == NULL)
+			if (minishell->verify_syntax[i + 1] != NULL)
 			{
-				pipe_syntax_error("SUGAR");
-				ft_free_matriz(minishell->verify_syntax);
-				return (2);
-			}
-			if (ft_strncmp(minishell->verify_syntax[i + 1], "|", 1) == 0)
-			{
-				pipe_syntax_error("PANCAKE");
-				return (ft_free_matriz(minishell->verify_syntax), 2);
+				if (ft_strncmp(minishell->verify_syntax[i + 1], "|", 1) == 0)
+				{
+					pipe_syntax_error("PANCAKE");
+					return (ft_free_matriz(minishell->verify_syntax), 2);
+				}
 			}
 		}
 		i++;

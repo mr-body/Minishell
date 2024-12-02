@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 08:53:12 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/22 16:39:22 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/12/02 15:03:56 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,8 @@ int		validate_sintax(char *input);
 int		ft_prompt(t_minishell *minishell);
 int		is_new_prompt(t_minishell *minishell);
 int		unclosed_quotes(const char *str);
+int		invalid_path(char *path);
+int		ft_check_last_pipe(char *str);
 void	ft_print_syntax_error(void);
 void	ft_delete_quotes_on_matriz(char **prompt);
 void	ft_exit_process(t_minishell *minishell, int nbr_cmds);
@@ -108,4 +110,6 @@ void	inset_at_the_heredoc(t_minishell *minishell, t_redirect *var);
 void	control_center(void);
 void	close_minishell_fd(int fd1, int fd2);
 void	verif_redir(t_minishell *minishell);
+void	get_extra_prompt(t_minishell *minishell);
+char	*ft_readline(char *interface);
 #endif

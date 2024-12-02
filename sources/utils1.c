@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 01:59:11 by waalexan          #+#    #+#             */
-/*   Updated: 2024/11/22 15:55:29 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/12/02 15:06:21 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,11 @@ char	*return_cmd_path(char *cmd_path, char **routes)
 	if (cmd_path == NULL)
 		return (ft_free_matriz(routes), NULL);
 	routes = ft_free_matriz(routes);
+	if (invalid_path(cmd_path))
+	{
+		free(cmd_path);
+		return (NULL);
+	}
 	return (cmd_path);
 }
 
@@ -42,55 +47,22 @@ void	free_data(t_data *data)
 	free(data);
 }
 
-int	is_new_prompt(t_minishell *minishell)
+int	ft_ctrl_c(int value)
 {
-	if (ft_strcmp(minishell->readline, "gkomba") == 0)
-	{
-		minishell->gkomba = 1;
-		minishell->waalexan = 0;
-		minishell->ms = 0;
-		return (ft_prompt_sms('g'), 0);
-	}
-	else if (ft_strcmp(minishell->readline, "waalexan") == 0)
-	{
-		minishell->waalexan = 1;
-		minishell->gkomba = 0;
-		minishell->ms = 0;
-		return (ft_prompt_sms('w'), 0);
-	}
-	else if (ft_strcmp(minishell->readline, "ms") == 0
-		&& (minishell->waalexan == 1 || minishell->gkomba == 1))
-	{
-		minishell->ms = 1;
-		minishell->waalexan = 0;
-		minishell->gkomba = 0;
-		return (ft_prompt_sms('m'), 0);
-	}
-	return (1);
+	static int	status = 0;
+
+	if (value != -1)
+		status = value;
+	return (status);
 }
 
-int	ft_prompt(t_minishell *minishell)
+void	handle_sigint(int signal)
 {
-	if (minishell->gkomba)
-	{
-		minishell->readline = readline(AMARELO "gkomba" VERDE "🧐> " RESET);
-		minishell->waalexan = 0;
-		minishell->ms = 0;
-		return (1);
-	}
-	else if (minishell->waalexan)
-	{
-		minishell->readline = readline(AMARELO "Waalexan" VERDE "😎> " RESET);
-		minishell->gkomba = 0;
-		minishell->ms = 0;
-		return (1);
-	}
-	else if (minishell->ms)
-	{
-		minishell->readline = readline("minishell# ");
-		minishell->waalexan = 0;
-		minishell->gkomba = 0;
-		return (0);
-	}
-	return (1);
+	(void)signal;
+	ft_ctrl_c(130);
+	rl_replace_line("", 0);
+	write(1, "\n", 1);
+	rl_on_new_line();
+	if (ft_ctrl_c(-1))
+		rl_redisplay();
 }

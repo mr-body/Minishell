@@ -6,59 +6,39 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 01:59:39 by waalexan          #+#    #+#             */
-/*   Updated: 2024/11/26 14:54:59 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/12/02 15:02:35 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	ft_ctrl_c(int value)
-{
-	static int	status = 0;
-
-	if (value != -1)
-		status = value;
-	return (status);
-}
-
-void	handle_sigint(int signal)
-{
-	(void)signal;
-	ft_ctrl_c(130);
-	rl_replace_line("", 0);
-	write(1, "\n", 1);
-	rl_on_new_line();
-	if (ft_ctrl_c(-1))
-		rl_redisplay();
-}
-
 int	execute_command(t_minishell *minishell)
 {
-	char	**data;
-
 	minishell->fd = STDOUT_FILENO;
 	minishell->fd_type = 1;
 	if (unclosed_quotes(minishell->readline) == 1)
 		return (1);
-	data = ft_split_ms(minishell->readline, ' ');
-	if (data[0] == NULL)
-		return (ft_free_matriz(data), 0);
+	if (ft_check_last_pipe(minishell->readline) == 1)
+		get_extra_prompt(minishell);
+	minishell->check_data = ft_split_ms(minishell->readline, ' ');
+	if (minishell->check_data[0] == NULL)
+		return (ft_free_matriz(minishell->check_data), 0);
 	minishell->command = minishell->readline;
 	minishell->redirect_command = minishell->readline;
-	if (whitespace_and_syntax(minishell, data) != 0)
+	if (whitespace_and_syntax(minishell, minishell->check_data) != 0)
 		return (0);
-	if (check_if_str_is_pipe(data) == 1)
+	if (check_if_str_is_pipe(minishell->check_data) == 1)
 	{
-		ft_free_matriz(data);
+		ft_free_matriz(minishell->check_data);
 		minishell->exit_status = exec_command_pipe(minishell);
 	}
 	else
 	{
-		ft_free_matriz(data);
+		ft_free_matriz(minishell->check_data);
 		minishell->args = net_args(minishell->command);
 		minishell->exit_status = exec_command(minishell);
 	}
-	return (0);
+	return (minishell->exit_status);
 }
 
 static void	get_readline(t_minishell *minishell)
