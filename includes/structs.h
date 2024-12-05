@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 08:46:29 by gkomba            #+#    #+#             */
-/*   Updated: 2024/12/02 14:55:06 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/12/05 09:13:08 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ typedef struct s_sintax
 {
 	int	i;
 	int	state;
-	int	in_quotes;
+	int	in_s_quotes;
+	int	in_d_quotes;
 }		t_sintax;
 
 typedef struct s_quotes

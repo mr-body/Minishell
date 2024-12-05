@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 18:47:59 by gkomba            #+#    #+#             */
-/*   Updated: 2024/12/02 13:01:02 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/12/05 09:18:29 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,12 @@ int	pipe_sintx(char *input, t_sintax *sintax)
 int	validate_sintax_aux(char *input, t_sintax *sintax)
 {
 	if ((input[sintax->i] == '<' || input[sintax->i] == '>')
-		&& !sintax->in_quotes)
+		&& (!sintax->in_d_quotes && !sintax->in_s_quotes))
 	{
 		if (redir_sintx(input, sintax) == 2)
 			return (2);
 	}
-	else if ((input[sintax->i] == '|') && !sintax->in_quotes)
+	else if ((input[sintax->i] == '|') && (!sintax->in_d_quotes && !sintax->in_s_quotes))
 	{
 		if (pipe_sintx(input, sintax) == 2)
 			return (2);
@@ -64,7 +64,7 @@ int	validate_sintax(char *input)
 	ft_memset(&sintax, 0, sizeof(t_sintax));
 	while (input[sintax.i])
 	{
-		ft_in_quotes(input[sintax.i], &sintax.in_quotes);
+		ft_in_quotes(input[sintax.i], &sintax.in_s_quotes, &sintax.in_d_quotes);
 		if (ft_isspace(input[sintax.i]))
 		{
 			sintax.i++;
@@ -94,7 +94,7 @@ int	unclosed_quotes(const char *str)
 	}
 	if (single_quotes || double_quotes)
 	{
-		ft_putendl_fd("syntax error: unexpected end of file", 2);
+		ft_putendl_fd("syntax error: unclosed quotes", 2);
 		ft_ctrl_c(2);
 		return (1);
 	}

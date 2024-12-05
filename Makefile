@@ -33,11 +33,11 @@ SRCS = sources/minishell.c\
 		sources/prompt_utils.c\
 
 
-#LDFLAGS = -fsanitize=address
+# LDFLAGS = -fsanitize=address
 OJBS = ${SRCS:.c=.o}
 LIBFT = libft
 CC = cc
-CFLAGS = -Wall -Wextra -Werror #-fsanitize=address -g
+CFLAGS = -Wall -Wextra -Werror -g #-fsanitize=address 
 RM = rm -f
 
 all: ${NAME}

@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 17:41:57 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/26 15:50:57 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/12/05 09:11:33 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,20 @@
 
 static int	count_words(const char *str, char delimiter)
 {
-	int	in_quotes;
+	int	in_d_quotes;
+	int	in_s_quotes;
 	int	count;
 	int	i;
 
-	in_quotes = 0;
+	in_d_quotes = 0;
+	in_s_quotes = 0;
 	count = 0;
 	i = 0;
 	while (str[i])
 	{
-		if (str[i] == '"' || str[i] == '\'')
-			in_quotes = !in_quotes;
-		if (!in_quotes && str[i] == delimiter)
+		ft_in_quotes(str[i], &in_d_quotes, &in_s_quotes);
+		if ((!in_d_quotes && str[i] == delimiter) || (!in_s_quotes
+				&& str[i] == delimiter))
 		{
 			if (i > 0 && str[i - 1] != delimiter)
 				count++;
@@ -86,16 +88,19 @@ static char	**ft_alloc_splited_str(char **result, const char *str,
 		char delimiter, t_split_ms_vars *var)
 {
 	int	i;
-	int	in_quotes;
+	int	in_d_quotes;
+	int	in_s_quotes;
 
-	in_quotes = 0;
+	in_d_quotes = 0;
+	in_s_quotes = 0;
 	var->idx = var->index;
 	var->st = var->start;
 	i = -1;
 	while (str[++i])
 	{
-		ft_in_quotes(str[i], &in_quotes);
-		if (!in_quotes && str[i] == delimiter)
+		ft_in_quotes(str[i], &in_d_quotes, &in_s_quotes);
+		if ((!in_d_quotes && str[i] == delimiter) || (!in_s_quotes
+				&& str[i] == delimiter))
 		{
 			if (var->st != -1)
 				if (ft_strcpy_ms_split(result, str, &i, var) == 1)

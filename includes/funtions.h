@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 08:53:12 by gkomba            #+#    #+#             */
-/*   Updated: 2024/12/02 15:03:56 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/12/05 09:11:53 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ void	redir_append_in(t_minishell *minishell, int type);
 int		redir_trunc_o(t_minishell *minishell, int type);
 int		whitespace_and_syntax(t_minishell *minishell, char **data);
 void	execute_child_process(t_minishell *minishell);
-void	ft_in_quotes(char c, int *in_quotes);
+void	ft_in_quotes(char c, int *in_single_quotes, int *in_double_quotes);
 void	last_redir(t_minishell *minishell);
 void	set_to_env(char *value);
 void	redir_syntax_error(char *str);
