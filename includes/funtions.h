@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 08:53:12 by gkomba            #+#    #+#             */
-/*   Updated: 2024/12/05 09:11:53 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/12/06 09:28:05 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,12 +67,12 @@ int		is_new_prompt(t_minishell *minishell);
 int		unclosed_quotes(const char *str);
 int		invalid_path(char *path);
 int		ft_check_last_pipe(char *str);
+int		ft_print_command_error(char *cmd);
 void	ft_print_syntax_error(void);
 void	ft_delete_quotes_on_matriz(char **prompt);
 void	ft_exit_process(t_minishell *minishell, int nbr_cmds);
 void	close_fds(t_minishell *minishell, int nbr_cmds);
 void	open_fds(t_minishell *minishell, int nbr_cmds);
-void	ft_print_command_error(char *cmd);
 void	free_data(t_data *data);
 void	set_to_env(char *value);
 void	increment_shell_level(t_minishell *minishell);

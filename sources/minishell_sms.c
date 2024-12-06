@@ -6,15 +6,22 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 01:59:11 by waalexan          #+#    #+#             */
-/*   Updated: 2024/12/02 13:20:34 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/12/06 09:28:53 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	ft_print_command_error(char *cmd)
+int	ft_print_command_error(char *cmd)
 {
-	if (ft_strchr(cmd, '/'))
+	 if (access(cmd, F_OK) == 0)
+    {
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(cmd, 2);
+		ft_putendl_fd(": Is a directory", 2);
+		return (126);
+	}
+	else if (ft_strchr(cmd, '/'))
 	{
 		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(cmd, 2);
@@ -26,6 +33,7 @@ void	ft_print_command_error(char *cmd)
 		ft_putstr_fd(cmd, 2);
 		ft_putendl_fd(": command not found", 2);
 	}
+	return (127);
 }
 
 void	ft_print_syntax_error(void)

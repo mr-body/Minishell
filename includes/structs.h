@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 08:46:29 by gkomba            #+#    #+#             */
-/*   Updated: 2024/12/05 09:13:08 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/12/06 09:29:43 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,6 +164,7 @@ typedef struct s_minishell
 	int		is_stdin;
 	int		redir;
 	int		status;
+	int		exit;
 	int		process_out;
 	int		not_flag;
 	char	*data[MAX_ARGS];

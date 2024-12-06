@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 17:03:07 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/22 09:30:08 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/12/06 09:15:20 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,8 @@ int	validate_command(char *input)
 		quote_scanner_command(input);
 		return (1);
 	}
+	if (input[0] == '/')
+		return (0);
 	return (1);
 }
 

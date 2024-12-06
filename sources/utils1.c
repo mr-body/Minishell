@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 01:59:11 by waalexan          #+#    #+#             */
-/*   Updated: 2024/12/02 15:06:21 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/12/06 09:16:39 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,6 @@ char	*return_cmd_path(char *cmd_path, char **routes)
 	if (cmd_path == NULL)
 		return (ft_free_matriz(routes), NULL);
 	routes = ft_free_matriz(routes);
-	if (invalid_path(cmd_path))
-	{
-		free(cmd_path);
-		return (NULL);
-	}
 	return (cmd_path);
 }
 

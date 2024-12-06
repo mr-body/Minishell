@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/08 13:02:16 by waalexan          #+#    #+#             */
-/*   Updated: 2024/12/05 09:11:23 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/12/06 09:27:50 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,9 +71,9 @@ static void	pipe_opt_two(t_minishell *minishell, t_heart *var_header)
 		exit(130);
 	if (shell(minishell->args->args, 1, minishell) == -1)
 	{
-		ft_print_command_error(minishell->args->args[0]);
+		minishell->exit = ft_print_command_error(minishell->args->args[0]);
 		free_data(minishell->args);
-		exit(127);
+		exit(minishell->exit);
 	}
 	free_data(minishell->args);
 }

@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 15:57:35 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/26 15:55:52 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/12/06 09:28:22 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ void	execute_child_process(t_minishell *minishell)
 			dup2(minishell->fd, STDIN_FILENO);
 		if (shell(minishell->args->args, 0, minishell) == -1)
 		{
-			ft_print_command_error(minishell->args->args[0]);
-			exit(127);
+			minishell->exit = ft_print_command_error(minishell->args->args[0]);
+			exit(minishell->exit);
 		}
 		close(minishell->fd);
 	}
