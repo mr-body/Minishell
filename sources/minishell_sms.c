@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 01:59:11 by waalexan          #+#    #+#             */
-/*   Updated: 2024/12/06 09:28:53 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/12/06 12:45:24 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 int	ft_print_command_error(char *cmd)
 {
-	 if (access(cmd, F_OK) == 0)
-    {
+	if (access(cmd, F_OK) == 0)
+	{
 		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(cmd, 2);
 		ft_putendl_fd(": Is a directory", 2);

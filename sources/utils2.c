@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 10:41:08 by gkomba            #+#    #+#             */
-/*   Updated: 2024/12/02 15:04:04 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/12/06 10:45:29 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,11 @@ int	in_quotes(t_split_redir_cmd *vars, char *command)
 
 int	whitespace_and_syntax(t_minishell *minishell, char **data)
 {
+	if (minishell->readline[0] == '|')
+	{
+		ft_putendl_fd("minishell: syntax error near unexpected token `|'", 2);
+		return (ft_free_matriz(data), 1);
+	}
 	if (minishell->readline[0] == '\n' || minishell->readline[0] == '\0'
 		|| minishell->readline[0] == '\t')
 		return (ft_free_matriz(data), 1);

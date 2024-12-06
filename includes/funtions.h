@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 08:53:12 by gkomba            #+#    #+#             */
-/*   Updated: 2024/12/06 09:28:05 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/12/06 12:43:44 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,7 @@ void	ft_strtok(char *str, char *delimiter,
 void	clean(t_minishell *minishell);
 void	inset_at_the_heredoc(t_minishell *minishell, t_redirect *var);
 void	control_center(void);
+void	control_center_2(void);
 void	close_minishell_fd(int fd1, int fd2);
 void	verif_redir(t_minishell *minishell);
 void	get_extra_prompt(t_minishell *minishell);
