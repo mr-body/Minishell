@@ -1,0 +1,12 @@
+total 244
+drwxr-xr-x 6 gkomba 2024_luanda   4096 Dec  6  2024 .
+drwxr-xr-x 5 gkomba 2024_luanda   4096 Dec  6 09:00 ..
+-rw-r--r-- 1 gkomba 2024_luanda      0 Dec  6  2024 file
+-rw-r--r-- 1 gkomba 2024_luanda      0 Dec  6  2024 filea
+drwxr-xr-x 8 gkomba 2024_luanda   4096 Dec  6 15:38 .git
+-rw-r--r-- 1 gkomba 2024_luanda   1102 Nov 26 15:46 .gitignore
+drwxr-xr-x 2 gkomba 2024_luanda   4096 Dec  6 12:47 includes
+drwxr-xr-x 2 gkomba 2024_luanda   4096 Dec  6 16:01 libft
+-rw-r--r-- 1 gkomba 2024_luanda   1229 Dec  6 15:37 Makefile
+-rwxr-xr-x 1 gkomba 2024_luanda 216896 Dec  6 16:12 minishell
+drwxr-xr-x 3 gkomba 2024_luanda   4096 Dec  6 16:12 sources

@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/08 12:34:32 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/13 11:16:55 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/12/06 16:11:05 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,14 +67,14 @@ static void	cat_arg(t_split_redir_cmd *vars, char *data, char *command)
 	return ;
 }
 
-static void	split_redir(t_split_redir_cmd *vars, char *command, char **data,
-		char delimiter)
+static void	split_redir(t_split_redir_cmd *vars, char *command, char **data)
 {
 	while (command[vars->i] != '\0')
 	{
 		if (in_quotes(vars, command))
 			continue ;
-		if (!vars->in_quotes && command[vars->i] == delimiter)
+		if (!vars->in_quotes && (command[vars->i] == '<'
+				|| command[vars->i] == '>'))
 		{
 			cat_arg(vars, data[0], command);
 			vars->is_redirect = 1;
@@ -92,7 +92,7 @@ static void	split_redir(t_split_redir_cmd *vars, char *command, char **data,
 	}
 }
 
-void	split_redirect_command(char *command, char **data, char delimiter)
+void	split_redirect_command(char *command, char **data)
 {
 	t_split_redir_cmd	vars;
 
@@ -103,7 +103,7 @@ void	split_redirect_command(char *command, char **data, char delimiter)
 	vars.current_arg[0] = '\0';
 	data[0] = (char *)malloc(sizeof(char) * ft_strlen(command) + 1);
 	data[0][0] = '\0';
-	split_redir(&vars, command, data, delimiter);
+	split_redir(&vars, command, data);
 	if (vars.current_arg[0] != '\0')
 		save_curr_arg(&vars, data);
 	free(vars.current_arg);
