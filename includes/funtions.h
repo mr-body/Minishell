@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 08:53:12 by gkomba            #+#    #+#             */
-/*   Updated: 2024/12/06 12:43:44 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/12/06 15:28:20 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ char	**ft_split_ms(const char *str, char delimiter);
 char	*join_single_char(char *tmp, char chr);
 char	*return_cmd_path(char *cmd_path, char **routes);
 int		shell(char **prompt, int pipe, t_minishell *minishell);
+int		ft_control_prompt(int value);
 int		execute_command(t_minishell *minishell);
 int		command_cd(char **prompt, t_minishell *minishell);
 int		command_echo(char **prompt, int pipe, t_minishell *minishell);

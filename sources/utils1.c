@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 01:59:11 by waalexan          #+#    #+#             */
-/*   Updated: 2024/12/06 12:43:35 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/12/06 15:35:05 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,11 @@ void	handle_sigint(int signal)
 {
 	(void)signal;
 	ft_ctrl_c(130);
-	rl_replace_line("", 0);
 	write(1, "\n", 1);
 	rl_on_new_line();
-	if (ft_ctrl_c(-1))
+	if (ft_control_prompt(-1) > 1)
+	{
+		rl_replace_line("", 0);
 		rl_redisplay();
+	}
 }

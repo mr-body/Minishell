@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/08 13:02:16 by waalexan          #+#    #+#             */
-/*   Updated: 2024/12/06 09:27:50 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/12/06 15:34:19 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,16 +102,18 @@ int	exec_command_pipe(t_minishell *minishell)
 	var.out_fd = 0;
 	while (++var.i < var.num_commands)
 	{
+		ft_control_prompt(1);
 		pipe(var.fd);
 		var.pid = fork();
 		if (var.pid == 0)
 		{
 			pipe_opt_one(minishell, &var, &var_header);
 			pipe_opt_two(minishell, &var_header);
+			ft_control_prompt(2);
 		}
 		else
 			pipe_opt_three(minishell, &var);
+		ft_control_prompt(1);
 	}
-	free_data(minishell->raw_args);
-	return (0);
+	return (free_data(minishell->raw_args), 0);
 }

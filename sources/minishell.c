@@ -6,11 +6,20 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 01:59:39 by waalexan          #+#    #+#             */
-/*   Updated: 2024/12/06 10:43:46 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/12/06 15:35:46 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+int	ft_control_prompt(int value)
+{
+	static int	status = 0;
+
+	if (value != -1)
+		status = value;
+	return (status);
+}
 
 int	execute_command(t_minishell *minishell)
 {
@@ -77,6 +86,7 @@ int	main(int argc, char **argv)
 		signal(SIGINT, handle_sigint);
 		get_readline(&minishell);
 		free(minishell.readline);
+		ft_control_prompt(2);
 	}
 	return (0);
 }

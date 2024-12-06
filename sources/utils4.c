@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 10:41:08 by gkomba            #+#    #+#             */
-/*   Updated: 2024/12/06 12:45:19 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/12/06 13:23:21 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ void	control_center(void)
 {
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_IGN);
+	ft_ctrl_c(130);
 }
 
 int	invalid_path(char *path)
