@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/08 12:34:32 by gkomba            #+#    #+#             */
-/*   Updated: 2024/12/06 16:11:05 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/12/07 19:22:34 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static void	save_curr_arg(t_split_redir_cmd *vars, char **data)
 
 static void	cat_arg(t_split_redir_cmd *vars, char *data, char *command)
 {
-	if (ft_strchr(command, '|'))
+	if (ft_strchr(command, '|') && !vars->in_s_quotes && !vars->in_d_quotes)
 		ft_delete_chr_on_str(command, '|');
 	if (vars->current_arg[0] != '\0')
 	{
@@ -71,17 +71,17 @@ static void	split_redir(t_split_redir_cmd *vars, char *command, char **data)
 {
 	while (command[vars->i] != '\0')
 	{
-		if (in_quotes(vars, command))
-			continue ;
-		if (!vars->in_quotes && (command[vars->i] == '<'
-				|| command[vars->i] == '>'))
+		ft_in_quotes(command[vars->i], &vars->in_s_quotes, &vars->in_d_quotes);
+		if ((!vars->in_s_quotes && !vars->in_d_quotes)
+			&& (command[vars->i] == '<' || command[vars->i] == '>'))
 		{
 			cat_arg(vars, data[0], command);
 			vars->is_redirect = 1;
 			vars->i++;
 			continue ;
 		}
-		if (!vars->in_quotes && command[vars->i] == ' ')
+		if ((!vars->in_s_quotes && !vars->in_d_quotes)
+			&& command[vars->i] == ' ')
 		{
 			finalize_argument(vars, data);
 			vars->i++;

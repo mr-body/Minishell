@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 01:59:39 by waalexan          #+#    #+#             */
-/*   Updated: 2024/12/06 20:01:45 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/12/07 14:40:47 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,15 +27,15 @@ int	execute_command(t_minishell *minishell)
 	minishell->fd_type = 1;
 	if (unclosed_quotes(minishell->readline) == 1)
 		return (1);
-	if (ft_check_last_pipe(minishell->readline) == 1)
-		get_extra_prompt(minishell);
 	minishell->check_data = ft_split_ms(minishell->readline, ' ');
 	if (minishell->check_data[0] == NULL)
 		return (ft_free_matriz(minishell->check_data), 0);
-	minishell->command = minishell->readline;
-	minishell->redirect_command = minishell->readline;
 	if (whitespace_and_syntax(minishell, minishell->check_data) != 0)
 		return (0);
+	if (ft_check_last_pipe(minishell->readline) == 1)
+		get_extra_prompt(minishell);
+	minishell->command = minishell->readline;
+	minishell->redirect_command = minishell->readline;
 	if (check_if_str_is_pipe(minishell->check_data) == 1)
 	{
 		ft_free_matriz(minishell->check_data);

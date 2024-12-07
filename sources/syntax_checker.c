@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 11:35:50 by gkomba            #+#    #+#             */
-/*   Updated: 2024/12/07 09:50:19 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/12/07 19:24:10 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	verify_pipes_syntax(t_minishell *minishell)
 	int	i;
 
 	i = 0;
-	minishell->verify_syntax = ft_split_ms(minishell->command, ' ');
+	minishell->verify_syntax = ft_split_ms(minishell->readline, ' ');
 	while (minishell->verify_syntax[i])
 	{
 		if (ft_strncmp(minishell->verify_syntax[i], "|", 1) == 0)
@@ -44,7 +44,7 @@ int	verify_redir_syntax_one(t_minishell *minishell, char *redir_type)
 	if (return_redir_type(redir_type[0], redir_type[1]) != R_TRUNC_O
 		&& return_redir_type(redir_type[0], redir_type[1]) != R_TRUNC_I)
 		return (0);
-	minishell->verify_syntax = ft_split_ms(minishell->redirect_command, ' ');
+	minishell->verify_syntax = ft_split_ms(minishell->readline, ' ');
 	if (redir_is_not_followed_by_pipe(minishell->verify_syntax))
 		return (ft_free_matriz(minishell->verify_syntax), 2);
 	while (minishell->verify_syntax[++i])
@@ -67,7 +67,7 @@ int	verify_redir_syntax_two(t_minishell *minishell, char *redir_type)
 	if (return_redir_type(redir_type[0], redir_type[1]) != R_APPEND_I
 		&& return_redir_type(redir_type[0], redir_type[1]) != R_APPEND_O)
 		return (0);
-	minishell->verify_syntax = ft_split_ms(minishell->redirect_command, ' ');
+	minishell->verify_syntax = ft_split_ms(minishell->readline, ' ');
 	if (redir_is_not_followed_by_pipe(minishell->verify_syntax))
 		return (ft_free_matriz(minishell->verify_syntax), 2);
 	while (minishell->verify_syntax[++i])
@@ -93,13 +93,11 @@ int	check_name_var_syntax(char *var)
 	while (var[len] && var[len] != '=')
 		len++;
 	tmp = ft_substr(var, 0, len);
-	printf("tmp: %s\n", tmp);
 	if (tmp[0] == '\'')
 		tmp2 = ft_strtrim(tmp, "'");
-	else 
+	else
 		tmp2 = ft_strtrim(tmp, "\"");
 	free_ptr(tmp);
-	printf("tmp2: %s\n", tmp2);
 	i = 0;
 	if (ft_isdigit(tmp2[i]) || tmp2[i] == '=')
 	{
@@ -127,7 +125,7 @@ int	check_name_var_syntax(char *var)
 
 int	syntax_checker(t_minishell *minishell)
 {
-	minishell->status = validate_sintax(minishell->command);
+	minishell->status = validate_sintax(minishell->readline);
 	if (minishell->status == 2)
 		return (2);
 	minishell->exit_status = verify_pipes_syntax(minishell);

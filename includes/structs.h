@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 08:46:29 by gkomba            #+#    #+#             */
-/*   Updated: 2024/12/06 09:29:43 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/12/07 16:37:09 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ typedef struct s_split_redir_cmd
 {
 	int		data_idx;
 	int		in_quotes;
+	int		in_d_quotes;
+	int		in_s_quotes;
 	int		is_redirect;
 	char	*current_arg;
 	int		i;

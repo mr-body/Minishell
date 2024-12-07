@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 10:04:29 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/14 11:13:45 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/12/07 18:16:51 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ int		ft_matriz_len3(char *data2[MAX_ARGS]);
 int		ft_atoi(const char *nptr);
 int		ft_atoi_v2(const char *nptr);
 size_t	ft_strlen(const char *str);
+int		ft_strnlen(const char *s, char n);
 int		ft_matriz_len(char **matriz);
 size_t	ft_strlcpy(char *dest, const char *src, size_t size);
 size_t	ft_strlcat(char *dst, const char *src, size_t size);
@@ -82,5 +83,6 @@ char	*ft_strncpy(char *dest, const char *src, unsigned int n);
 char	*ft_strncat(char *dest, char *src, unsigned int nb);
 char	**free_split(char **split, size_t word);
 char	**ft_free_matriz2(char *matriz[MAX_ARGS]);
+char	*ft_strndup(const char *str, int n);
 
 #endif

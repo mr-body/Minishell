@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 10:41:08 by gkomba            #+#    #+#             */
-/*   Updated: 2024/12/07 09:48:06 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/12/07 14:43:07 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,16 +72,12 @@ int	ft_check_last_pipe(char *str)
 
 	if (!str)
 		return (0);
-	i = ft_strlen(str) - 1;
 	fg = 0;
-	while (i >= 0)
+	i = ft_strlen(str);
+	if (str[i - 1] == '|')
 	{
-		if (str[i] == '|')
-			fg++;
-		else if (str[i] == 32 || str[i] == 9)
-			i--;
-		else
-			break ;
+		fg = 1;
+		return (fg);
 	}
 	return (fg);
 }

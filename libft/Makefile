@@ -48,6 +48,8 @@ SRCS = ft_strlen.c\
 	ft_delete_chr_on_str.c\
 	ft_strncat.c\
 	ft_strcmp.c\
+	ft_strnlen.c\
+	ft_strndup.c\
 
 
 OBJS = ${SRCS:.c=.o}

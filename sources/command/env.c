@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 16:20:32 by gkomba            #+#    #+#             */
-/*   Updated: 2024/12/07 09:13:03 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/12/07 19:19:26 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,10 @@ static int	check_env_syntax(char **prompt, int pipe)
 
 int	command_env(char **prompt, char **environ, int pipe, t_minishell *minishell)
 {
-	int	i;
+	int		i;
+	char	*variable;
 
+	variable = NULL;
 	if (check_env_syntax(prompt, pipe))
 		return (ft_ctrl_c(1), 1);
 	i = -1;
@@ -37,9 +39,10 @@ int	command_env(char **prompt, char **environ, int pipe, t_minishell *minishell)
 	{
 		if (ft_strchr(environ[i], '='))
 		{
-			environ[i] = quote_scanner(environ[i]);
+			variable = quote_scanner(environ[i]);
 			write(minishell->fd, environ[i], ft_strlen(environ[i]));
 			write(minishell->fd, "\n", 1);
+			free_ptr(variable);
 		}
 	}
 	if (pipe)
