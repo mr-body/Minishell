@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 16:20:32 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/10 16:44:42 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/12/07 09:13:03 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ int	command_env(char **prompt, char **environ, int pipe, t_minishell *minishell)
 	{
 		if (ft_strchr(environ[i], '='))
 		{
+			environ[i] = quote_scanner(environ[i]);
 			write(minishell->fd, environ[i], ft_strlen(environ[i]));
 			write(minishell->fd, "\n", 1);
 		}

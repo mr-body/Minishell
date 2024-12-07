@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 16:23:19 by gkomba            #+#    #+#             */
-/*   Updated: 2024/12/06 19:59:33 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/12/07 09:59:40 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,13 @@ char	*shell_binary(char **prompt)
 		i = -1;
 		while (routes[++i] != NULL)
 		{
+			printf("routes[%d]: %s\n", i, routes[i]);
 			cmd_path = ft_strcat(routes[i], prompt[0], '/');
 			if (access(cmd_path, X_OK) == 0)
+			{
+				printf("cmd_path: %s\n", cmd_path);
 				break ;
+			}
 			cmd_path = free_ptr(cmd_path);
 		}
 	}
