@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 16:23:19 by gkomba            #+#    #+#             */
-/*   Updated: 2024/12/07 19:13:18 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/12/09 21:47:37 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 int	shell_builtin(char **prompt, char **environ, int pipe,
 		t_minishell *minishell)
 {
+	ft_delete_quotes_on_matriz(prompt);
 	if (ft_strncmp(prompt[0], "exit", 4) == 0)
 		minishell->exit_status = command_exit(prompt, pipe, minishell);
 	else if (ft_strncmp(prompt[0], "env", 3) == 0)
@@ -71,10 +72,10 @@ int	shell(char **prompt, int pipe, t_minishell *minishell)
 		return (shell_builtin(prompt, environ, pipe, minishell));
 	else
 	{
+		ft_delete_quotes_on_matriz(prompt);
 		command = shell_binary(prompt);
 		if (command != NULL)
 		{
-			ft_delete_quotes_on_matriz(prompt);
 			return (execve(command, prompt, environ));
 		}
 		command = free_ptr(command);
@@ -90,21 +91,27 @@ void	clean(t_minishell *minishell)
 
 int	is_builtin(char *cmd)
 {
+	char	*tmp;
+	char	*tmp2;
+
 	if (!cmd)
 		return (0);
-	if (ft_strcmp(cmd, "exit") == 0)
-		return (1);
-	else if (ft_strcmp(cmd, "env") == 0)
-		return (1);
-	else if (ft_strcmp(cmd, "cd") == 0)
-		return (1);
-	else if (ft_strcmp(cmd, "echo") == 0)
-		return (1);
-	else if (ft_strcmp(cmd, "pwd") == 0)
-		return (1);
-	else if (ft_strcmp(cmd, "export") == 0)
-		return (1);
-	else if (ft_strcmp(cmd, "unset") == 0)
-		return (1);
-	return (0);
+	tmp = ft_strdup(cmd);
+	tmp2 = quote_scanner(tmp);
+	free(tmp);
+	if (ft_strcmp(tmp2, "exit") == 0)
+		return (free(tmp2), 1);
+	else if (ft_strcmp(tmp2, "env") == 0)
+		return (free(tmp2), 1);
+	else if (ft_strcmp(tmp2, "cd") == 0)
+		return (free(tmp2), 1);
+	else if (ft_strcmp(tmp2, "echo") == 0)
+		return (free(tmp2), 1);
+	else if (ft_strcmp(tmp2, "pwd") == 0)
+		return (free(tmp2), 1);
+	else if (ft_strcmp(tmp2, "export") == 0)
+		return (free(tmp2), 1);
+	else if (ft_strcmp(tmp2, "unset") == 0)
+		return (free(tmp2), 1);
+	return (free(tmp2), 0);
 }

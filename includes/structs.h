@@ -6,12 +6,21 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 08:46:29 by gkomba            #+#    #+#             */
-/*   Updated: 2024/12/09 16:49:14 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/12/09 22:00:20 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STRUCTS_H
 # define STRUCTS_H
+
+typedef struct s_epur_vars
+{
+	int		i;
+	int		j;
+	int		in_d_quotes;
+	int		in_s_quotes;
+	int		prev_space;
+}			t_epur_vars;
 
 typedef struct s_local_data
 {

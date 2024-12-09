@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 01:59:39 by waalexan          #+#    #+#             */
-/*   Updated: 2024/12/09 15:31:37 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/12/09 22:01:10 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,26 +23,30 @@ int	ft_control_prompt(int value)
 
 void	ft_epur_str(char *str)
 {
-	int	i;
-	int	j;
-	int	in_d_quotes;
-	int	in_s_quotes;
+	t_epur_vars	var;
 
-	i = 0;
-	j = 0;
-	while (str[i])
+	ft_memset(&var, 0, sizeof(t_epur_vars));
+	while (str[var.i])
 	{
-		ft_in_quotes(str[i], &in_d_quotes, &in_s_quotes);	
-		while (ft_isspace(str[i]) && (!in_d_quotes && !in_s_quotes))
-			i++;
-		if (str[i] == '\t')
-			str[i++] = ' ';
-		if (str[i] == ' ' && str[i + 1] == ' ' && (!in_d_quotes && !in_s_quotes))
-			i++;
+		ft_in_quotes(str[var.i], &var.in_d_quotes, &var.in_s_quotes);
+		if (ft_isspace(str[var.i]) && !var.in_d_quotes && !var.in_s_quotes)
+		{
+			if (!var.prev_space)
+				str[var.j++] = ' ';
+			var.prev_space = 1;
+			var.i++;
+		}
 		else
-			str[j++] = str[i++];
+		{
+			var.prev_space = 0;
+			if (str[var.i] == '\t')
+				str[var.i] = ' ';
+			str[var.j++] = str[var.i++];
+		}
 	}
-	str[j] = '\0';
+	if (var.j > 0 && str[var.j - 1] == ' ')
+		var.j--;
+	str[var.j] = '\0';
 }
 
 int	execute_command(t_minishell *minishell)
@@ -68,11 +72,7 @@ int	execute_command(t_minishell *minishell)
 	else
 	{
 		ft_free_matriz(minishell->check_data);
-		//ft_epur_str(minishell->command);
-		// printf("command heart = %s\n", minishell->command);
 		minishell->args = net_args(minishell->command);
-		// printf("=====> args heart\n");
-		// ft_print_matriz(minishell->args->args);
 		minishell->exit_status = exec_command(minishell);
 	}
 	return (minishell->exit_status);
@@ -91,6 +91,7 @@ static void	get_readline(t_minishell *minishell)
 		return ;
 	else if (minishell->readline && !ft_is_only(minishell->readline, '\n'))
 		add_history(minishell->readline);
+	ft_epur_str(minishell->readline);
 	execute_command(minishell);
 }
 

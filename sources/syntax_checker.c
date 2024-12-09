@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 11:35:50 by gkomba            #+#    #+#             */
-/*   Updated: 2024/12/09 12:14:14 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/12/09 21:44:45 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,23 +100,11 @@ int	check_name_var_syntax(char *var)
 	free_ptr(tmp);
 	i = 0;
 	if (ft_isdigit(tmp2[i]) || tmp2[i] == '=')
-	{
-		ft_putstr_fd("export: ", 2);
-		ft_putstr_fd(var, 2);
-		ft_putendl_fd(" :not a valid identifier", 2);
-		free_ptr(tmp2);
-		return (ft_ctrl_c(1), 1);
-	}
+		return (free_ptr(tmp2), export_error_smr(var), 1);
 	while (tmp2[i] && tmp2[i] != '=')
 	{
 		if (!ft_isalnum(tmp2[i]) && tmp2[i] != '_')
-		{
-			ft_putstr_fd("export: ", 2);
-			ft_putstr_fd(var, 2);
-			ft_putendl_fd(" :not a valid identifier", 2);
-			free_ptr(tmp2);
-			return (ft_ctrl_c(1), 1);
-		}
+			return (free_ptr(tmp2), export_error_smr(var), 1);
 		i++;
 	}
 	free_ptr(tmp2);

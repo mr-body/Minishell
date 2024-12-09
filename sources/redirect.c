@@ -6,13 +6,13 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 14:15:03 by gkomba            #+#    #+#             */
-/*   Updated: 2024/12/09 16:51:56 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/12/09 21:14:51 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	redir_trunc_o(t_minishell *minishell, int type)
+int	redir_trunc_o(t_minishell *minishell, int type, int index)
 {
 	t_local_data	var;
 
@@ -32,10 +32,12 @@ int	redir_trunc_o(t_minishell *minishell, int type)
 		close(var.fd);
 		var.file = free_ptr(var.file);
 	}
-	var.file = quote_scanner(minishell->data[ft_matriz_len3(minishell->data) - 1]);
+	var.file = quote_scanner(minishell->data[ft_matriz_len3(minishell->data)
+			- 1]);
 	minishell->fd = open(var.file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	var.file = free_ptr(var.file);
-	(void)type;
+	if (type == 1)
+		close_minishell_fd(minishell->fd, index);
 	ft_free_matriz2(minishell->data);
 	return (minishell->is_redir = 1, 0);
 }
@@ -60,10 +62,12 @@ void	redir_append_o(t_minishell *minishell, int type)
 		close(var.fd);
 		free_ptr(var.file);
 	}
-	var.file = quote_scanner(minishell->data[ft_matriz_len3(minishell->data) - 1]);
+	var.file = quote_scanner(minishell->data[ft_matriz_len3(minishell->data)
+			- 1]);
 	minishell->fd = open(var.file, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	var.file = free_ptr(var.file);
-	(void)type;
+	if (type == 1)
+		close_minishell_fd(minishell->fd, STDOUT_FILENO);
 	ft_free_matriz2(minishell->data);
 	minishell->is_redir = 1;
 }
@@ -80,7 +84,8 @@ void	redir_trunc_in(t_minishell *minishell, int type)
 		free_data(minishell->args);
 	minishell->args = net_args(minishell->data[0]);
 	minishell->fd_type = 1;
-	var.file = quote_scanner(minishell->data[ft_matriz_len3(minishell->data) - 1]);
+	var.file = quote_scanner(minishell->data[ft_matriz_len3(minishell->data)
+			- 1]);
 	minishell->fd = open(var.file, O_RDONLY);
 	free_ptr(var.file);
 	if (minishell->fd < 0)
@@ -133,7 +138,8 @@ void	redir_append_in(t_minishell *minishell, int type)
 	if (minishell->args)
 		free_data(minishell->args);
 	minishell->args = net_args(minishell->data[0]);
-	var.file = quote_scanner(minishell->data[ft_matriz_len3(minishell->data) - 1]);
+	var.file = quote_scanner(minishell->data[ft_matriz_len3(minishell->data)
+			- 1]);
 	var.l = ft_strtrim(var.file, " ");
 	var.fd_in = var.fd[1];
 	var.type = type;

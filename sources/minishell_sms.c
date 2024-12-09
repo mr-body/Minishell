@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 01:59:11 by waalexan          #+#    #+#             */
-/*   Updated: 2024/12/06 12:45:24 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/12/09 21:46:23 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,4 +65,12 @@ void	pipe_syntax_error(char *str)
 	{
 		ft_putendl_fd("syntax error near unexpected token `|'", 2);
 	}
+}
+
+void	export_error_smr(char *var)
+{
+	ft_putstr_fd("export: ", 2);
+	ft_putstr_fd(var, 2);
+	ft_putendl_fd(" :not a valid identifier", 2);
+	ft_ctrl_c(1);
 }

@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 17:30:33 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/22 13:28:12 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/12/09 21:27:28 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,8 @@ static char	*expand_env_var(char *arg, char *tmp, t_vars *var)
 		if (arg[var->j] == '$' && arg[var->j + 1] == '?' && var->expand == 1)
 			tmp = expand_last_return(var, tmp);
 		else if ((arg[var->j] == '$' && arg[var->j + 1] != '\0' && arg[var->j
-					+ 1] != '$') && var->expand == 1)
+					+ 1] != '$') && var->expand == 1 && (arg[var->j + 1] != 32
+				&& arg[var->j + 1] != '\'') && ft_isdigit(arg[var->j + 1]) == 0)
 		{
 			is_on_brace(arg, var, "SUGAR");
 			var->env_var_name = get_env_name(arg, &var->j, &var->k);

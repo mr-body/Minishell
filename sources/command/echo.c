@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 16:20:39 by gkomba            #+#    #+#             */
-/*   Updated: 2024/12/07 18:24:23 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/12/09 21:09:05 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ static void	ft_print_echo(char **prompt, t_minishell *minishell)
 {
 	int		i;
 	int		n_flag;
-	char	*old_line;
 
 	i = 1;
 	n_flag = 0;
@@ -45,9 +44,6 @@ static void	ft_print_echo(char **prompt, t_minishell *minishell)
 	}
 	while (prompt[i])
 	{
-		old_line = prompt[i];
-		prompt[i] = quote_scanner(prompt[i]);
-		free_ptr(old_line);
 		write(minishell->fd, prompt[i], ft_strlen(prompt[i]));
 		if (prompt[i + 1])
 			write(minishell->fd, " ", 1);

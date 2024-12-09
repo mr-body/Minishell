@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 10:39:46 by gkomba            #+#    #+#             */
-/*   Updated: 2024/12/07 20:09:21 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/12/09 21:38:58 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,13 @@ void	ft_delete_quotes_on_matriz(char **prompt)
 		return ;
 	while (prompt[++i])
 	{
-		tmp = prompt[i];
-		prompt[i] = quote_scanner(prompt[i]);
-		if (tmp)
-			free_ptr(tmp);
+		if (ft_strchr(prompt[i], '\'') || ft_strchr(prompt[i], '"'))
+		{
+			tmp = prompt[i];
+			prompt[i] = quote_scanner(prompt[i]);
+			if (tmp)
+				tmp = free_ptr(tmp);
+		}
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 08:53:12 by gkomba            #+#    #+#             */
-/*   Updated: 2024/12/06 16:11:16 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/12/09 21:46:06 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,8 @@ int		is_new_prompt(t_minishell *minishell);
 int		unclosed_quotes(const char *str);
 int		invalid_path(char *path);
 int		ft_check_last_pipe(char *str);
+int		redir_trunc_o(t_minishell *minishell, int type, int index);
+int		whitespace_and_syntax(t_minishell *minishell, char **data);
 int		ft_print_command_error(char *cmd);
 void	ft_print_syntax_error(void);
 void	ft_delete_quotes_on_matriz(char **prompt);
@@ -84,8 +86,6 @@ void	execute_child_process_pipe(t_minishell *minishell, int i,
 void	redir_append_o(t_minishell *minishell, int type);
 void	redir_trunc_in(t_minishell *minishell, int type);
 void	redir_append_in(t_minishell *minishell, int type);
-int		redir_trunc_o(t_minishell *minishell, int type);
-int		whitespace_and_syntax(t_minishell *minishell, char **data);
 void	execute_child_process(t_minishell *minishell);
 void	ft_in_quotes(char c, int *in_single_quotes, int *in_double_quotes);
 void	last_redir(t_minishell *minishell);
@@ -113,5 +113,6 @@ void	control_center_2(void);
 void	close_minishell_fd(int fd1, int fd2);
 void	verif_redir(t_minishell *minishell);
 void	get_extra_prompt(t_minishell *minishell);
-char	*ft_readline(char *interface);
+void	export_error_smr(char *var);
+
 #endif

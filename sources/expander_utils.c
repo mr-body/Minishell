@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 14:07:52 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/14 10:56:19 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/12/09 19:58:07 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,9 +67,6 @@ int	allow_expand(char *str)
 	i = 0;
 	aspas_simples = 0;
 	aspas_duplas = 0;
-	if (ft_count_chr_occurrency_str(str, '\'') == 1
-		|| ft_count_chr_occurrency_str(str, '"') == 1)
-		return (1);
 	while (str[i] != '\0')
 	{
 		if (str[i] == '\'' && !aspas_duplas)

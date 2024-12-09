@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 14:59:09 by gkomba            #+#    #+#             */
-/*   Updated: 2024/12/06 12:44:29 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/12/09 21:12:24 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	get_extra_prompt(t_minishell *minishell)
 		if (!herepipe)
 		{
 			free(minishell->readline);
-			ft_putendl_fd("syntax error: unexpected end of file", 1);
+			ft_putendl_fd("syntax error: unexpected end of file", 2);
 			ft_putendl_fd("exit", 1);
 			exit(2);
 		}
