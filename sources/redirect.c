@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 14:15:03 by gkomba            #+#    #+#             */
-/*   Updated: 2024/12/09 21:14:51 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/12/10 00:34:41 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,32 +122,31 @@ void	inset_at_the_heredoc(t_minishell *minishell, t_redirect *var)
 	}
 }
 
-void	redir_append_in(t_minishell *minishell, int type)
+void	redir_append_in(t_minishell *mshell, int type)
 {
 	t_redirect	var;
 
 	pipe(var.fd);
 	var.fd_in = var.fd[1];
-	if (redir_append_in_aux(minishell, &var))
+	if (redir_append_in_aux(mshell, &var))
 		return ;
-	ft_memset(minishell->data, 0, sizeof(minishell->data));
-	split_redirect_command(minishell->redirect_command, minishell->data);
-	if (minishell->args)
-		free_data(minishell->args);
-	minishell->args = net_args(minishell->data[0]);
-	var.file = quote_scanner(minishell->data[ft_matriz_len3(minishell->data)
-			- 1]);
+	ft_memset(mshell->data, 0, sizeof(mshell->data));
+	split_redirect_command(mshell->redirect_command, mshell->data);
+	if (mshell->args)
+		free_data(mshell->args);
+	mshell->args = net_args(mshell->data[0]);
+	var.file = quote_scanner(mshell->data[ft_matriz_len3(mshell->data) - 1]);
 	var.l = ft_strtrim(var.file, " ");
 	var.fd_in = var.fd[1];
 	var.type = type;
-	inset_at_the_heredoc(minishell, &var);
+	inset_at_the_heredoc(mshell, &var);
 	close(var.fd[1]);
 	if (type == 1)
 		close_minishell_fd(var.fd[0], STDIN_FILENO);
-	minishell->fd = var.fd[0];
-	minishell->is_redir = 1;
-	minishell->is_stdin = 1;
+	mshell->fd = var.fd[0];
+	mshell->is_redir = 1;
+	mshell->is_stdin = 1;
 	free_ptr(var.file);
 	free_ptr(var.l);
-	ft_free_matriz2(minishell->data);
+	ft_free_matriz2(mshell->data);
 }

@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 10:41:08 by gkomba            #+#    #+#             */
-/*   Updated: 2024/12/09 12:10:14 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/12/10 00:30:04 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,8 @@
 
 int	redir_is_followed_by_pipe(const char *str)
 {
-	if (ft_strncmp(str, "<|", 2) == 0 || ft_strncmp(str, "<<|",
-			3) == 0 || ft_strncmp(str, ">|", 2) == 0
-		|| ft_strncmp(str, ">>|", 3) == 0)
+	if (ft_strncmp(str, "<|", 2) == 0 || ft_strncmp(str, "<<|", 3) == 0
+		|| ft_strncmp(str, ">|", 2) == 0 || ft_strncmp(str, ">>|", 3) == 0)
 	{
 		redir_syntax_error("PANCAKE");
 		return (1);
@@ -85,7 +84,7 @@ void	ft_redirec_fds(t_minishell *minishell, int type, int index, int swicth)
 	{
 		if (type && index)
 			close_minishell_fd(minishell->fd, STDOUT_FILENO);
-		else if(type && !index)
+		else if (type && !index)
 		{
 			close(STDIN_FILENO);
 			close(STDOUT_FILENO);
@@ -98,7 +97,7 @@ void	ft_redirec_fds(t_minishell *minishell, int type, int index, int swicth)
 		{
 			close_minishell_fd(minishell->fd, STDIN_FILENO);
 		}
-		else if(type && !index)
+		else if (type && !index)
 		{
 			close(STDIN_FILENO);
 			close(STDOUT_FILENO);
