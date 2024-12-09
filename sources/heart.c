@@ -55,14 +55,14 @@ static void	pipe_opt_one(t_minishell *minishell, t_pipe_data *var,
 	minishell->redirect_command = minishell->raw_args->args[var->i];
 }
 
-static void	pipe_opt_two(t_minishell *minishell, t_heart *var_header)
+static void	pipe_opt_two(t_minishell *minishell, t_heart *var_header, int index)
 {
 	if (var_header->redir == R_TRUNC_O)
-		redir_trunc_o(minishell, 1, var_header->i);
+		redir_trunc_o(minishell, 1, index);
 	else if (var_header->redir == R_APPEND_O)
-		redir_append_o(minishell, 1);
+		redir_append_o(minishell, 1, index);
 	else if (var_header->redir == R_TRUNC_I)
-		redir_trunc_in(minishell, 1);
+		redir_trunc_in(minishell, 1, index);
 	else if (var_header->redir == R_APPEND_I)
 	{
 		signal(SIGINT, SIG_DFL);
@@ -110,7 +110,7 @@ int	exec_command_pipe(t_minishell *minishell)
 		if (var.pid == 0)
 		{
 			pipe_opt_one(minishell, &var, &var_header);
-			pipe_opt_two(minishell, &var_header);
+			pipe_opt_two(minishell, &var_header, var.i);
 			ft_control_prompt(2);
 		}
 		else

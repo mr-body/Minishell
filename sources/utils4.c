@@ -23,11 +23,11 @@ void	verif_redir(t_minishell *minishell)
 	if (extract_command(minishell, &redir, &retrn) != 0)
 		exit(1);
 	if (redir == R_TRUNC_O)
-		redir_trunc_o(minishell, 0);
+		redir_trunc_o(minishell, 0, 0);
 	else if (redir == R_APPEND_O)
-		redir_append_o(minishell, 0);
+		redir_append_o(minishell, 0, 0);
 	else if (redir == R_TRUNC_I)
-		redir_trunc_in(minishell, 0);
+		redir_trunc_in(minishell, 0, 0);
 	else if (redir == R_APPEND_I)
 		redir_append_in(minishell, 0);
 	if (!minishell->args || minishell->not_flag == -1)

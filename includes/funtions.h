@@ -71,6 +71,7 @@ int		ft_check_last_pipe(char *str);
 int		redir_trunc_o(t_minishell *minishell, int type, int index);
 int		whitespace_and_syntax(t_minishell *minishell, char **data);
 int		ft_print_command_error(char *cmd);
+void	ft_redirec_fds(t_minishell *minishell, int type, int index, int swicth);
 void	ft_print_syntax_error(void);
 void	ft_delete_quotes_on_matriz(char **prompt);
 void	ft_exit_process(t_minishell *minishell, int nbr_cmds);
@@ -83,8 +84,8 @@ void	change_pwd(char *curr_pwd, t_minishell *minishell);
 void	change_old_pwd(char *old_pwd, t_minishell *minishell);
 void	execute_child_process_pipe(t_minishell *minishell, int i,
 			int num_commands);
-void	redir_append_o(t_minishell *minishell, int type);
-void	redir_trunc_in(t_minishell *minishell, int type);
+void	redir_append_o(t_minishell *minishell, int type, int index);
+void	redir_trunc_in(t_minishell *minishell, int type, int index);
 void	redir_append_in(t_minishell *minishell, int type);
 void	execute_child_process(t_minishell *minishell);
 void	ft_in_quotes(char c, int *in_single_quotes, int *in_double_quotes);

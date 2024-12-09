@@ -36,13 +36,12 @@ int	redir_trunc_o(t_minishell *minishell, int type, int index)
 			- 1]);
 	minishell->fd = open(var.file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	var.file = free_ptr(var.file);
-	if (type == 1)
-		close_minishell_fd(minishell->fd, index);
+	ft_redirec_fds(minishell, type, index, 1);
 	ft_free_matriz2(minishell->data);
 	return (minishell->is_redir = 1, 0);
 }
 
-void	redir_append_o(t_minishell *minishell, int type)
+void	redir_append_o(t_minishell *minishell, int type, int index)
 {
 	t_local_data	var;
 
@@ -66,13 +65,12 @@ void	redir_append_o(t_minishell *minishell, int type)
 			- 1]);
 	minishell->fd = open(var.file, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	var.file = free_ptr(var.file);
-	if (type == 1)
-		close_minishell_fd(minishell->fd, STDOUT_FILENO);
+	ft_redirec_fds(minishell, type, index, 1);
 	ft_free_matriz2(minishell->data);
 	minishell->is_redir = 1;
 }
 
-void	redir_trunc_in(t_minishell *minishell, int type)
+void	redir_trunc_in(t_minishell *minishell, int type, int index)
 {
 	t_local_data	var;
 
@@ -95,8 +93,7 @@ void	redir_trunc_in(t_minishell *minishell, int type)
 		ft_putendl_fd("minishell: No such file or directory", 2);
 		minishell->not_flag = -1;
 	}
-	if (type == 1)
-		close_minishell_fd(minishell->fd, STDIN_FILENO);
+	ft_redirec_fds(minishell, type, index, 0);
 	ft_free_matriz2(minishell->data);
 	minishell->is_redir = 1;
 	minishell->is_stdin = 1;

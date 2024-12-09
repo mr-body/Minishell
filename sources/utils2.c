@@ -78,3 +78,31 @@ int	whitespace_and_syntax(t_minishell *minishell, char **data)
 		return (ft_free_matriz(data), 2);
 	return (0);
 }
+
+void	ft_redirec_fds(t_minishell *minishell, int type, int index, int swicth)
+{
+	if (swicth == 1)
+	{
+		if (type && index)
+			close_minishell_fd(minishell->fd, STDOUT_FILENO);
+		else if(type && !index)
+		{
+			close(STDIN_FILENO);
+			close(STDOUT_FILENO);
+			dup2(minishell->fd, STDOUT_FILENO);
+		}
+	}
+	else if (swicth == 0)
+	{
+		if (type && index)
+		{
+			close_minishell_fd(minishell->fd, STDIN_FILENO);
+		}
+		else if(type && !index)
+		{
+			close(STDIN_FILENO);
+			close(STDOUT_FILENO);
+			dup2(minishell->fd, STDIN_FILENO);
+		}
+	}
+}
