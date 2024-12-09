@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 17:41:57 by gkomba            #+#    #+#             */
-/*   Updated: 2024/12/05 09:11:33 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/12/09 12:05:52 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,8 +99,7 @@ static char	**ft_alloc_splited_str(char **result, const char *str,
 	while (str[++i])
 	{
 		ft_in_quotes(str[i], &in_d_quotes, &in_s_quotes);
-		if ((!in_d_quotes && str[i] == delimiter) || (!in_s_quotes
-				&& str[i] == delimiter))
+		if ((!in_d_quotes && !in_s_quotes) && str[i] == delimiter)
 		{
 			if (var->st != -1)
 				if (ft_strcpy_ms_split(result, str, &i, var) == 1)

@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 08:46:29 by gkomba            #+#    #+#             */
-/*   Updated: 2024/12/07 16:37:09 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/12/09 16:49:14 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,10 @@
 
 typedef struct s_local_data
 {
-	int	i;
-	int	fd;
-}	t_local_data;
+	int		i;
+	int		fd;
+	char	*file;
+}			t_local_data;
 
 typedef struct s_pipe_data
 {
@@ -28,15 +29,15 @@ typedef struct s_pipe_data
 	int		out_fd;
 	int		i;
 	pid_t	pid;
-}	t_pipe_data;
+}			t_pipe_data;
 
 typedef struct s_sintax
 {
-	int	i;
-	int	state;
-	int	in_s_quotes;
-	int	in_d_quotes;
-}		t_sintax;
+	int		i;
+	int		state;
+	int		in_s_quotes;
+	int		in_d_quotes;
+}			t_sintax;
 
 typedef struct s_quotes
 {
@@ -73,6 +74,7 @@ typedef struct redirect
 	char	*tmp;
 	char	*delimiter;
 	char	*l;
+	char	*file;
 	char	*temp_file;
 	int		temp_fd;
 	char	*line;

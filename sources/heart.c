@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/08 13:02:16 by waalexan          #+#    #+#             */
-/*   Updated: 2024/12/06 16:13:04 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/12/09 16:00:12 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,14 @@
 int	exec_command(t_minishell *minishell)
 {
 	if (!is_builtin(minishell->args->args[0]))
+	{
+		// printf("exec_command binary\n");
+		// ft_print_matriz(minishell->args->args);
 		execute_child_process(minishell);
+	}
 	else
 	{
+		// printf("exec_command builtin\n");
 		verif_redir(minishell);
 		if (shell(minishell->args->args, 0, minishell) == -1)
 			ft_print_command_error(minishell->args->args[0]);
@@ -49,6 +54,8 @@ t_heart *var_header)
 	}
 	minishell->is_redir = 0;
 	minishell->args = net_args(minishell->raw_args->args[var->i]);
+	// printf("=====> args pipe_opt_one\n");
+	// ft_print_matriz(minishell->args->args);
 	var_header->redir = is_redir(minishell->raw_args->args[var->i]);
 	minishell->redirect_command = minishell->raw_args->args[var->i];
 }
@@ -69,6 +76,8 @@ static void	pipe_opt_two(t_minishell *minishell, t_heart *var_header)
 	}
 	if (!minishell->args || minishell->not_flag == -1)
 		exit(130);
+	// printf("pipe_opt_two\n");
+	// ft_print_matriz(minishell->args->args);
 	if (shell(minishell->args->args, 1, minishell) == -1)
 	{
 		minishell->exit = ft_print_command_error(minishell->args->args[0]);
@@ -96,17 +105,21 @@ int	exec_command_pipe(t_minishell *minishell)
 
 	minishell->raw_args = ft_big_split(minishell->command, '|');
 	var.num_commands = ft_matriz_len(minishell->raw_args->args);
+	// printf("exec_command_pipe\n");
+	ft_print_matriz(minishell->raw_args->args);
 	var.i = -1;
 	var.prev_fd = 0;
 	var.in_fd = 0;
 	var.out_fd = 0;
 	while (++var.i < var.num_commands)
 	{
+		// printf("exec_command_pipe var.i = %d\n", var.i);
 		ft_control_prompt(1);
 		pipe(var.fd);
 		var.pid = fork();
 		if (var.pid == 0)
 		{
+			// printf("exec_command_pipe child\n");
 			pipe_opt_one(minishell, &var, &var_header);
 			pipe_opt_two(minishell, &var_header);
 			ft_control_prompt(2);
@@ -115,5 +128,6 @@ int	exec_command_pipe(t_minishell *minishell)
 			pipe_opt_three(minishell, &var);
 		ft_control_prompt(1);
 	}
+	// wait(NULL);
 	return (free_data(minishell->raw_args), 0);
 }

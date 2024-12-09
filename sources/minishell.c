@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 01:59:39 by waalexan          #+#    #+#             */
-/*   Updated: 2024/12/07 14:40:47 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/12/09 15:31:37 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,30 @@ int	ft_control_prompt(int value)
 	if (value != -1)
 		status = value;
 	return (status);
+}
+
+void	ft_epur_str(char *str)
+{
+	int	i;
+	int	j;
+	int	in_d_quotes;
+	int	in_s_quotes;
+
+	i = 0;
+	j = 0;
+	while (str[i])
+	{
+		ft_in_quotes(str[i], &in_d_quotes, &in_s_quotes);	
+		while (ft_isspace(str[i]) && (!in_d_quotes && !in_s_quotes))
+			i++;
+		if (str[i] == '\t')
+			str[i++] = ' ';
+		if (str[i] == ' ' && str[i + 1] == ' ' && (!in_d_quotes && !in_s_quotes))
+			i++;
+		else
+			str[j++] = str[i++];
+	}
+	str[j] = '\0';
 }
 
 int	execute_command(t_minishell *minishell)
@@ -44,7 +68,11 @@ int	execute_command(t_minishell *minishell)
 	else
 	{
 		ft_free_matriz(minishell->check_data);
+		//ft_epur_str(minishell->command);
+		// printf("command heart = %s\n", minishell->command);
 		minishell->args = net_args(minishell->command);
+		// printf("=====> args heart\n");
+		// ft_print_matriz(minishell->args->args);
 		minishell->exit_status = exec_command(minishell);
 	}
 	return (minishell->exit_status);
