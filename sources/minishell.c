@@ -64,20 +64,8 @@ int	execute_command(t_minishell *minishell)
 		get_extra_prompt(minishell);
 	minishell->command = minishell->readline;
 	minishell->redirect_command = minishell->readline;
-	if (check_if_str_is_pipe(minishell->check_data) == 1)
-	{
-		ft_free_matriz(minishell->check_data);
-		minishell->exit_status = exec_command_pipe(minishell);
-	}
-	else
-	{
-		ft_free_matriz(minishell->check_data);
-		minishell->args = net_args(minishell->command);
-		if (ft_strlen(minishell->args->args[0]) == 0
-			|| ft_is_only(minishell->args->args[0], ' '))
-			return (free_data(minishell->args), 0);
-		minishell->exit_status = exec_command(minishell);
-	}
+	if (!ft_check_if_str_is_pipe(minishell))
+		return (free_data(minishell->args), 0);
 	return (minishell->exit_status);
 }
 

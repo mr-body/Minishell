@@ -61,7 +61,7 @@ char	*analyze_string(char *arg, char *tmp, t_vars *var)
 		expander_quotes(arg, var);
 		if (allow_expand_condtions(arg, var, 1))
 			tmp = expand_last_return(var, tmp);
-		if (allow_expand_condtions(arg, var, 2))
+		else if (allow_expand_condtions(arg, var, 2))
 		{
 			var->env_var_name = get_env_name(arg, &var->i, &var->k);
 			if (var->env_var_name == NULL)
