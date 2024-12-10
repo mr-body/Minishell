@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 11:35:50 by gkomba            #+#    #+#             */
-/*   Updated: 2024/12/10 03:00:58 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/12/10 19:09:11 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,6 @@ int	check_name_var_syntax(char *var)
 {
 	int		i;
 	char	*tmp;
-	char	*tmp2;
 
 	if (ft_strlen(var) == 0)
 		return (export_error_smr("''"), 1);
@@ -94,21 +93,17 @@ int	check_name_var_syntax(char *var)
 	while (var[i] && var[i] != '=')
 		i++;
 	tmp = ft_substr(var, 0, i);
-	if (tmp[0] == '\'')
-		tmp2 = ft_strtrim(tmp, "'");
-	else
-		tmp2 = ft_strtrim(tmp, "\"");
-	free_ptr(tmp);
 	i = 0;
-	if (ft_isdigit(tmp2[i]) || tmp2[i] == '=')
-		return (free_ptr(tmp2), export_error_smr(var), 1);
-	while (tmp2[i] && tmp2[i] != '=')
+	if (ft_isdigit(tmp[i]) || tmp[i] == '='
+		|| tmp[i] == '\'' || tmp[i] == '\"')
+		return (free_ptr(tmp), export_error_smr(var), 1);
+	while (tmp[i] != '\0' && tmp[i] != '=')
 	{
-		if (!ft_isalnum(tmp2[i]) && tmp2[i] != '_')
-			return (free_ptr(tmp2), export_error_smr(var), 1);
+		if (!ft_isalnum(tmp[i]) && tmp[i] != '_')
+			return (free_ptr(tmp), export_error_smr(var), 1);
 		i++;
 	}
-	return (free_ptr(tmp2), 0);
+	return (free_ptr(tmp), 0);
 }
 
 int	syntax_checker(t_minishell *minishell)

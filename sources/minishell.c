@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 01:59:39 by waalexan          #+#    #+#             */
-/*   Updated: 2024/12/10 10:59:33 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/12/10 19:06:00 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,7 @@ int	main(int argc, char **argv)
 	ft_memset(&minishell, 0, sizeof(t_minishell));
 	increment_shell_level(&minishell);
 	minishell.ms = 1;
+	ft_control_prompt(2);
 	while (1)
 	{
 		signal(SIGQUIT, SIG_IGN);

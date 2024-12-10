@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 16:20:52 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/10 16:45:41 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/12/10 18:15:12 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,8 @@ int	command_unset(char **prompt, int pipe, t_minishell *minishell)
 {
 	if (!prompt[1])
 	{
-		ft_ctrl_c(1);
-		return (1);
+		ft_ctrl_c(0);
+		return (0);
 	}
 	unset_var(prompt);
 	if (pipe)

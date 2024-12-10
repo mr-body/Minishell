@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 16:20:47 by gkomba            #+#    #+#             */
-/*   Updated: 2024/12/06 19:36:26 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/12/10 18:13:47 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ int	command_cd(char **prompt, t_minishell *minishell)
 	if (prompt[1])
 	{
 		wdir = getenv("PWD");
-		change_old_pwd(wdir, minishell);
+		if (wdir != NULL)
+			change_old_pwd(wdir, minishell);
 		if (chdir(prompt[1]) != 0)
 		{
 			perror("cd error");
