@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 08:53:12 by gkomba            #+#    #+#             */
-/*   Updated: 2024/12/10 06:45:56 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/12/10 12:41:21 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,9 +73,18 @@ int		redir_trunc_o(t_minishell *minishell, int type, int index);
 int		whitespace_and_syntax(t_minishell *minishell, char **data);
 int		ft_print_command_error(char *cmd);
 int		is_not_new(char *value);
+int		str_is_digit(const char *str);
+int		ft_strchr_quote(const char *str, char c);
+int		is_alphanumeric(const char *str);
+int		redir_to_dir_error(t_minishell *minishell, t_local_data *var);
 int		ft_check_if_str_is_pipe(t_minishell *minishell);
+int		is_directory(const char *path);
+int		opne_fds_redir_trunc_in(t_minishell *minishell, t_local_data *var);
+int		open_more_fds_trunc_o(t_minishell *minishell, t_local_data *var);
+int		open_more_fds_append_o(t_minishell *minishell, t_local_data *var);
 void	ft_redirec_fds(t_minishell *minishell, int type, int index, int swicth);
 void	ft_print_syntax_error(void);
+void	get_extra_prompt(t_minishell *minishell);
 void	ft_delete_quotes_on_matriz(char **prompt);
 void	ft_exit_process(t_minishell *minishell, int nbr_cmds);
 void	close_fds(t_minishell *minishell, int nbr_cmds);

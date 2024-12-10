@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils4.c                                           :+:      :+:    :+:   */
+/*   utils5.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 10:41:08 by gkomba            #+#    #+#             */
-/*   Updated: 2024/12/07 14:43:07 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/12/10 10:26:53 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,4 +46,49 @@ int	is_not_new(char *value)
 		i++;
 	}
 	return (0);
+}
+
+int	ft_strchr_quote(const char *str, char c)
+{
+	int	in_s_quotes;
+	int	in_d_quotes;
+
+	if (str == NULL)
+		return (1);
+	in_s_quotes = 0;
+	in_d_quotes = 0;
+	while (*str)
+	{
+		ft_in_quotes(*str, &in_d_quotes, &in_s_quotes);
+		if (*str == c)
+		{
+			if (in_s_quotes || in_d_quotes)
+				return (1);
+			return (0);
+		}
+		str++;
+	}
+	return (1);
+}
+
+int	is_alphanumeric(const char *str)
+{
+	while (*str)
+	{
+		if (!ft_isalnum(*str))
+			return (0);
+		str++;
+	}
+	return (1);
+}
+
+int	str_is_digit(const char *str)
+{
+	while (*str)
+	{
+		if (!ft_isdigit(*str))
+			return (0);
+		str++;
+	}
+	return (1);
 }

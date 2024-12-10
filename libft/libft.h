@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 10:04:29 by gkomba            #+#    #+#             */
-/*   Updated: 2024/12/07 18:16:51 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/12/10 10:25:49 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ int		ft_strncmp(const char *s1, const char *s2, size_t n);
 int		ft_count_chr_occurrency_matriz(char **mat, char chr);
 int		ft_count_chr_occurrency_str(char *str, char chr);
 int		ft_strncmp2(const char *s1, const char *s2, size_t n);
-int		ft_strchr_quote(const char *str, char c);
 int		ft_matriz_len2(char matriz[MAX_WORDS][MAX_WORD_LENGTH]);
 int		ft_matriz_len3(char *data2[MAX_ARGS]);
 int		ft_atoi(const char *nptr);

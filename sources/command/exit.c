@@ -6,33 +6,11 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 14:26:22 by gkomba            #+#    #+#             */
-/*   Updated: 2024/12/10 08:12:59 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/12/10 10:34:55 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-int	is_alphanumeric(const char *str)
-{
-	while (*str)
-	{
-		if (!ft_isalnum(*str))
-			return (0);
-		str++;
-	}
-	return (1);
-}
-
-int	str_is_digit(const char *str)
-{
-	while (*str)
-	{
-		if (!ft_isdigit(*str))
-			return (0);
-		str++;
-	}
-	return (1);
-}
 
 static int	check_exit_syntax(char **prompt)
 {
@@ -46,7 +24,7 @@ static int	check_exit_syntax(char **prompt)
 			return (1);
 		if (!ft_isdigit(prompt[1][0]) && prompt[1][0] != '-')
 			return (2);
-		if (is_alphanumeric(prompt[1]))
+		if (is_alphanumeric(prompt[1]) && !str_is_digit(prompt[1]))
 			return (2);
 		else
 			return (0);

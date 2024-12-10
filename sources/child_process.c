@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 15:57:35 by gkomba            #+#    #+#             */
-/*   Updated: 2024/12/06 10:54:14 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/12/10 12:39:27 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,4 +38,12 @@ void	execute_child_process(t_minishell *minishell)
 	else
 		last_return(minishell, "SUGAR", pid);
 	last_return(minishell, "PANCAKE", pid);
+}
+
+char	*return_cmd_path(char *cmd_path, char **routes)
+{
+	if (cmd_path == NULL)
+		return (ft_free_matriz(routes), NULL);
+	routes = ft_free_matriz(routes);
+	return (cmd_path);
 }

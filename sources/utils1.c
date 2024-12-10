@@ -6,19 +6,11 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 01:59:11 by waalexan          #+#    #+#             */
-/*   Updated: 2024/12/07 17:55:43 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/12/10 12:43:01 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-char	*return_cmd_path(char *cmd_path, char **routes)
-{
-	if (cmd_path == NULL)
-		return (ft_free_matriz(routes), NULL);
-	routes = ft_free_matriz(routes);
-	return (cmd_path);
-}
 
 void	handing_c(int signal)
 {
@@ -40,6 +32,29 @@ void	free_data(t_data *data)
 	free(data->args);
 	free(data->types);
 	free(data);
+}
+
+void	get_extra_prompt(t_minishell *minishell)
+{
+	char	*herepipe;
+
+	while (ft_check_last_pipe(minishell->readline) == 1)
+	{
+		herepipe = readline("> ");
+		if (!herepipe)
+		{
+			free(minishell->readline);
+			ft_putendl_fd("syntax error: unexpected end of file", 2);
+			ft_putendl_fd("exit", 1);
+			exit(2);
+		}
+		minishell->temp = minishell->readline;
+		minishell->readline = ft_strjoin(minishell->readline, herepipe);
+		if (minishell->readline && !ft_is_only(minishell->readline, '\n'))
+			add_history(minishell->readline);
+		free(minishell->temp);
+		free(herepipe);
+	}
 }
 
 int	ft_ctrl_c(int value)

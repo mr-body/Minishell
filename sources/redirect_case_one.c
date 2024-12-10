@@ -6,11 +6,25 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 11:58:48 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/22 16:43:09 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/12/10 11:55:33 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+int	redir_to_dir_error_case_one(t_minishell *minishell, char **tmp, char *tmp2)
+{
+	if (is_directory(tmp2))
+	{
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(tmp2, 2);
+		ft_putendl_fd(" : Is a directory", 2);
+		ft_free_matriz(tmp);
+		free_ptr(tmp2);
+		return (minishell->not_flag = -1, ft_ctrl_c(1), 1);
+	}
+	return (0);
+}
 
 void	redir_trunc_o_case_one(t_minishell *minishell)
 {
@@ -19,6 +33,8 @@ void	redir_trunc_o_case_one(t_minishell *minishell)
 
 	tmp = ft_split_ms(minishell->redirect_command, '>');
 	tmp2 = ft_strtrim(tmp[0], " ");
+	if (redir_to_dir_error_case_one(minishell, tmp, tmp2))
+		return ;
 	minishell->fd = open(tmp2, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	free_ptr(tmp2);
 	if (minishell->fd < 0)
@@ -43,6 +59,8 @@ void	redir_append_o_case_one(t_minishell *minishell)
 
 	tmp = ft_split_ms(minishell->redirect_command, '>');
 	tmp2 = ft_strtrim(tmp[0], " ");
+	if (redir_to_dir_error_case_one(minishell, tmp, tmp2))
+		return ;
 	minishell->fd = open(tmp2, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	free_ptr(tmp2);
 	if (minishell->fd < 0)

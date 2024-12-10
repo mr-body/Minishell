@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 14:15:03 by gkomba            #+#    #+#             */
-/*   Updated: 2024/12/10 00:40:13 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/12/10 12:39:40 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,16 +24,8 @@ int	redir_trunc_o(t_minishell *minishell, int type, int index)
 		free_data(minishell->args);
 	minishell->args = net_args(minishell->data[0]);
 	minishell->fd_type = 0;
-	var.i = 0;
-	while (++var.i < (ft_matriz_len3(minishell->data) - 1))
-	{
-		var.file = quote_scanner(minishell->data[var.i]);
-		var.fd = open(var.file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		close(var.fd);
-		var.file = free_ptr(var.file);
-	}
-	var.file = quote_scanner(minishell->data[ft_matriz_len3(minishell->data)
-			- 1]);
+	if (open_more_fds_trunc_o(minishell, &var))
+		return (0);
 	minishell->fd = open(var.file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	var.file = free_ptr(var.file);
 	ft_redirec_fds(minishell, type, index, 1);
@@ -53,16 +45,8 @@ void	redir_append_o(t_minishell *minishell, int type, int index)
 		free_data(minishell->args);
 	minishell->args = net_args(minishell->data[0]);
 	minishell->fd_type = 0;
-	var.i = 0;
-	while (++var.i < (ft_matriz_len3(minishell->data) - 1))
-	{
-		var.file = quote_scanner(minishell->data[var.i]);
-		var.fd = open(var.file, O_WRONLY | O_CREAT | O_APPEND, 0644);
-		close(var.fd);
-		free_ptr(var.file);
-	}
-	var.file = quote_scanner(minishell->data[ft_matriz_len3(minishell->data)
-			- 1]);
+	if (open_more_fds_append_o(minishell, &var))
+		return ;
 	minishell->fd = open(var.file, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	var.file = free_ptr(var.file);
 	ft_redirec_fds(minishell, type, index, 1);
@@ -84,15 +68,8 @@ void	redir_trunc_in(t_minishell *minishell, int type, int index)
 	minishell->fd_type = 1;
 	var.file = quote_scanner(minishell->data[ft_matriz_len3(minishell->data)
 			- 1]);
-	minishell->fd = open(var.file, O_RDONLY);
-	free_ptr(var.file);
-	if (minishell->fd < 0)
-	{
-		ft_free_matriz2(minishell->data);
-		ft_ctrl_c(1);
-		ft_putendl_fd("minishell: No such file or directory", 2);
-		minishell->not_flag = -1;
-	}
+	if (opne_fds_redir_trunc_in(minishell, &var))
+		return ;
 	ft_redirec_fds(minishell, type, index, 0);
 	ft_free_matriz2(minishell->data);
 	minishell->is_redir = 1;

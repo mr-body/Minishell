@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 01:59:39 by waalexan          #+#    #+#             */
-/*   Updated: 2024/12/10 06:37:03 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/12/10 10:59:33 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	ft_epur_str(char *str)
 		ft_in_quotes(str[var.i], &var.in_d_quotes, &var.in_s_quotes);
 		if (ft_isspace(str[var.i]) && !var.in_d_quotes && !var.in_s_quotes)
 		{
-			if (!var.prev_space)
+			if (!var.prev_space && !var.in_d_quotes && !var.in_s_quotes)
 				str[var.j++] = ' ';
 			var.prev_space = 1;
 			var.i++;
@@ -39,7 +39,7 @@ void	ft_epur_str(char *str)
 		else
 		{
 			var.prev_space = 0;
-			if (str[var.i] == '\t')
+			if (str[var.i] == '\t' && !var.in_d_quotes && !var.in_s_quotes)
 				str[var.i] = ' ';
 			str[var.j++] = str[var.i++];
 		}
@@ -71,15 +71,13 @@ int	execute_command(t_minishell *minishell)
 
 static void	get_readline(t_minishell *minishell)
 {
-	ft_prompt(minishell);
+	minishell->readline = readline("minishell# ");
 	if (!minishell->readline)
 	{
 		free(minishell->readline);
 		ft_putendl_fd("exit", 1);
 		exit(0);
 	}
-	if (is_new_prompt(minishell) == 0)
-		return ;
 	else if (minishell->readline && !ft_is_only(minishell->readline, '\n'))
 		add_history(minishell->readline);
 	ft_epur_str(minishell->readline);

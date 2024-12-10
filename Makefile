@@ -19,6 +19,7 @@ SRCS = sources/minishell.c\
 		sources/utils3.c\
 		sources/utils4.c\
 		sources/utils5.c\
+		sources/utils6.c\
 		sources/utils_pipe.c\
 		sources/utils_redir.c\
 		sources/command/echo.c\
@@ -31,8 +32,6 @@ SRCS = sources/minishell.c\
 		sources/command/exit.c\
 		sources/redirect_case_one.c\
 		sources/redirect_aux.c\
-		sources/prompt_utils.c\
-
 
 #LDFLAGS = -fsanitize=address
 OJBS = ${SRCS:.c=.o}

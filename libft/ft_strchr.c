@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 16:02:26 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/08 12:48:56 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/12/10 10:23:33 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,26 +21,4 @@ char	*ft_strchr(const char *s, int c)
 		s++;
 	}
 	return ((char *)s);
-}
-
-int	ft_strchr_quote(const char *str, char c)
-{
-	int	in_quotes;
-
-	if (str == NULL)
-		return (1);
-	in_quotes = 0;
-	while (*str)
-	{
-		if (*str == '"' || *str == '\'')
-			in_quotes = !in_quotes;
-		if (*str == c)
-		{
-			if (in_quotes)
-				return (1);
-			return (0);
-		}
-		str++;
-	}
-	return (1);
 }

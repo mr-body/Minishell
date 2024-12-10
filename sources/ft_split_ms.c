@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 17:41:57 by gkomba            #+#    #+#             */
-/*   Updated: 2024/12/09 12:05:52 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/12/10 10:18:30 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,7 @@ static int	count_words(const char *str, char delimiter)
 	while (str[i])
 	{
 		ft_in_quotes(str[i], &in_d_quotes, &in_s_quotes);
-		if ((!in_d_quotes && str[i] == delimiter) || (!in_s_quotes
-				&& str[i] == delimiter))
+		if ((!in_d_quotes && !in_s_quotes) && str[i] == delimiter)
 		{
 			if (i > 0 && str[i - 1] != delimiter)
 				count++;

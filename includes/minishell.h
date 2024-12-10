@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 02:13:41 by waalexan          #+#    #+#             */
-/*   Updated: 2024/11/07 15:16:08 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/12/10 12:38:42 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,7 @@
 # include "defines.h"
 # include "structs.h"
 # include "funtions.h"
+# include <sys/types.h>
+# include <sys/stat.h>
 
 #endif
