@@ -72,6 +72,8 @@ int		allow_expand_condtions(char *arg, t_vars *var, int swicth);
 int		redir_trunc_o(t_minishell *minishell, int type, int index);
 int		whitespace_and_syntax(t_minishell *minishell, char **data);
 int		ft_print_command_error(char *cmd);
+int		is_not_new(char *value);
+int		ft_check_if_str_is_pipe(t_minishell *minishell);
 void	ft_redirec_fds(t_minishell *minishell, int type, int index, int swicth);
 void	ft_print_syntax_error(void);
 void	ft_delete_quotes_on_matriz(char **prompt);

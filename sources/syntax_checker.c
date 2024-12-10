@@ -85,16 +85,15 @@ int	verify_redir_syntax_two(t_minishell *minishell, char *redir_type)
 int	check_name_var_syntax(char *var)
 {
 	int		i;
-	int		len;
 	char	*tmp;
 	char	*tmp2;
 
 	if (ft_strlen(var) == 0)
 		return (export_error_smr("''"), 1);
-	len = 0;
-	while (var[len] && var[len] != '=')
-		len++;
-	tmp = ft_substr(var, 0, len);
+	i = 0;
+	while (var[i] && var[i] != '=')
+		i++;
+	tmp = ft_substr(var, 0, i);
 	if (tmp[0] == '\'')
 		tmp2 = ft_strtrim(tmp, "'");
 	else
@@ -109,8 +108,7 @@ int	check_name_var_syntax(char *var)
 			return (free_ptr(tmp2), export_error_smr(var), 1);
 		i++;
 	}
-	free_ptr(tmp2);
-	return (0);
+	return (free_ptr(tmp2), 0);
 }
 
 int	syntax_checker(t_minishell *minishell)
