@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 08:46:29 by gkomba            #+#    #+#             */
-/*   Updated: 2024/12/10 06:36:32 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/12/10 06:51:20 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,7 +156,6 @@ typedef struct split_ms_vars
 typedef struct vars
 {
 	int		i;
-	int		j;
 	int		k;
 	int		in_word;
 	char	*old_tmp;

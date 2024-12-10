@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 14:07:52 by gkomba            #+#    #+#             */
-/*   Updated: 2024/12/10 06:45:40 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/12/10 06:58:49 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,18 +16,18 @@ void	is_on_brace(char *arg, t_vars *var, char *str)
 {
 	if (ft_strncmp(str, "SUGAR", ft_strlen(str)) == 0)
 	{
-		if (arg[var->j + 1] == '{')
+		if (arg[var->i + 1] == '{')
 		{
 			var->braces = 1;
-			var->j++;
+			var->i++;
 		}
 	}
 	else if (ft_strncmp(str, "PANCAKE", ft_strlen(str)) == 0)
 	{
-		if (arg[var->j] == '}' && var->braces == 1)
+		if (arg[var->i] == '}' && var->braces == 1)
 		{
 			var->braces = 0;
-			var->j++;
+			var->i++;
 		}
 	}
 }

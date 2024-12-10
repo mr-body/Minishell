@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 17:30:33 by gkomba            #+#    #+#             */
-/*   Updated: 2024/12/10 06:46:53 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/12/10 06:59:05 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ char	*analyze_string(char *arg, char *tmp, t_vars *var)
 		expander_quotes(arg, var);
 		if (allow_expand_condtions(arg, var, 1))
 			tmp = expand_last_return(var, tmp);
-		if (allow_expand_condtions(arg, var, 2))
+		else if (allow_expand_condtions(arg, var, 2))
 		{
 			var->env_var_name = get_env_name(arg, &var->i, &var->k);
 			if (var->env_var_name == NULL)
