@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 14:15:03 by gkomba            #+#    #+#             */
-/*   Updated: 2024/12/10 00:34:41 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/12/10 00:40:13 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ void	inset_at_the_heredoc(t_minishell *minishell, t_redirect *var)
 			break ;
 		if (string[byte - 1] == '\n')
 			string[byte - 1] = '\0';
-		if (strcmp(string, var->l) == 0)
+		if (ft_strcmp(string, var->l) == 0)
 			break ;
 		tmp = expander(string, ft_strdup(""));
 		ft_putendl_fd(tmp, var->fd_in);

@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 16:23:19 by gkomba            #+#    #+#             */
-/*   Updated: 2024/12/09 21:47:37 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/12/10 06:43:59 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ int	shell(char **prompt, int pipe, t_minishell *minishell)
 {
 	extern char	**environ;
 	char		*command;
+	char		*tmp;
 
 	command = NULL;
 	if (is_builtin(prompt[0]))
@@ -73,6 +74,13 @@ int	shell(char **prompt, int pipe, t_minishell *minishell)
 	else
 	{
 		ft_delete_quotes_on_matriz(prompt);
+		if (ft_strlen(prompt[0]) == 0)
+		{
+			tmp = prompt[0];
+			prompt[0] = ft_strdup("''");
+			tmp = free_ptr(tmp);
+			return (-1);
+		}
 		command = shell_binary(prompt);
 		if (command != NULL)
 		{

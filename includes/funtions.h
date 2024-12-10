@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 08:53:12 by gkomba            #+#    #+#             */
-/*   Updated: 2024/12/09 21:46:06 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/12/10 06:45:56 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ int		is_new_prompt(t_minishell *minishell);
 int		unclosed_quotes(const char *str);
 int		invalid_path(char *path);
 int		ft_check_last_pipe(char *str);
+int		allow_expand_condtions(char *arg, t_vars *var, int swicth);
 int		redir_trunc_o(t_minishell *minishell, int type, int index);
 int		whitespace_and_syntax(t_minishell *minishell, char **data);
 int		ft_print_command_error(char *cmd);
@@ -115,5 +116,6 @@ void	close_minishell_fd(int fd1, int fd2);
 void	verif_redir(t_minishell *minishell);
 void	get_extra_prompt(t_minishell *minishell);
 void	export_error_smr(char *var);
+void	expander_quotes(char *arg, t_vars *var);
 
 #endif

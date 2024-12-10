@@ -6,12 +6,22 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 08:46:29 by gkomba            #+#    #+#             */
-/*   Updated: 2024/12/09 22:00:20 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/12/10 06:36:32 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STRUCTS_H
 # define STRUCTS_H
+
+typedef struct s_export_vars
+{
+	int		i;
+	char	*var;
+	char	*name;
+	char	*name_cleaned;
+	char	*value;
+	char	**sort;
+}			t_export_vars;
 
 typedef struct s_epur_vars
 {
@@ -154,6 +164,9 @@ typedef struct vars
 	char	*env_var_name;
 	int		expand;
 	int		braces;
+	bool	in_s_quotes;
+	bool	in_d_quotes;
+	bool	allow_expand;
 }			t_vars;
 
 typedef struct s_minishell

@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 01:59:39 by waalexan          #+#    #+#             */
-/*   Updated: 2024/12/09 22:01:10 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/12/10 06:37:03 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,9 @@ int	execute_command(t_minishell *minishell)
 	{
 		ft_free_matriz(minishell->check_data);
 		minishell->args = net_args(minishell->command);
+		if (ft_strlen(minishell->args->args[0]) == 0
+			|| ft_is_only(minishell->args->args[0], ' '))
+			return (free_data(minishell->args), 0);
 		minishell->exit_status = exec_command(minishell);
 	}
 	return (minishell->exit_status);

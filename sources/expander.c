@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 17:30:33 by gkomba            #+#    #+#             */
-/*   Updated: 2024/12/09 21:27:28 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/12/10 06:46:53 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,32 +46,34 @@ static char	*get_env_value(char *tmp, char *env_var_name)
 
 static char	*expand_last_return(t_vars *var, char *tmp)
 {
-	var->j += 2;
+	var->i += 2;
 	return (get_last_return(tmp));
 }
 
-static char	*expand_env_var(char *arg, char *tmp, t_vars *var)
+char	*analyze_string(char *arg, char *tmp, t_vars *var)
 {
-	while (arg[var->j])
+	char	single_char[2];
+
+	ft_memset(single_char, 0, 2);
+	var->allow_expand = true;
+	while (arg[var->i])
 	{
-		if (arg[var->j] == '$' && arg[var->j + 1] == '?' && var->expand == 1)
+		expander_quotes(arg, var);
+		if (allow_expand_condtions(arg, var, 1))
 			tmp = expand_last_return(var, tmp);
-		else if ((arg[var->j] == '$' && arg[var->j + 1] != '\0' && arg[var->j
-					+ 1] != '$') && var->expand == 1 && (arg[var->j + 1] != 32
-				&& arg[var->j + 1] != '\'') && ft_isdigit(arg[var->j + 1]) == 0)
+		if (allow_expand_condtions(arg, var, 2))
 		{
-			is_on_brace(arg, var, "SUGAR");
-			var->env_var_name = get_env_name(arg, &var->j, &var->k);
+			var->env_var_name = get_env_name(arg, &var->i, &var->k);
 			if (var->env_var_name == NULL)
 				return (free(tmp), NULL);
 			tmp = get_env_value(tmp, var->env_var_name);
-			var->j = var->k;
+			var->i = var->k;
 		}
 		else
 		{
-			is_on_brace(arg, var, "PANCAKE");
-			tmp = join_single_char(tmp, arg[var->j]);
-			var->j++;
+			single_char[0] = arg[var->i];
+			tmp = join_single_char(tmp, single_char[0]);
+			var->i++;
 		}
 	}
 	return (tmp);
@@ -79,11 +81,8 @@ static char	*expand_env_var(char *arg, char *tmp, t_vars *var)
 
 char	*expander(char *arg, char *tmp)
 {
-	char	single_char[2];
 	t_vars	var;
 
-	ft_memset(single_char, 0, 2);
 	ft_memset(&var, 0, sizeof(t_vars));
-	var.expand = allow_expand(arg);
-	return (expand_env_var(arg, tmp, &var));
+	return (analyze_string(arg, tmp, &var));
 }

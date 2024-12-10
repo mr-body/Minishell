@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 11:35:50 by gkomba            #+#    #+#             */
-/*   Updated: 2024/12/09 21:44:45 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/12/10 03:00:58 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,8 @@ int	check_name_var_syntax(char *var)
 	char	*tmp;
 	char	*tmp2;
 
+	if (ft_strlen(var) == 0)
+		return (export_error_smr("''"), 1);
 	len = 0;
 	while (var[len] && var[len] != '=')
 		len++;

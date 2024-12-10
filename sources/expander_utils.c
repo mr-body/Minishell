@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 14:07:52 by gkomba            #+#    #+#             */
-/*   Updated: 2024/12/09 19:58:07 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/12/10 06:45:40 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,24 +58,44 @@ char	*join_single_char(char *tmp, char chr)
 	return (tmp);
 }
 
-int	allow_expand(char *str)
+int	allow_expand_condtions(char *arg, t_vars *var, int swicth)
 {
-	int	i;
-	int	aspas_simples;
-	int	aspas_duplas;
-
-	i = 0;
-	aspas_simples = 0;
-	aspas_duplas = 0;
-	while (str[i] != '\0')
+	if (swicth == 1)
 	{
-		if (str[i] == '\'' && !aspas_duplas)
-			aspas_simples = !aspas_simples;
-		else if (str[i] == '"' && !aspas_simples)
-			aspas_duplas = !aspas_duplas;
-		if (str[i] == '$' && !aspas_simples && (aspas_duplas || !aspas_duplas))
+		if (arg[var->i] == '$' && arg[var->i + 1] == '?'
+			&& var->allow_expand == 1)
 			return (1);
-		i++;
+	}
+	else if (swicth == 2)
+	{
+		if (((arg[var->i] == '$' && arg[var->i + 1] != '\0')
+				&& (arg[var->i + 1] != '$')
+				&& (var->allow_expand == 1)
+				&& ((arg[var->i + 1] != 32)
+					&& (arg[var->i + 1] != '\''))
+				&& (ft_isdigit(arg[var->i + 1]) == 0)))
+			return (1);
 	}
 	return (0);
+}
+
+void	expander_quotes(char *arg, t_vars *var)
+{
+	if (arg[var->i] == '\'')
+	{
+		if (!var->in_d_quotes)
+		{
+			var->in_s_quotes = !var->in_s_quotes;
+			var->allow_expand = !var->in_s_quotes;
+		}
+	}
+	else if (arg[var->i] == '\"')
+	{
+		var->in_d_quotes = !var->in_d_quotes;
+		var->allow_expand = (var->in_d_quotes || !var->in_s_quotes);
+	}
+	if (var->in_d_quotes)
+	{
+		var->allow_expand = true;
+	}
 }

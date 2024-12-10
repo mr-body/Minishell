@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: waalexan <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 16:20:18 by gkomba            #+#    #+#             */
-/*   Updated: 2024/11/09 16:14:33 by waalexan         ###   ########.fr       */
+/*   Updated: 2024/12/10 00:39:32 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	command_pwd(char **prompt, int pipe, t_minishell *minishell)
 		perror("getcwd error");
 		exit(1);
 	}
-	write(minishell->fd, cwd, strlen(cwd));
+	write(minishell->fd, cwd, ft_strlen(cwd));
 	write(minishell->fd, "\n", 1);
 	free(cwd);
 	if (pipe)
