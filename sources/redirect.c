@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 14:15:03 by gkomba            #+#    #+#             */
-/*   Updated: 2024/12/10 12:39:40 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/12/11 18:09:18 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	redir_trunc_in(t_minishell *minishell, int type, int index)
 	minishell->fd_type = 1;
 	var.file = quote_scanner(minishell->data[ft_matriz_len3(minishell->data)
 			- 1]);
-	if (opne_fds_redir_trunc_in(minishell, &var))
+	if (open_fds_redir_trunc_in(minishell, &var))
 		return ;
 	ft_redirec_fds(minishell, type, index, 0);
 	ft_free_matriz2(minishell->data);

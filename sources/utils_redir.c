@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 02:13:12 by waalexan          #+#    #+#             */
-/*   Updated: 2024/11/14 10:56:42 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/12/11 19:23:05 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,21 @@
 
 int	return_redir_type(char curr_c, char next_c)
 {
-	if (curr_c == '>' && next_c == '>')
-		return (R_APPEND_O);
-	else if (curr_c == '<' && next_c == '<')
-		return (R_APPEND_I);
-	else if (curr_c == '>')
-		return (R_TRUNC_O);
-	else if (curr_c == '<')
-		return (R_TRUNC_I);
+
+	if (next_c != '\0')
+	{
+		if (curr_c == '>' && next_c == '>')
+			return (R_APPEND_O);
+		else if (curr_c == '<' && next_c == '<')
+			return (R_APPEND_I);
+	}
+	else
+	{
+		if (curr_c == '>')
+			return (R_TRUNC_O);
+		else if (curr_c == '<')
+			return (R_TRUNC_I);
+	}
 	return (0);
 }
 

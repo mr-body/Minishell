@@ -6,13 +6,13 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 10:41:08 by gkomba            #+#    #+#             */
-/*   Updated: 2024/12/10 10:26:53 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/12/11 17:49:55 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	ft_check_if_str_is_pipe(t_minishell *minishell)
+int	ft_send_to_execute(t_minishell *minishell)
 {
 	if (check_if_str_is_pipe(minishell->check_data) == 1)
 	{

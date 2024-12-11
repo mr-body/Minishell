@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/08 13:02:16 by waalexan          #+#    #+#             */
-/*   Updated: 2024/12/09 21:26:48 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/12/11 18:37:01 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,13 @@ int	exec_command(t_minishell *minishell)
 	}
 	else
 	{
-		verif_redir(minishell);
-		if (shell(minishell->args->args, 0, minishell) == -1)
-			ft_print_command_error(minishell->args->args[0]);
+		if (verif_redir_two(minishell) == 1)
+			return (clean(minishell), 0);
+		else
+		{
+			if (shell(minishell->args->args, 0, minishell) == -1)
+				ft_print_command_error(minishell->args->args[0]);
+		}
 	}
 	return (clean(minishell), 0);
 }

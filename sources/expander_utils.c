@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 14:07:52 by gkomba            #+#    #+#             */
-/*   Updated: 2024/12/10 06:58:49 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/12/11 12:51:57 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,12 +68,9 @@ int	allow_expand_condtions(char *arg, t_vars *var, int swicth)
 	}
 	else if (swicth == 2)
 	{
-		if (((arg[var->i] == '$' && arg[var->i + 1] != '\0')
-				&& (arg[var->i + 1] != '$')
-				&& (var->allow_expand == 1)
-				&& ((arg[var->i + 1] != 32)
-					&& (arg[var->i + 1] != '\''))
-				&& (ft_isdigit(arg[var->i + 1]) == 0)))
+		if (arg[var->i] == '$' && arg[var->i + 1] != '\0'
+			&& var->allow_expand == 1 && (ft_isalpha(arg[var->i + 1])
+				|| arg[var->i + 1] == '_'))
 			return (1);
 	}
 	return (0);

@@ -33,11 +33,11 @@ SRCS = sources/minishell.c\
 		sources/redirect_case_one.c\
 		sources/redirect_aux.c\
 
-LDFLAGS = -fsanitize=address
+# LDFLAGS = -fsanitize=address
 OJBS = ${SRCS:.c=.o}
 LIBFT = libft
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address 
+CFLAGS = -Wall -Wextra -Werror #-g -fsanitize=address 
 RM = rm -f
 
 all: ${NAME}

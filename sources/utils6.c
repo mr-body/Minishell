@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 14:59:09 by gkomba            #+#    #+#             */
-/*   Updated: 2024/12/10 12:46:39 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/12/11 18:09:12 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int	open_more_fds_trunc_o(t_minishell *minishell, t_local_data *var)
 	return (0);
 }
 
-int	opne_fds_redir_trunc_in(t_minishell *minishell, t_local_data *var)
+int	open_fds_redir_trunc_in(t_minishell *minishell, t_local_data *var)
 {
 	if (redir_to_dir_error(minishell, var))
 		return (1);

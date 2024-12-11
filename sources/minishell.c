@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 01:59:39 by waalexan          #+#    #+#             */
-/*   Updated: 2024/12/10 19:06:00 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/12/11 17:50:40 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int	execute_command(t_minishell *minishell)
 		get_extra_prompt(minishell);
 	minishell->command = minishell->readline;
 	minishell->redirect_command = minishell->readline;
-	if (!ft_check_if_str_is_pipe(minishell))
+	if (!ft_send_to_execute(minishell))
 		return (free_data(minishell->args), 0);
 	return (minishell->exit_status);
 }

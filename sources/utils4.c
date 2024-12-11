@@ -6,11 +6,37 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 10:41:08 by gkomba            #+#    #+#             */
-/*   Updated: 2024/12/07 14:43:07 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/12/11 18:15:18 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+int	verif_redir_two(t_minishell *minishell)
+{
+	int	redir;
+	int	retrn;
+
+	redir = 0;
+	if (minishell->args)
+		free_data(minishell->args);
+	if (extract_command(minishell, &redir, &retrn) != 0)
+		exit(1);
+	if (redir == R_TRUNC_O)
+		redir_trunc_o(minishell, 0, 0);
+	else if (redir == R_APPEND_O)
+		redir_append_o(minishell, 0, 0);
+	else if (redir == R_TRUNC_I)
+		redir_trunc_in(minishell, 0, 0);
+	else if (redir == R_APPEND_I)
+		redir_append_in(minishell, 0);
+	if (!minishell->args || minishell->not_flag == -1)
+	{
+		minishell->not_flag = 0;
+		return (1);
+	}
+	return (0);
+}
 
 void	verif_redir(t_minishell *minishell)
 {
