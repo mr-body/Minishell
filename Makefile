@@ -22,6 +22,7 @@ SRCS = sources/minishell.c\
 		sources/utils6.c\
 		sources/utils_pipe.c\
 		sources/utils_redir.c\
+		sources/utils_redir2.c\
 		sources/command/echo.c\
 		sources/command/cd.c\
 		sources/command/pwd.c\

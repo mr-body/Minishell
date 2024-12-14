@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 11:35:50 by gkomba            #+#    #+#             */
-/*   Updated: 2024/12/11 20:05:17 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/12/14 21:50:53 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,8 @@ int	verify_pipes_syntax(t_minishell *minishell)
 int	verify_redir_syntax_one(t_minishell *minishell, char *redir_type)
 {
 	int	i;
-	int	j;
 
 	i = -1;
-	j = 0;
 	if (return_redir_type(redir_type[0], redir_type[1]) != R_TRUNC_O
 		&& return_redir_type(redir_type[0], redir_type[1]) != R_TRUNC_I)
 		return (0);
@@ -51,17 +49,8 @@ int	verify_redir_syntax_one(t_minishell *minishell, char *redir_type)
 		return (ft_free_matriz(minishell->verify_syntax), 2);
 	while (minishell->verify_syntax[++i])
 	{
-		while (minishell->verify_syntax[i][j])
-		{
-			if ((minishell->verify_syntax[i][j] == redir_type[0])
-				&& (minishell->verify_syntax[i][j + 1] == '\0') && (minishell->verify_syntax[i] == NULL))
-			{
-				printf("ola\n");
-				redir_syntax_error("SUGAR");
-				return (ft_free_matriz(minishell->verify_syntax), 2);
-			}
-			j++;
-		}
+		if (redir_alone(minishell, i, redir_type) == 2)
+			return (2);
 		if (ft_strncmp(minishell->verify_syntax[i], redir_type,
 				ft_strlen(redir_type)) == 0)
 		{
@@ -75,10 +64,8 @@ int	verify_redir_syntax_one(t_minishell *minishell, char *redir_type)
 int	verify_redir_syntax_two(t_minishell *minishell, char *redir_type)
 {
 	int	i;
-	int j;
 
 	i = -1;
-	j = 0;
 	if (return_redir_type(redir_type[0], redir_type[1]) != R_APPEND_I
 		&& return_redir_type(redir_type[0], redir_type[1]) != R_APPEND_O)
 		return (0);
@@ -87,17 +74,8 @@ int	verify_redir_syntax_two(t_minishell *minishell, char *redir_type)
 		return (ft_free_matriz(minishell->verify_syntax), 2);
 	while (minishell->verify_syntax[++i])
 	{
-		while (minishell->verify_syntax[i][j])
-		{
-			if ((minishell->verify_syntax[i][j] == redir_type[0])
-				&& (minishell->verify_syntax[i][j + 1] == redir_type[1])
-				&& (minishell->verify_syntax[i][j + 2] == '\0'))
-			{
-				redir_syntax_error("SUGAR");
-				return (ft_free_matriz(minishell->verify_syntax), 2);
-			}
-			j++;
-		}
+		if (redir_alone_two(minishell, i, redir_type) == 2)
+			return (2);
 		if (ft_strncmp(minishell->verify_syntax[i], redir_type,
 				ft_strlen(redir_type)) == 0)
 		{

@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils4.c                                           :+:      :+:    :+:   */
+/*   utils_redir2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/12 10:41:08 by gkomba            #+#    #+#             */
-/*   Updated: 2024/12/14 22:24:17 by gkomba           ###   ########.fr       */
+/*   Created: 2024/12/14 21:45:45 by gkomba            #+#    #+#             */
+/*   Updated: 2024/12/14 22:24:23 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	verif_redir(t_minishell *minishell)
+int	verif_redir_two(t_minishell *minishell)
 {
 	int	redir;
 	int	retrn;
@@ -32,52 +32,47 @@ void	verif_redir(t_minishell *minishell)
 		redir_append_in(minishell, 0);
 	if (!minishell->args || minishell->not_flag == -1)
 	{
-		free_data(minishell->args);
 		minishell->not_flag = 0;
-		exit(1);
-	}
-}
-
-void	close_minishell_fd(int fd1, int fd2)
-{
-	dup2(fd1, fd2);
-	close(fd1);
-}
-
-void	control_center(void)
-{
-	signal(SIGINT, SIG_DFL);
-	signal(SIGQUIT, SIG_IGN);
-	ft_ctrl_c(130);
-}
-
-int	invalid_path(char *path)
-{
-	int	i;
-
-	i = 0;
-	while (path[i])
-	{
-		if (path[i] == '/' && path[i + 1] == '/')
-			return (1);
-		i++;
+		return (1);
 	}
 	return (0);
 }
 
-int	ft_check_last_pipe(char *str)
+int	redir_alone(t_minishell *minishell, int i, char *redir_type)
 {
-	int	i;
-	int	fg;
+	int	j;
 
-	if (!str)
-		return (0);
-	fg = 0;
-	i = ft_strlen(str);
-	if (str[i - 1] == '|')
+	j = 0;
+	while (minishell->verify_syntax[i][j])
 	{
-		fg = 1;
-		return (fg);
+		if ((minishell->verify_syntax[i][j] == redir_type[0])
+			&& (minishell->verify_syntax[i][j + 1] == '\0')
+			&& (minishell->verify_syntax[i] == NULL))
+		{
+			redir_syntax_error("SUGAR");
+			return (ft_free_matriz(minishell->verify_syntax), 2);
+		}
+		j++;
 	}
-	return (fg);
+	return (0);
+}
+
+int	redir_alone_two(t_minishell *minishell, int i, char *redir_type)
+{
+	int	j;
+
+	j = 0;
+	while (minishell->verify_syntax[i][j])
+	{
+		if ((minishell->verify_syntax[i][j] == redir_type[0])
+			&& (minishell->verify_syntax[i][j + 1] == redir_type[1])
+			&& (minishell->verify_syntax[i][j + 2] == '\0')
+			&& (minishell->verify_syntax[i + 1] == NULL))
+		{
+			redir_syntax_error("SUGAR");
+			return (ft_free_matriz(minishell->verify_syntax), 2);
+		}
+		j++;
+	}
+	return (0);
 }

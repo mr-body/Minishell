@@ -6,13 +6,30 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 15:57:35 by gkomba            #+#    #+#             */
-/*   Updated: 2024/12/11 18:40:54 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/12/14 22:23:22 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	execute_child_process(t_minishell *minishell)
+void	send_to_execute_child(t_minishell *ms)
+{
+	if (is_avaliable_on_path(ms->args->args) == 0)
+	{
+		ms->exit = ft_print_command_error(ms->args->args[0]);
+		exit(ms->exit);
+	}
+	else
+	{
+		if (shell(ms->args->args, 0, ms) == -1)
+		{
+			ms->exit = ft_print_command_error(ms->args->args[0]);
+			exit(ms->exit);
+		}
+	}
+}
+
+void	execute_child_process(t_minishell *ms)
 {
 	pid_t	pid;
 
@@ -21,31 +38,19 @@ void	execute_child_process(t_minishell *minishell)
 		perror("fork error: ");
 	else if (pid == 0)
 	{
-		verif_redir(minishell);
+		verif_redir(ms);
 		signal(SIGINT, SIG_DFL);
 		signal(SIGQUIT, SIG_DFL);
-		if (minishell->fd_type == 0)
-			dup2(minishell->fd, STDOUT_FILENO);
+		if (ms->fd_type == 0)
+			dup2(ms->fd, STDOUT_FILENO);
 		else
-			dup2(minishell->fd, STDIN_FILENO);
-		if (is_avaliable_on_path(minishell->args->args) == 0)
-		{
-			minishell->exit = ft_print_command_error(minishell->args->args[0]);
-			exit(minishell->exit);
-		}
-		else
-		{
-			if (shell(minishell->args->args, 0, minishell) == -1)
-			{
-				minishell->exit = ft_print_command_error(minishell->args->args[0]);
-				exit(minishell->exit);
-			}
-		}
-		close(minishell->fd);
+			dup2(ms->fd, STDIN_FILENO);
+		send_to_execute_child(ms);
+		close(ms->fd);
 	}
 	else
-		last_return(minishell, "SUGAR", pid);
-	last_return(minishell, "PANCAKE", pid);
+		last_return(ms, "SUGAR", pid);
+	last_return(ms, "PANCAKE", pid);
 }
 
 int	is_avaliable_on_path(char **prompt)

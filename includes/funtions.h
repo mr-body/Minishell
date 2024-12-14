@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 08:53:12 by gkomba            #+#    #+#             */
-/*   Updated: 2024/12/11 18:15:33 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/12/14 21:50:24 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ int		is_builtin(char *cmd);
 int		shell_builtin(char **prompt, char **environ, int pipe,
 			t_minishell *minishell);
 int		is_redir(char *str);
+int		redir_alone_two(t_minishell *minishell, int i, char *redir_type);
+int		redir_alone(t_minishell *minishell, int i, char *redir_type);
 int		exec_command_pipe(t_minishell *minishell);
 int		exec_command(t_minishell *minishell);
 int		ft_is_only(char *str, char c);
