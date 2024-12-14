@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 16:51:47 by gkomba            #+#    #+#             */
-/*   Updated: 2024/05/16 17:17:04 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/12/14 23:34:05 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,10 @@ int	ft_atoi(const char *nptr)
 	return (resul * sign);
 }
 
-int	ft_atoi_v2(const char *nptr)
+long long	ft_atoi_v2(const char *nptr)
 {
-	int		sign;
-	long	resul;
+	int			sign;
+	long long	resul;
 
 	sign = 1;
 	resul = 0;
@@ -48,13 +48,15 @@ int	ft_atoi_v2(const char *nptr)
 		nptr++;
 	while (*nptr >= 48 && *nptr <= 57)
 	{
+		if (resul > (LLONG_MAX - (*nptr - '0')) / 10)
+		{
+			if (sign == 1)
+				return (LLONG_MAX);
+			else
+				return (LLONG_MIN);
+		}
 		resul = resul * 10 + *nptr - '0';
 		nptr++;
-	}
-	if ((resul < INT_MIN) || (resul > INT_MAX))
-	{
-		ft_putendl_fd("Error", 2);
-		exit(1);
 	}
 	return (resul * sign);
 }

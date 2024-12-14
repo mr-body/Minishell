@@ -6,11 +6,21 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 14:26:22 by gkomba            #+#    #+#             */
-/*   Updated: 2024/12/10 10:34:55 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/12/14 23:32:32 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+int	check_long_long_overflow(const char *nptr)
+{
+	long long	value;
+
+	value = ft_atoi_v2(nptr);
+	if (value == LLONG_MAX || value == LLONG_MIN)
+		return (1);
+	return (0);
+}
 
 static int	check_exit_syntax(char **prompt)
 {
@@ -35,12 +45,22 @@ static int	check_exit_syntax(char **prompt)
 
 void	get_exit(char **prompt)
 {
-	int	i;
+	long long	i;
 
 	i = 0;
 	if (prompt[1])
 	{
-		i = ft_atoi(prompt[1]);
+		if (check_long_long_overflow(prompt[1]))
+		{
+			ft_putendl_fd("exit: numeric argument required", 2);
+			ft_free_matriz(prompt);
+			exit(2);
+		}
+		i = ft_atoi_v2(prompt[1]);
+		if (i < 0 || i > 255)
+			i = i % 256;
+		if (i < 0)
+			i += 256;
 		ft_free_matriz(prompt);
 		exit(i);
 	}

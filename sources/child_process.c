@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 15:57:35 by gkomba            #+#    #+#             */
-/*   Updated: 2024/12/14 22:23:22 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/12/14 23:00:25 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,23 +57,27 @@ int	is_avaliable_on_path(char **prompt)
 {
 	char	*command;
 	char	*tmp;
+	char	**tmp_matriz;
 
+	tmp_matriz = ft_matdup(prompt);
 	command = NULL;
 	tmp = NULL;
-	ft_delete_quotes_on_matriz(prompt);
-	if (ft_strlen(prompt[0]) == 0)
+	ft_delete_quotes_on_matriz(tmp_matriz);
+	if (ft_strlen(tmp_matriz[0]) == 0)
 	{
+		ft_free_matriz(tmp_matriz);
 		tmp = prompt[0];
 		prompt[0] = ft_strdup("''");
 		tmp = free_ptr(tmp);
 		return (0);
 	}
-	command = shell_binary(prompt);
+	command = shell_binary(tmp_matriz);
 	if (command != NULL)
 	{
-		command = free_ptr(command);
+		ft_free_matriz(tmp_matriz);
 		return (1);
 	}
+	ft_free_matriz(tmp_matriz);
 	return (0);
 }
 
